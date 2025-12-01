@@ -1,9 +1,57 @@
-# Mechaniky  
-- ### Interakce s itemy (vzít, použít a případně odstranit)
-- ### Animační logika
-- ### Různé minihry  
+# 📘 Přehled Herního Konceptu  
+# 🧩 Herní Mechaniky  
 
-# Koncept hry  
-- ### "Escape Room" na styl Poldy (asi)
-- ### Logické přemýšlení u miniher (puzzle)
-- ### Pokus o vyřešení případu ztraceného starosty
+Hra stojí na souboru mechanik, které dohromady vytvářejí pocit skutečně živého a interaktivního prostředí. Hráč není jen pozorovatel – vše kolem něj může reagovat, pomáhat nebo naopak komplikovat jeho cestu k odhalení pravdy.  
+
+🔸 Interakce s předměty  
+
+### Hráč může:  
+
+- sbírat užitečné předměty rozmístěné po prostředí,  
+
+- používat je v různých situacích a kombinacích,  
+
+- a pokud už ztratí svůj účel, klidně je i odložit nebo odstranit, aby si uvolnil inventář.  
+
+Tento systém podporuje experimentování a nutí hráče přemýšlet, co má skutečnou hodnotu a co je jen falešná stopa.  
+
+## 🔸 Animační logika  
+
+Prostředí reaguje na akce hráče pomocí drobných, ale výrazných animací – od otevření mechanických zámků až po jemné vizuální detaily, které dávají světu nádech opravdovosti.
+### Animace pomáhají:  
+
+- vytvářet atmosféru,  
+
+- poskytovat rychlou zpětnou vazbu,  
+
+- a vést hráče k dalším krokům i nenápadnými indiciemi.  
+
+## 🔸 Minihry  
+
+Hráče čeká řada menších úkolů, které rozbíjí tempo hry a nabízejí různorodé výzvy.
+### Může jít o:  
+
+- logické puzzle 🧠,  
+
+- rychlé reflexové minihry ⚡,  
+
+- nebo mechanické hádanky, které je třeba rozluštit krok za krokem.  
+
+- Každá minihra je navržena tak, aby přirozeně zapadala do prostředí a zároveň byla zábavná i smysluplná pro příběh.  
+
+# 🕵️ Koncept Hry  
+
+Hra je pojatá jako moderní mix escape room adventury a humorně detektivního příběhu, inspirovaný atmosférou klasických českých adventur typu Polda, ale s aktuálním pojetím a svěžím vizuálním stylem.  
+
+## 🔸 Hráčova mise  
+
+Hráč je postaven do role člověka, který se nedopatřením (nebo možná zcela úmyslně?) ocitne uprostřed záhady zmizení místního starosty.  
+### Postupně musí:   
+
+sbírat stopy,  
+
+řešit propojené logické hádanky,  
+
+používat vhodné předměty ve správnou chvíli,  
+
+a zvládat minihry, které odemykají další části příběhu.  
