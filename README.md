@@ -2,7 +2,8 @@ Hra na styl Poldy se čtyřmi scénami. Každá scéna má svoje předměty, kte
 
 
 # 🗺️ 1. SCÉNA – NÁMĚSTÍ PŘED RADNICÍ  
-## Cíl: dostat se dovnitř.  
+## Cíl:  
+dostat se dovnitř.  
   
 ## Objekty:  
 Zamčené dveře  
@@ -14,19 +15,20 @@ Kanál – klíč, nejde dosáhnout
 Parkovací kartička  
 Dlouhý drát (ze skryté schránky ve soše)  
   
-Řešení:  
+## Řešení:  
 Drátem vytáhneš klíč → odemkneš radnici.  
   
-🗺️ 2. SCÉNA – VSTUPNÍ HALA RADNICE  
-Cíl: nahodit elektřinu, aby šly otevřít další dveře.  
+# 🗺️ 2. SCÉNA – VSTUPNÍ HALA RADNICE  
+## Cíl:  
+nahodit elektřinu, aby šly otevřít další dveře.  
   
-Objekty:  
+## Objekty:  
 Rozvaděč (chybí pojistka)  
 Skříňka ztrát a nálezů  
 Telefon (3místný kód)  
 Obraz (schovává číslo)  
   
-Předměty:  
+## Předměty:  
 Šroubovák  
 Číslo 7 (součást telefonního kódu)  
 Prázdná baterka  
@@ -34,44 +36,45 @@ Nově kvůli zkrácení hry:
 Pojistka se přidá do skříňky ztrát a nálezů (je v roztržené krabičce).  
 → Není tak třeba samostatná archivní scéna.  
   
-Řešení:  
+## Řešení:  
 Najdeš pojistku → nainstaluješ ji → zapne se elektřina → otevřou se dveře do kanceláře.
   
-🗺️ 3. SCÉNA – KANCELÁŘ STAROSTY  
-Cíl: získat kód od tajné místnosti.  
+# 🗺️ 3. SCÉNA – KANCELÁŘ STAROSTY  
+## Cíl:  
+získat kód od tajné místnosti.  
   
-Objekty:  
+## Objekty:  
 Starostův stůl (zamčená zásuvka)  
 Akvárium s magnetickou kartou  
 Glóbus (skrytý klíček)  
 Kávovar (dá hrnek vody)  
   
-Předměty:  
+## Předměty:  
 Klíček od zásuvky (z glóbusu)  
 Starostův deník s kódem  
 Magnetická karta (vylovíš kartičkou + drátem nebo kleštěmi, dle mechaniky)  
   
-Řešení:  
+## Řešení:  
 Najdeš kód → odemkneš tajné dveře do sklepa.  
   
-🗺️ 4. SCÉNA – TAJNÝ SKLEP / TREZOROVÁ MÍSTNOST  
-Cíl: otevřít trezor a najít starostu.  
+# 🗺️ 4. SCÉNA – TAJNÝ SKLEP / TREZOROVÁ MÍSTNOST  
+## Cíl:  
+otevřít trezor a najít starostu.  
   
-Objekty:  
+## Objekty:  
 Trezorové dveře (potřebují 2 páky a kartu)  
 Generátor (lze do něj nalít vodu)  
 Ventilace  
 Regál s harampádím  
   
-Předměty:  
+## Předměty:  
 Dvě páky  
 Funkční baterka (po zapnutí generátoru)  
   
-Řešení:  
+## Řešení:  
 Naliješ vodu do generátoru → zprovozní se panel  
 Vložíš obě páky  
 Přiložíš magnetickou kartu  
-  
 → Trezor se otevře.  
 Uvnitř sedí starosta, který se omylem zamkl při testování „interaktivní turistické stezky“.  
  
