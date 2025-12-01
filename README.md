@@ -1,4 +1,5 @@
-Hra na styl Poldy se čtyřmi scénami. Každá scéna má svoje předměty, kterými se snažíme vyřešit zmizení starosty.
+### Hra na styl Poldy se čtyřmi scénami.  
+### Každá scéna má svoje předměty, kterými se snažíme vyřešit zmizení starosty.
 
 
 # 🗺️ 1. SCÉNA – NÁMĚSTÍ PŘED RADNICÍ  
