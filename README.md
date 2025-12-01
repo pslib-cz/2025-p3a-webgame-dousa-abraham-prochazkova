@@ -48,10 +48,10 @@ Hra je pojatá jako moderní mix escape room adventury a humorně detektivního 
 Hráč je postaven do role člověka, který se nedopatřením (nebo možná zcela úmyslně?) ocitne uprostřed záhady zmizení místního starosty.  
 ### Postupně musí:   
 
-sbírat stopy,  
+- sbírat stopy,  
 
-řešit propojené logické hádanky,  
+- řešit propojené logické hádanky,  
 
-používat vhodné předměty ve správnou chvíli,  
+- používat vhodné předměty ve správnou chvíli,  
 
-a zvládat minihry, které odemykají další části příběhu.  
+- a zvládat minihry, které odemykají další části příběhu.  
