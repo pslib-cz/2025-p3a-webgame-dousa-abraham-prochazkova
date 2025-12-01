@@ -11,13 +11,13 @@ Hra stojí na souboru mechanik, které dohromady vytvářejí pocit skutečně �
 
 - používat je v různých situacích a kombinacích,  
 
-- a pokud už ztratí svůj účel, klidně je i odložit nebo odstranit, aby si uvolnil inventář.  
+- a pokud už ztratí svůj účel tak se vymažou z inventáře  
 
-Tento systém podporuje experimentování a nutí hráče přemýšlet, co má skutečnou hodnotu a co je jen falešná stopa.  
+Tento systém hráče přemýšlet, kde se předměty nachází a kde se dají použít.  
 
 ## 🔸 Animační logika  
-
-Prostředí reaguje na akce hráče pomocí drobných, ale výrazných animací – od otevření mechanických zámků až po jemné vizuální detaily, které dávají světu nádech opravdovosti.
+Hráč se pohybuje po scéně na určená místa (možná všude)
+(možná: Prostředí reaguje na akce hráče pomocí drobných, ale výrazných animací – od otevření mechanických zámků až po jemné vizuální detaily, které dávají světu nádech opravdovosti.)
 ### Animace pomáhají:  
 
 - vytvářet atmosféru,  
@@ -32,8 +32,6 @@ Hráče čeká řada menších úkolů, které rozbíjí tempo hry a nabízejí 
 ### Může jít o:  
 
 - logické puzzle 🧠,  
-
-- rychlé reflexové minihry ⚡,  
 
 - nebo mechanické hádanky, které je třeba rozluštit krok za krokem.  
 
