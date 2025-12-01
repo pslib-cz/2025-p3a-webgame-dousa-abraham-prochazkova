@@ -3,7 +3,7 @@
 
 Hra stojí na souboru mechanik, které dohromady vytvářejí pocit skutečně živého a interaktivního prostředí. Hráč není jen pozorovatel – vše kolem něj může reagovat, pomáhat nebo naopak komplikovat jeho cestu k odhalení pravdy.  
 
-🔸 Interakce s předměty  
+## 🔸 Interakce s předměty  
 
 ### Hráč může:  
 
