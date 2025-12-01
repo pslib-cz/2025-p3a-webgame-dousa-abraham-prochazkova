@@ -1,0 +1,6 @@
+@DAP.Server_HostAddress = http://localhost:5274
+
+GET {{DAP.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
