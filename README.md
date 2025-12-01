@@ -1,16 +1,16 @@
 Hra na styl Poldy se čtyřmi scénami. Každá scéna má svoje předměty, kterými se snažíme vyřešit zmizení starosty.
 
 
-🗺️ 1. SCÉNA – NÁMĚSTÍ PŘED RADNICÍ  
-Cíl: dostat se dovnitř.  
+# 🗺️ 1. SCÉNA – NÁMĚSTÍ PŘED RADNICÍ  
+## Cíl: dostat se dovnitř.  
   
-Objekty:  
+## Objekty:  
 Zamčené dveře  
 Socha starosty (tajný přepínač)  
 Koš (polámaná parkovací kartička)  
 Kanál – klíč, nejde dosáhnout  
   
-Předměty:  
+## Předměty:  
 Parkovací kartička  
 Dlouhý drát (ze skryté schránky ve soše)  
   
