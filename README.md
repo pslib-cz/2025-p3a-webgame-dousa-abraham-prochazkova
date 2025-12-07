@@ -13,7 +13,7 @@ Hra stojí na souboru mechanik, které dohromady vytvářejí pocit skutečně �
 
 - a pokud už ztratí svůj účel tak se vymažou z inventáře  
 
-Tento systém hráče přemýšlet, kde se předměty nachází a kde se dají použít.  
+Tento systém nechá hráče přemýšlet, kde se předměty nachází a kde se dají použít.  
 
 ## 🔸 Animační logika  
 Hráč se pohybuje po scéně na určená místa (možná všude)
