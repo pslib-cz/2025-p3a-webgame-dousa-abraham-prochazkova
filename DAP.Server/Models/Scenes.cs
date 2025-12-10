@@ -7,5 +7,6 @@ namespace DAP.Server.Models
         [Key]
         public int RoomId { get; set; }
         public string RoomName { get; set; }
+        public ICollection<Item>? Item { get; set; }
     }
 }

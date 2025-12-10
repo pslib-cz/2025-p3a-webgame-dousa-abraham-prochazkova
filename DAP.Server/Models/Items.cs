@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAP.Server.Models
 
@@ -8,7 +9,10 @@ namespace DAP.Server.Models
         [Key]
         public int ItemId { get; set; }
         public string ItemName { get; set; }
+
+        [ForeignKey(nameof(Scene))]
         public int RoomId { get; set; }
+        public Scene? Scene { get; set; }
 
     }
 }
