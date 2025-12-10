@@ -11,7 +11,7 @@ namespace DAP.Server.Data
         private readonly ApplicationDbContext _context;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
-        public DbSet<Items> Minigames { get; set; }
+        public DbSet<Item> Items { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,17 +19,81 @@ namespace DAP.Server.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Minigame>(ent =>
+            base.OnModelCreating(modelBuilder);
+
+            Item medenyDrat = new()
             {
-            ent.HasData(
-                new Minigame
+                ItemId = 1,
+                ItemName = "Měďený drát",
+                RoomId = 1
+            };
+            Item klicRadnice = new()
+            {
+                ItemId = 2,
+                ItemName = "Klíč od radnice",
+                RoomId = 1
+            };
+            Item pojistka = new()
+            {
+                ItemId = 3,
+                ItemName = "Pojistka",
+                RoomId = 2
+            };
+            Item klicSuplik = new()
+            {
+                ItemId = 4,
+                ItemName = "Klíč od šuplíku",
+                RoomId = 3
+            };
+            Item karta = new()
+            {
+                ItemId = 5,
+                ItemName = "Karta",
+                RoomId = 3
+            };
+            Item hrnekVoda = new()
+            {
+                ItemId = 6,
+                ItemName = "Hrnek s vodou",
+                RoomId = 3
+            };
+            Item kombinacePaky = new()
+            {
+                ItemId = 7,
+                ItemName = "Lístek s kombinací pák",
+                RoomId = 2
+            };
 
-        ,        {
-                MinigameId = "test",
-                        Name = "Test minigame",
-                        Description = "This is a test minigame",
-
-                );
-        };
+            Scene menu = new()
+            {
+                RoomId = 1,
+                RoomName = "Main Menu"
+            };
+            Scene namesti = new()
+            {
+                RoomId = 2,
+                RoomName = "Náměstí"
+            };
+            Scene recepce = new()
+            {
+                RoomId = 3,
+                RoomName = "Recepce"
+            };
+            Scene kancelar = new()
+            {
+                RoomId = 4,
+                RoomName = "Kancelář"
+            };
+            Scene trezor = new()
+            {
+                RoomId = 5,
+                RoomName = "Místnost s trezorem"
+            };
+            Scene konec = new()
+            {
+                RoomId = 6,
+                RoomName = "Vnitřek trezoru"
+            };
         }
+    }
 }

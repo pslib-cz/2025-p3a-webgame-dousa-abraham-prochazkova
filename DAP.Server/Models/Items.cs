@@ -1,10 +1,14 @@
-﻿namespace DAP.Server.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DAP.Server.Models
+
 {
-    public class Items
+    public class Item
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Room { get; set; }
+        [Key]
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public int RoomId { get; set; }
 
     }
 }

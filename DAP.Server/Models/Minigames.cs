@@ -1,6 +1,6 @@
 ﻿namespace DAP.Server.Models
 {
-    public class Minigames
+    public class Minigame
     {
         public int MinigameId { get; set; }
         public string MinigameName { get; set; }
