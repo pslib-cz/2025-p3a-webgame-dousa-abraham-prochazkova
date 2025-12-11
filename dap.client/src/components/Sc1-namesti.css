@@ -1,0 +1,14 @@
+.postava-sc1 {
+  position: absolute;
+  right: 30%;
+  bottom: 0%;
+  height: 60%;
+  z-index: 2;
+}
+
+.inventar {
+  position: absolute;
+  right: 30%;
+  top: 0%;
+  z-index: 2;
+}

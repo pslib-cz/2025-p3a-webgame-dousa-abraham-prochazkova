@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import ScenaProvider, { GameContext } from "./GameContext";
 import './App.css'
+import Intro from './components/Intro'
+import Sc1Namesti from './components/Sc1-namesti'
+import Sc2VstupniHala from './components/Sc2-vstupni-hala'
+import Sc3KancelarStarosty from './components/Sc3-kancelar-starosty'
+import Sc4SklepTrezor from './components/Sc4-sklep-trezor'
+import { useContext } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
 
+  function SceneSwitch() {
+    const game  = useContext(GameContext);
+    if (!game) {
+     return <div>GameContext chybí</div>;
+    }
+    const {scena} = game;
+
+    switch (scena) {
+      case "intro":
+        return <Intro />;
+      case "sc1":
+        return <Sc1Namesti />;
+      case "sc2":
+        return <Sc2VstupniHala />;
+      case "sc3":
+        return <Sc3KancelarStarosty />;
+      case "sc4":
+        return <Sc4SklepTrezor />;
+      default:
+        return <div>Error scena: {scena}</div>;
+    }
+  }
+
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ScenaProvider>
+      <SceneSwitch />
+    </ScenaProvider>
+  );
 }
 
 export default App

@@ -1,0 +1,7 @@
+.postava-sc3 {
+  position: absolute;
+  left: 8%;
+  top: 10%;
+  height: 100%;
+  z-index: 2;
+}
