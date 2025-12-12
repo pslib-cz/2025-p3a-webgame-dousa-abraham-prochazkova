@@ -39,22 +39,15 @@
 }
 
 .start-tlacitko {
-  position: absolute;
-  left: 50%;
-  bottom: 30%;
-  transform: translateX(-50%);
-
-  border: none;
-  background: transparent;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.5rem;
   z-index: 2;
 }
 
-.start-tlacitko__img {
-  display: block;
-  width: 200px;
-  height: auto;
-}
-
-.start-tlacitko:hover .start-tlacitko__img {
+.start-tlacitko:hover {
   transform: scale(1.05);
 }

@@ -10,27 +10,27 @@ const Intro = () => {
     const game = useContext(GameContext);
 
     if (!game) {
-      throw new Error("Neni game");
+        throw new Error("Neni game");
     }
 
     const { setScena } = game;
 
     const klikTlacitkoStart = () => {
-         setScena("sc1");
+        setScena("sc1");
     }
 
     return (
         <div className="scena">
             <img src={bg} alt="pozadi" className="bg" />
             <div className="zatmaveni" />
-  
+
             <img src={postava} className="postava-intro" alt="Postava" />
             <img src={nadpis} className='nadpis' alt="Případ soukromé Švestky" />
             <button className="start-tlacitko" onClick={klikTlacitkoStart}>
-                <img src={tlacitko} alt="Start" className="start-tlacitko__img" />
+                Nová hra
             </button>
 
-      
+
         </div>
     )
 }
