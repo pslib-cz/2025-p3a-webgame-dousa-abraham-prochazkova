@@ -4,7 +4,7 @@ import nadpis from '../assets/intro-nadpis.png'
 import tlacitko from '../assets/intro-tlacitko.png'
 import './Intro.css'
 import { useContext } from "react";
-import { GameContext } from "../GameContext";
+import { GameContext } from "../../GameContext";
 
 const Intro = () => {
     const game = useContext(GameContext);
