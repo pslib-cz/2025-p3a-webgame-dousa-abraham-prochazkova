@@ -1,7 +1,7 @@
-import bg from '../assets/sc1-namesti.png'
-import postava from '../assets/character.png'
-import './Intro.css'
-import './Sc1-namesti.css'
+import bg from '../img/sc1-namesti.png'
+import postava from '../img/character.png'
+import '../styles/Intro.css'
+import '../styles/Sc1-namesti.css'
 import Inventar from '../Inventar'
 
 const Sc1Namesti = () => {

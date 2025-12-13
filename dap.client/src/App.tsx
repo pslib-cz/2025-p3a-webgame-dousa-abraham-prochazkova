@@ -1,11 +1,11 @@
 
 import ScenaProvider, { GameContext } from "./GameContext";
 import './App.css'
-import Intro from './components/pages/Intro'
-import Sc1Namesti from './components/pages/Sc1-namesti'
-import Sc2VstupniHala from './components/pages/Sc2-vstupni-hala'
-import Sc3KancelarStarosty from './components/pages/Sc3-kancelar-starosty'
-import Sc4SklepTrezor from './components/pages/Sc4-sklep-trezor'
+import Intro from './assets/pages/Intro'
+import Sc1Namesti from './assets/pages/Sc1-namesti'
+import Sc2VstupniHala from './assets/pages/Sc2-vstupni-hala'
+import Sc3KancelarStarosty from './assets/pages/Sc3-kancelar-starosty'
+import Sc4SklepTrezor from './assets/pages/Sc4-sklep-trezor'
 import { useContext } from "react";
 
 

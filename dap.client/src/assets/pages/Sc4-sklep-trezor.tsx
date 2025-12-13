@@ -1,7 +1,7 @@
-import bg from '../assets/sc4-sklep-trezor.png'
-import postava from '../assets/character.png'
-import './Intro.css'
-import './Sc4-sklep-trezor.css'
+import bg from '../img/sc4-sklep-trezor.png'
+import postava from '../img/character.png'
+import '../styles/Intro.css'
+import '../styles/Sc4-sklep-trezor.css'
 
 const Sc4SklepTrezor = () => {
     return (

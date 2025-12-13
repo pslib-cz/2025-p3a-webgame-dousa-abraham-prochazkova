@@ -7,7 +7,7 @@
   width: 750px;
   height: 125px;
 
-  background-image: url("/src/assets/ramecky.png");
+  background-image: url("/src/assets/img/ramecky.png");
   background-repeat: no-repeat;
   background-size: contain;
 
@@ -15,7 +15,8 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  border: 4px solid red; /* debug, odstranit */
+  border: 4px solid red;
+  /* debug, odstranit */
 }
 
 .inventory-slot {
@@ -25,5 +26,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 4px solid blue; /* debug, odstranit */
+  border: 4px solid blue;
+  /* debug, odstranit */
 }

@@ -1,7 +1,7 @@
-import bg from '../assets/sc2-vstupni-hala.png'
-import postava from '../assets/character.png'
-import './Intro.css'
-import './Sc2-vstupni-hala.css'
+import bg from '../img/sc2-vstupni-hala.png'
+import postava from '../img/character.png'
+import '../styles/Intro.css'
+import '../styles/Sc2-vstupni-hala.css'
 
 const Sc2VstupniHala = () => {
     return (

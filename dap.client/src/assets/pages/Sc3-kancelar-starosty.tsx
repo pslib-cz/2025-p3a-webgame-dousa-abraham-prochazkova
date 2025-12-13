@@ -1,7 +1,7 @@
-import bg from '../assets/sc3-kancelar-starosty.png'
-import postava from '../assets/character.png'
-import './Intro.css'
-import './Sc3-kancelar-starosty.css'
+import bg from '../img/sc3-kancelar-starosty.png'
+import postava from '../img/character.png'
+import '../styles/Intro.css'
+import '../styles/Sc3-kancelar-starosty.css'
 
 const Sc3KancelarStarosty = () => {
     return (
