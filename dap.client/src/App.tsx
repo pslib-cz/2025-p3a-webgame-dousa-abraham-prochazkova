@@ -8,7 +8,6 @@ import Sc3KancelarStarosty from './assets/pages/Sc3-kancelar-starosty'
 import Sc4SklepTrezor from './assets/pages/Sc4-sklep-trezor'
 import { useContext } from "react";
 
-
 function SceneSwitch() {
   const game = useContext(GameContext);
   if (!game) {

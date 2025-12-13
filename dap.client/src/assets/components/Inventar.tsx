@@ -1,11 +1,11 @@
-import ramecky from './img/ramecky.png'
-import './styles/Inventar.css'
-import klic from './img/key1.png'
-import drat from './img/drat.png'
-import karta from './img/karta.png'
-import pojistka from './img/pojistka.png'
-import navodNaPaky from './img/navod-na-paky.png'
-import hrnek from './img/hrnek.png'
+import ramecky from '../img/ramecky.png'
+import '../styles/Inventar.css'
+import klic from '../img/key1.png'
+import drat from '../img/drat.png'
+import karta from '../img/karta.png'
+import pojistka from '../img/pojistka.png'
+import navodNaPaky from '../img/navod-na-paky.png'
+import hrnek from '../img/hrnek.png'
 
 const Inventar = () => {
   // seznam predmetu, useState ??
