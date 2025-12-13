@@ -12,6 +12,9 @@ namespace DAP.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Scene> Scenes { get; set; }
+        public DbSet<Dialogue> Dialogues { get; set; }
+        public DbSet<Minigame> Minigames { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
