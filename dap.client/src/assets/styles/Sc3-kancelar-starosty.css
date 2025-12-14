@@ -1,7 +1,19 @@
 .postava-sc3 {
   position: absolute;
-  left: 8%;
-  top: 10%;
+  left: 5%;
+  bottom: -10%;
   height: 100%;
+}
+
+.sc3-tlacitko {
+  position: absolute;
+  background: rgba(255,0,0,0.5); /* debug */
+  cursor: pointer;
+}
+
+.inventar-sc3 {
+  position: absolute;
+  right: 30%;
+  top: 0%;
   z-index: 2;
 }

@@ -1,7 +1,19 @@
 .postava-sc2 {
   position: absolute;
-  right: 0%;
-  top: 20%;
-  height: 90%;
+  left: 75%;
+  bottom: 0%;
+  height: 67%;
+}
+
+.sc2-tlacitko {
+  position: absolute;
+  background: rgba(255,0,0,0.5); /* debug */
+  cursor: pointer;
+}
+
+.inventar-sc2 {
+  position: absolute;
+  right: 30%;
+  top: 0%;
   z-index: 2;
 }

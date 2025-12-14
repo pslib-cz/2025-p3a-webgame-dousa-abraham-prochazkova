@@ -5,3 +5,16 @@
   height: 80%;
   z-index: 2;
 }
+
+.sc4-tlacitko {
+  position: absolute;
+  background: rgba(255,0,0,0.5); /* debug */
+  cursor: pointer;
+}
+
+.inventar-sc4 {
+  position: absolute;
+  right: 30%;
+  top: 0%;
+  z-index: 2;
+}
