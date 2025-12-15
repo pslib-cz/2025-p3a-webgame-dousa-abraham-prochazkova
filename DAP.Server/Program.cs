@@ -1,5 +1,6 @@
 using DAP.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseDeveloperExceptionPage();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

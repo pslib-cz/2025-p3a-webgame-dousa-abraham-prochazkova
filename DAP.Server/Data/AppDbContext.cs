@@ -18,7 +18,7 @@ namespace DAP.Server.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=UsAgainstTheOdds.sqlite");
+            optionsBuilder.UseSqlite("Filename=DAP.sqlite");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
