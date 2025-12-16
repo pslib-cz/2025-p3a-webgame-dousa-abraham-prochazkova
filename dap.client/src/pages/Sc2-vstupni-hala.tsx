@@ -1,8 +1,8 @@
-import bg from '../assets/sc2-vstupni-hala.png'
-import postava from '../assets/postava.png'
-import Inventar from './Inventar'
-import './Intro.css'
-import './Sc2-vstupni-hala.css'
+import bg from '../assets/img/sc2-vstupni-hala.png'
+import postava from '../assets/img/character.png'
+import Inventar from '../components/Inventar'
+import '../assets/styles/Intro.css'
+import '../assets/styles/Sc2-vstupni-hala.css'
 import { GameContext, type ItemId } from '../GameContext'
 import { useContext, useEffect, useState } from 'react'
 

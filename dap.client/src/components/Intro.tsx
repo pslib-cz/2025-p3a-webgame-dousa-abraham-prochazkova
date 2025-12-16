@@ -1,9 +1,9 @@
-import bg from '../img/intro-bg.png'
-import postava from '../img/intro-postava.png'
-import nadpis from '../img/intro-nadpis.png'
-import '../styles/Intro.css'
+import bg from '../assets/img/intro-bg.png'
+import postava from '../assets/img/intro-postava.png'
+import nadpis from '../assets/img/intro-nadpis.png'
+import '../assets/styles/Intro.css'
 import { useContext } from "react";
-import { GameContext } from "../../GameContext";
+import { GameContext } from "../GameContext";
 
 const Intro = () => {
     const game = useContext(GameContext);

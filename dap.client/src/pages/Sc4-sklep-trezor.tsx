@@ -1,27 +1,30 @@
-import bg from '../img/skeleton.png'
-import { GameContext } from '../../GameContext'
+import bg from '../assets/img/sc4-sklep-trezor.png'
+import postava from '../assets/img/character.png'
+import Inventar from '../components/Inventar'
+import '../assets/styles/Intro.css'
+import '../assets/styles/Sc4-sklep-trezor.css'
+import { GameContext } from '../GameContext'
 import { useContext } from 'react'
 
-
-const Sc5Trezor = () => {
+const Sc4SklepTrezor = () => {
   const game = useContext(GameContext);
         
   if (!game) {
     throw new Error("Neni game");
   }
     
-  const { setScena, clearItems } = game;
+  const { setScena } = game;
   const konec = () => {
     setScena("intro")
-    clearItems()
   }
-
 
     return (
         <div className="scena">
             <div className="grafika">
                 <img src={bg} alt="Trezor" className="bg"/>
-                <div className="sc4-tlacitko" onClick={() => konec()} style={{
+                <div className="inventar-sc4"><Inventar/></div>
+                <img src={postava} alt="Postava" className="postava-sc4" />
+                <div className="sc1-tlacitko" onClick={() => konec()} style={{
                                 right: "0%",
                                 top: "0%",
                                 width: "5%",
@@ -31,7 +34,6 @@ const Sc5Trezor = () => {
             </div>
         </div>
     )
-
 }
 
-export default Sc5Trezor
+export default Sc4SklepTrezor

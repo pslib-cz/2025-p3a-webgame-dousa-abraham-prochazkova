@@ -1,9 +1,9 @@
-import bg from '../img/sc1-namesti.png'
-import postava from '../img/character.png'
-import '../styles/Intro.css'
-import '../styles/Sc1-namesti.css'
-import Inventar from './Inventar'
-import { GameContext, type ItemId } from '../../GameContext'
+import bg from '../assets/img/sc1-namesti.png'
+import postava from '../assets/img/character.png'
+import '../assets/styles/Intro.css'
+import '../assets/styles/Sc1-namesti.css'
+import Inventar from '../components/Inventar'
+import { GameContext, type ItemId } from '../GameContext'
 import { useContext, useEffect, useState } from 'react'
 
 const Sc1Namesti = () => {
@@ -33,7 +33,25 @@ const Sc1Namesti = () => {
         setScena("intro")
         clearItems()
     }
-
+/*
+    return (
+        <div className="scena">
+            <div className="grafika-obal">
+                <img src={bg} alt="Náměstí" className="bg"/>
+                <img src={postava} alt="Postava" className="postava-sc1"/>
+                <div className="inventar-sc1"><Inventar/></div>
+                <div className="sc1-tlacitko"
+                    style={{
+                      left: "10%",
+                      bottom: "15%",
+                      width: "5%",
+                      height: "5%",
+                    }} onClick={() => klikTlacitko("kos")}
+                />
+            </div>
+        </div>
+    )
+        */
     return (
         <div className="scena">
             <div className="grafika">

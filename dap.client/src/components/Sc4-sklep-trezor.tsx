@@ -1,9 +1,9 @@
-import bg from '../img/sc4-sklep-trezor.png'
-import postava from '../img/character.png'
-import Inventar from './Inventar'
-import '../styles/Intro.css'
-import '../styles/Sc4-sklep-trezor.css'
-import { GameContext } from '../../GameContext'
+import bg from '../assets/img/sc4-sklep-trezor.png'
+import postava from '../assets/img/character.png'
+import Inventar from '../components/Inventar'
+import '../assets/styles/Intro.css'
+import '../assets/styles/Sc4-sklep-trezor.css'
+import { GameContext } from '../GameContext'
 import { useContext } from 'react'
 
 const Sc4SklepTrezor = () => {

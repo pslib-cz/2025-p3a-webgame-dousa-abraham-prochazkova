@@ -1,8 +1,8 @@
-import bg from '../assets/intro-bg.png'
-import postava from '../assets/intro-postava.png'
-import nadpis from '../assets/intro-nadpis.png'
-import tlacitko from '../assets/intro-tlacitko.png'
-import './Intro.css'
+import bg from '../assets/img/intro-bg.png'
+import postava from '../assets/img/intro-postava.png'
+import nadpis from '../assets/img/intro-nadpis.png'
+import tlacitko from '../assets/img/intro-tlacitko.png'
+import '../assets/styles/Intro.css'
 import { useContext } from "react";
 import { GameContext } from "../GameContext";
 
