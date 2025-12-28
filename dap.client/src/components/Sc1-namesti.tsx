@@ -1,67 +1,81 @@
-import bg from '../assets/img/sc1-namesti.png'
-import postava from '../assets/img/character.png'
-import '../assets/styles/Intro.css'
-import '../assets/styles/Sc1-namesti.css'
-import Inventar from '../components/Inventar'
-import { GameContext, type ItemId } from '../GameContext'
-import { useContext, useEffect, useState } from 'react'
+import bg from "../assets/img/sc1-square.png";
+import postava from "../assets/img/character.png";
+import "../assets/styles/Intro.css";
+import "../assets/styles/Sc1-namesti.css";
+import Inventar from "../components/Inventar";
+import { GameContext, type ItemId } from "../GameContext";
+import { useContext, useEffect, useState } from "react";
 
 const Sc1Namesti = () => {
-    const game = useContext(GameContext);
-    const [postup, setPostup] = useState(false);
+  const game = useContext(GameContext);
+  const [postup, setPostup] = useState(false);
 
-    if (!game) {
-      throw new Error("Neni game");
+  if (!game) {
+    throw new Error("Neni game");
+  }
+
+  const { setScena, addItem, hasItem, clearItems } = game;
+
+  const klikTlacitko = (id: ItemId) => {
+    console.log("Klik na hotspot:", id);
+    addItem(id);
+  };
+
+  useEffect(() => {
+    if (postup) return;
+    if (hasItem("wire") && hasItem("klic-od-radnice")) {
+      setPostup(true);
+      setScena("sc2");
     }
+  }, [hasItem, postup, setScena]);
 
-    const { setScena, addItem, hasItem, clearItems } = game;
+  const konec = () => {
+    setScena("intro");
+    clearItems();
+  };
 
-    const klikTlacitko = (id: ItemId) => {
-        console.log("Klik na hotspot:", id)
-        addItem(id)
-    };
-
-    useEffect(() => {
-        if (postup) return
-        if (hasItem("drat") && hasItem("klic-od-radnice")) {
-            setPostup(true)
-            setScena("sc2")
-        }
-    }, [hasItem, postup, setScena])
-
-    const konec = () => {
-        setScena("intro")
-        clearItems()
-    }
-
-    return (
-        <div className="scena">
-            <div className="grafika">
-              <img src={bg} className="bg" />
-              <div className="inventar-sc1"><Inventar/></div>
-              <img src={postava} className="postava-sc1" />
-              <div className="sc1-tlacitko" onClick={() => klikTlacitko("drat")} style={{
-                              left: "6%",
-                              bottom: "0%",
-                              width: "8%",
-                              height: "22%",
-                            }}/>
-              <div className="sc1-tlacitko" onClick={() => klikTlacitko("klic-od-radnice")} style={{
-                              left: "35%",
-                              bottom: "0%",
-                              width: "12%",
-                              height: "6%",
-                            }}/>
-              <div className="sc1-tlacitko" onClick={() => konec()} style={{
-                              right: "0%",
-                              top: "0%",
-                              width: "5%",
-                              height: "auto",
-                              aspectRatio: 1/1
-                            }}/>
-            </div>
+  return (
+    <div className="scena">
+      <div className="grafika">
+        <img src={bg} className="bg" />
+        <div className="inventar-sc1">
+          <Inventar />
         </div>
-    );
-}
+        <img src={postava} className="postava-sc1" />
+        <div
+          className="sc1-tlacitko"
+          onClick={() => klikTlacitko("wire")}
+          style={{
+            left: "6%",
+            bottom: "0%",
+            width: "8%",
+            height: "22%",
+          }}
+        />
+        <div
+          className="sc1-tlacitko"
+          onClick={() => klikTlacitko("klic-od-radnice")}
+          style={{
+            left: "35%",
+            bottom: "0%",
+            width: "12%",
+            height: "6%",
+          }}
+        />
+        <div
+          className="sc1-tlacitko"
+          onClick={() => konec()}
+          style={{
+            right: "0%",
+            top: "0%",
+            width: "5%",
+            height: "auto",
+            aspectRatio: 1 / 1,
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
-export default Sc1Namesti
+export default Sc1Namesti;
