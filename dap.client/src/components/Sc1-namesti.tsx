@@ -5,6 +5,7 @@ import "../assets/styles/Sc1-namesti.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sc1Namesti = () => {
   const game = useContext(GameContext);
@@ -20,18 +21,20 @@ const Sc1Namesti = () => {
     console.log("Klik na hotspot:", id);
     addItem(id);
   };
-
+  const u = useNavigate();
   useEffect(() => {
     if (postup) return;
     if (hasItem("wire") && hasItem("klic-od-radnice")) {
       setPostup(true);
       setScena("sc2");
+      u("/sc2");
     }
   }, [hasItem, postup, setScena]);
 
   const konec = () => {
     setScena("intro");
     clearItems();
+    u("/");
   };
 
   return (

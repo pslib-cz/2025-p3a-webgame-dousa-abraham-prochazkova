@@ -5,6 +5,7 @@ import "../assets/styles/Intro.css";
 import "../assets/styles/Sc4-sklep-trezor.css";
 import { GameContext } from "../GameContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sc4SklepTrezor = () => {
   const game = useContext(GameContext);
@@ -17,6 +18,7 @@ const Sc4SklepTrezor = () => {
   const konec = () => {
     setScena("intro");
     clearItems();
+    u("/");
   };
 
   const vodaDoGen = () => {
@@ -26,10 +28,12 @@ const Sc4SklepTrezor = () => {
   const nastavPaky = () => {
     removeItem("levers-comb");
   };
+  const u = useNavigate();
 
   const magnetickaKarta = () => {
     removeItem("card");
     setScena("sc5");
+    u("/sc5");
   };
 
   return (

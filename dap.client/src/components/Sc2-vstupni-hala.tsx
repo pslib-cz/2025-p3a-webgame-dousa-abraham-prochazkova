@@ -5,6 +5,7 @@ import "../assets/styles/Intro.css";
 import "../assets/styles/Sc2-vstupni-hala.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sc2VstupniHala = () => {
   const game = useContext(GameContext);
@@ -20,10 +21,12 @@ const Sc2VstupniHala = () => {
     console.log("Klik na hotspot:", id);
     addItem(id);
   };
+  const u = useNavigate();
 
   const klikNaTelefon = () => {
     if (hasItem("kod")) {
       setScena("sc4");
+      u("/sc4");
     }
   };
 
@@ -33,12 +36,14 @@ const Sc2VstupniHala = () => {
       setPostup(true);
       removeItem("klic-od-radnice");
       setScena("sc3");
+      u("/sc3");
     }
   }, [hasItem, postup, setScena]);
 
   const konec = () => {
     setScena("intro");
     clearItems();
+    u("/");
   };
 
   // return (

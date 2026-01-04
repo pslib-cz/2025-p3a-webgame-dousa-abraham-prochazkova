@@ -5,6 +5,7 @@ import "../assets/styles/Intro.css";
 import "../assets/styles/Sc3-kancelar-starosty.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sc3KancelarStarosty = () => {
   const game = useContext(GameContext);
@@ -24,10 +25,12 @@ const Sc3KancelarStarosty = () => {
     if (id === "kod" && !hasItem("klic-od-supliku")) return;
     addItem(id);
   };
+  const u = useNavigate();
 
   const konec = () => {
     setScena("intro");
     clearItems();
+    u("/");
   };
 
   useEffect(() => {
@@ -35,6 +38,7 @@ const Sc3KancelarStarosty = () => {
     if (hasItem("card") && hasItem("kod") && hasItem("mug")) {
       setPostup(true);
       setScena("sc2");
+      u("/sc2");
     }
   }, [hasItem, postup, setScena]);
 

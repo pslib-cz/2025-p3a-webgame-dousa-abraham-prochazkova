@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import bg from "../assets/img/sc5-end.png";
 import { GameContext } from "../GameContext";
 import { useContext } from "react";
@@ -10,9 +11,11 @@ const Sc5Trezor = () => {
   }
 
   const { setScena, clearItems } = game;
+  const u = useNavigate();
   const konec = () => {
     setScena("intro");
     clearItems();
+    u("/");
   };
 
   return (
