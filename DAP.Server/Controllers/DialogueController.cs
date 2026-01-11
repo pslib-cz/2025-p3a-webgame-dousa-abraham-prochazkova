@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace DAP.Server.Controllers+
+namespace DAP.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -17,16 +17,16 @@ namespace DAP.Server.Controllers+
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<int>> GetId(int id)
-        {
-            var product = await _context.Dialogues
-            .Where(p => p.DialogueId == id)
-            .Select(p => p.DialogueId)
-            .FirstOrDefaultAsync();
-            
-            if (product == 0) return NotFound();
-            return product;
-           
+    [HttpGet("{id}")]
+    public async Task<ActionResult<int>> GetId(int id)
+    {
+        var product = await _context.Dialogues
+        .Where(p => p.DialogueId == id)
+        .Select(p => p.DialogueId)
+        .FirstOrDefaultAsync();
+
+        if (product == 0) return NotFound();
+        return product;
+    }
     }
 }
