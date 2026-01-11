@@ -6,10 +6,12 @@ import "../assets/styles/Sc3-kancelar-starosty.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import fetchDialogue from "../dialogApi";
 
 const Sc3KancelarStarosty = () => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
+  const [dialog, setDialog] = useState("prazdny text");
 
   if (!game) {
     throw new Error("Neni game");
@@ -42,6 +44,12 @@ const Sc3KancelarStarosty = () => {
     }
   }, [hasItem, postup, setScena]);
 
+  useEffect(() => {
+    fetchDialogue(3)
+      .then((d) => d.dialogueText)
+      .then(setDialog);
+  }, []);
+
   return (
     <div className="scena">
       <div className="grafika">
@@ -49,6 +57,7 @@ const Sc3KancelarStarosty = () => {
         <div className="inventar-sc3">
           <Inventar />
         </div>
+        <div className="dialogText">"{dialog}"</div>
         <img src={postava} alt="Postava" className="postava-sc3" />
         <div
           className="sc3-tlacitko"

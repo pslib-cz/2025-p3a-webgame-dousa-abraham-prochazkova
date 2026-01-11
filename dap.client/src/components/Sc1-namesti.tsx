@@ -54,7 +54,7 @@ const Sc1Namesti = () => {
         <div className="inventar-sc1">
           <Inventar />
         </div>
-        <div className="dialogText">TEST: "{dialog}"</div>
+        <div className="dialogText">"{dialog}"</div>
         <img src={postava} className="postava-sc1" />
         <div
           className="sc1-tlacitko"

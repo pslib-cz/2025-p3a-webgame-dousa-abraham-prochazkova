@@ -6,10 +6,12 @@ import "../assets/styles/Sc2-vstupni-hala.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import fetchDialogue from "../dialogApi";
 
 const Sc2VstupniHala = () => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
+  const [dialog, setDialog] = useState("prazdny text");
 
   if (!game) {
     throw new Error("Neni game");
@@ -40,18 +42,18 @@ const Sc2VstupniHala = () => {
     }
   }, [hasItem, postup, setScena]);
 
+  useEffect(() => {
+    fetchDialogue(2)
+      .then((d) => d.dialogueText)
+      .then(setDialog);
+  }, []);
+
   const konec = () => {
     setScena("intro");
     clearItems();
     u("/");
   };
 
-  // return (
-  //     <div className="scena">
-  //         <img src={bg} alt="Vstupní hala" className="bg"/>
-  //         <img src={postava} alt="Postava" className="postava-sc2"/>
-  //     </div>
-  // )
   return (
     <div className="scena">
       <div className="grafika">
@@ -59,6 +61,7 @@ const Sc2VstupniHala = () => {
         <div className="inventar-sc2">
           <Inventar />
         </div>
+        <div className="dialogText">"{dialog}"</div>
         <img src={postava} alt="Postava" className="postava-sc2" />
         <div
           className="sc2-tlacitko"

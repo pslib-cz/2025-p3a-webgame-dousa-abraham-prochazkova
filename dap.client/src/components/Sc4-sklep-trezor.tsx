@@ -4,16 +4,19 @@ import Inventar from "../components/Inventar";
 import "../assets/styles/Intro.css";
 import "../assets/styles/Sc4-sklep-trezor.css";
 import { GameContext } from "../GameContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import lv from "../assets/img/laverage-background.png";
 import up from "../assets/img/up.png";
 import down from "../assets/img/down.png";
+import fetchDialogue from "../dialogApi";
 
 const Sc4SklepTrezor = () => {
   const game = useContext(GameContext);
   const [minigameActive, setMinigameActive] = useState(false);
   const [nastavenipak, setnastavenipak] = useState([true, false, false, false]);
+  const [dialog, setDialog] = useState("prazdny text");
+
   if (!game) {
     throw new Error("Neni game");
   }
@@ -49,6 +52,13 @@ const Sc4SklepTrezor = () => {
       return novePole;
     });
   };
+
+  useEffect(() => {
+    fetchDialogue(4)
+      .then((d) => d.dialogueText)
+      .then(setDialog);
+  }, []);
+
   if (
     nastavenipak[0] &&
     !nastavenipak[1] &&
@@ -140,6 +150,7 @@ const Sc4SklepTrezor = () => {
             <div className="inventar-sc4">
               <Inventar />
             </div>
+            <div className="dialogText">"{dialog}"</div>
             <img src={postava} alt="Postava" className="postava-sc4" />
             <div
               className="sc4-tlacitko"
