@@ -6,10 +6,12 @@ import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchDialogue } from "../dialogApi";
 
 const Sc1Namesti = () => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
+  const [dialog, setDialog] = useState("prazdny text");
 
   if (!game) {
     throw new Error("Neni game");
@@ -31,6 +33,14 @@ const Sc1Namesti = () => {
     }
   }, [hasItem, postup, setScena]);
 
+  useEffect(() => {
+    fetchDialogue(1)
+      //{ dialogueId = 11, dialogueText = "zprava"}
+      .then((d) => d.dialogueText)
+      //"zprava"
+      .then(setDialog);
+  }, []);
+
   const konec = () => {
     setScena("intro");
     clearItems();
@@ -44,6 +54,7 @@ const Sc1Namesti = () => {
         <div className="inventar-sc1">
           <Inventar />
         </div>
+        <div className="dialogText">TEST: "{dialog}"</div>
         <img src={postava} className="postava-sc1" />
         <div
           className="sc1-tlacitko"

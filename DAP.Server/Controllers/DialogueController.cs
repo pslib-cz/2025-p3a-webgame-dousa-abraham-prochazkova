@@ -20,13 +20,26 @@ namespace DAP.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetId(int id)
         {
-            var product = await _context.Dialogues
-                                        .Where(p => p.DialogueId == id)
-                                        .Select(p => p.DialogueId)
-                                        .FirstOrDefaultAsync();
+            // var product = await _context.Dialogues
+            // .Where(p => p.DialogueId == id)
+            // .Select(p => p.DialogueId)
+            // .FirstOrDefaultAsync();
+            // 
+            // if (product == 0) return NotFound();
+            // return product;
+            var dialogue = new Dialogue
+            {
+                DialogueId = id,
+                DialogueText = "Vem z popelnice drát a pomocí něj vytáhni klíč z kanálu."
+            };
 
-            if (product == 0) return NotFound();
-            return product;
+            return Ok(dialogue);
         }
+    }
+
+    public class Dialogue
+    {
+        public int DialogueId { get; set; }
+        public string DialogueText { get; set; } = "";
     }
 }

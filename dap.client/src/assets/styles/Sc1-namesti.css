@@ -17,3 +17,11 @@
   top: 0%;
   z-index: 2;
 }
+
+.dialogText {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  background-color: black;
+  color: lightgray;
+}
