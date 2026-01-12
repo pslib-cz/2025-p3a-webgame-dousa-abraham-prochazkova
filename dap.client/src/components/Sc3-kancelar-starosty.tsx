@@ -7,6 +7,7 @@ import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import fetchDialogue from "../dialogApi";
+import type { Item } from "../assets/types/types";
 
 const Sc3KancelarStarosty = () => {
   const game = useContext(GameContext);
@@ -28,6 +29,13 @@ const Sc3KancelarStarosty = () => {
     addItem(id);
   };
   const u = useNavigate();
+
+  const clickCheck = (idCheck: ItemId, idGive: ItemId) => {
+    if(hasItem(idCheck)) {
+      addItem(idGive)
+      removeItem(idCheck)
+    }
+  }
 
   const konec = () => {
     setScena("intro");
@@ -71,7 +79,7 @@ const Sc3KancelarStarosty = () => {
         />
         <div
           className="sc3-tlacitko"
-          onClick={() => klikTlacitko("card")}
+          onClick={() => clickCheck("wire", "card")}
           style={{
             left: "75%",
             bottom: "30%",
@@ -91,7 +99,7 @@ const Sc3KancelarStarosty = () => {
         />
         <div
           className="sc3-tlacitko"
-          onClick={() => klikTlacitko("kod")}
+          onClick={() => clickCheck("klic-od-supliku", "kod")}
           style={{
             left: "62%",
             bottom: "20%",
