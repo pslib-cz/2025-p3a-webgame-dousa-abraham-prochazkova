@@ -17,13 +17,30 @@ const Sc1Namesti = () => {
     throw new Error("Neni game");
   }
 
-  const { setScena, addItem, hasItem, clearItems } = game;
+  const { setScena, addItem, hasItem, clearItems, removeItem } = game;
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
     addItem(id);
   };
-  const u = useNavigate();
+  const klikRemove = (id: ItemId) => {
+    console.log("Odebrani itemu:", id);
+    removeItem(id);
+  };
+  const klikCheck = (idCheck: ItemId, idGive: ItemId) => {
+    if (hasItem(idCheck)) {
+      addItem(idGive);
+    }
+  }
+  const vstupRadnice = () => {
+    if (hasItem("klic-od-radnice")) {
+      setPostup(true);
+      setScena("sc2");
+      removeItem("klic-od-radnice")
+      u("/sc2");
+    }
+  };
+  const u = useNavigate();/*
   useEffect(() => {
     if (postup) return;
     if (hasItem("wire") && hasItem("klic-od-radnice")) {
@@ -31,7 +48,9 @@ const Sc1Namesti = () => {
       setScena("sc2");
       u("/sc2");
     }
-  }, [hasItem, postup, setScena]);
+  }, [hasItem, postup, setScena]);*/
+
+
 
   useEffect(() => {
     fetchDialogue(1)
@@ -68,12 +87,22 @@ const Sc1Namesti = () => {
         />
         <div
           className="sc1-tlacitko"
-          onClick={() => klikTlacitko("klic-od-radnice")}
+          onClick={() => klikCheck("wire", "klic-od-radnice")}
           style={{
             left: "35%",
             bottom: "0%",
             width: "12%",
             height: "6%",
+          }}
+        />
+        <div
+          className="sc1-tlacitko"
+          onClick={() => vstupRadnice()}
+          style={{
+            left: "36%",
+            top: "50%",
+            width: "7%",
+            height: "18%",
           }}
         />
         <div
