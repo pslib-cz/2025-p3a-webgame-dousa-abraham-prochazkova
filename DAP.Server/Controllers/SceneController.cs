@@ -7,9 +7,9 @@ using System;
 namespace DAP.Server.Controllers
 {
     [ApiController]
-[Route("api/scene")]
-public class SceneController : ControllerBase
-{
+    [Route("api/scene")]
+    public class SceneController : ControllerBase
+    {
         private readonly ApplicationDbContext _db;
 
         public SceneController(ApplicationDbContext db)
