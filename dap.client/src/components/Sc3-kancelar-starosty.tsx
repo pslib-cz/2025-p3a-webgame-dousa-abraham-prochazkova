@@ -1,8 +1,7 @@
 import bg from "../assets/img/sc3-office.png";
 import postava from "../assets/img/character.png";
 import Inventar from "../components/Inventar";
-import "../assets/styles/Intro.css";
-import "../assets/styles/Sc3-kancelar-starosty.css";
+import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +30,7 @@ const Sc3KancelarStarosty = () => {
   const u = useNavigate();
 
   const clickCheck = (idCheck: ItemId, idGive: ItemId) => {
-    if(hasItem(idCheck)) {
+    if (hasItem(idCheck)) {
       addItem(idGive)
       removeItem(idCheck)
     }
@@ -62,13 +61,13 @@ const Sc3KancelarStarosty = () => {
     <div className="scena">
       <div className="grafika">
         <img src={bg} className="bg" alt="Kancelář" />
-        <div className="inventar-sc3">
+        <div className="inventar">
           <Inventar />
         </div>
         <div className="dialogText">"{dialog}"</div>
-        <img src={postava} alt="Postava" className="postava-sc3" />
+        <img src={postava} alt="Postava" className={Styles["postava-sc3"]} />
         <div
-          className="sc3-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikTlacitko("klic-od-supliku")}
           style={{
             left: "5%",
@@ -78,7 +77,7 @@ const Sc3KancelarStarosty = () => {
           }}
         />
         <div
-          className="sc3-tlacitko"
+          className="debug-tlacitko"
           onClick={() => clickCheck("wire", "card")}
           style={{
             left: "75%",
@@ -88,7 +87,7 @@ const Sc3KancelarStarosty = () => {
           }}
         />
         <div
-          className="sc3-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikTlacitko("mug")}
           style={{
             left: "57%",
@@ -98,7 +97,7 @@ const Sc3KancelarStarosty = () => {
           }}
         />
         <div
-          className="sc3-tlacitko"
+          className="debug-tlacitko"
           onClick={() => clickCheck("klic-od-supliku", "kod")}
           style={{
             left: "62%",
@@ -108,7 +107,7 @@ const Sc3KancelarStarosty = () => {
           }}
         />
         <div
-          className="sc3-tlacitko"
+          className="debug-tlacitko"
           onClick={() => konec()}
           style={{
             right: "0%",

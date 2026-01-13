@@ -1,0 +1,21 @@
+.postava-sc4 {
+  position: absolute;
+  left: 30%;
+  bottom: 0%;
+  height: 70%;
+  z-index: 2;
+}
+
+.paka-up {
+  position: absolute;
+  top: 30%;
+  height: 25%;
+
+}
+
+.paka-down {
+  position: absolute;
+  top: 50%;
+  height: 25%;
+
+}

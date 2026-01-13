@@ -1,8 +1,7 @@
 import bg from "../assets/img/sc2-hall.png";
 import postava from "../assets/img/character.png";
 import Inventar from "../components/Inventar";
-import "../assets/styles/Intro.css";
-import "../assets/styles/Sc2-vstupni-hala.css";
+import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -55,16 +54,16 @@ const Sc2VstupniHala = () => {
   };
 
   return (
-    <div className="scena">
+    <div className={Styles.scena}>
       <div className="grafika">
         <img src={bg} className="bg" alt="Vstupní hala" />
-        <div className="inventar-sc2">
+        <div className="inventar">
           <Inventar />
         </div>
         <div className="dialogText">"{dialog}"</div>
-        <img src={postava} alt="Postava" className="postava-sc2" />
+        <img src={postava} alt="Postava" className={Styles["postava-sc2"]} />
         <div
-          className="sc2-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikNaTelefon()}
           style={{
             left: "2%",
@@ -74,7 +73,7 @@ const Sc2VstupniHala = () => {
           }}
         />
         <div
-          className="sc2-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikTlacitko("coil")}
           style={{
             left: "62%",
@@ -84,7 +83,7 @@ const Sc2VstupniHala = () => {
           }}
         />
         <div
-          className="sc2-tlacitko"
+          className="debug-tlacitko"
           onClick={() => konec()}
           style={{
             right: "0%",
@@ -95,7 +94,7 @@ const Sc2VstupniHala = () => {
           }}
         />
         <div
-          className="sc2-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikTlacitko("levers-comb")}
           style={{
             left: "42%",

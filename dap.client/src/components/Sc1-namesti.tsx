@@ -1,7 +1,6 @@
 import bg from "../assets/img/sc1-square.png";
 import postava from "../assets/img/character.png";
-import "../assets/styles/Intro.css";
-import "../assets/styles/Sc1-namesti.css";
+import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
@@ -70,13 +69,13 @@ const Sc1Namesti = () => {
     <div className="scena">
       <div className="grafika">
         <img src={bg} className="bg" />
-        <div className="inventar-sc1">
+        <div className="inventar">
           <Inventar />
         </div>
-        <div className="dialogText">"{dialog}"</div>
-        <img src={postava} className="postava-sc1" />
+        <div className={Styles["dialogText"]}>"{dialog}"</div>
+        <img src={postava} className={Styles["postava-sc1"]} />
         <div
-          className="sc1-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikTlacitko("wire")}
           style={{
             left: "6%",
@@ -86,7 +85,7 @@ const Sc1Namesti = () => {
           }}
         />
         <div
-          className="sc1-tlacitko"
+          className="debug-tlacitko"
           onClick={() => klikCheck("wire", "klic-od-radnice")}
           style={{
             left: "35%",
@@ -96,7 +95,7 @@ const Sc1Namesti = () => {
           }}
         />
         <div
-          className="sc1-tlacitko"
+          className="debug-tlacitko"
           onClick={() => vstupRadnice()}
           style={{
             left: "36%",
@@ -106,7 +105,7 @@ const Sc1Namesti = () => {
           }}
         />
         <div
-          className="sc1-tlacitko"
+          className="debug-tlacitko"
           onClick={() => konec()}
           style={{
             right: "0%",

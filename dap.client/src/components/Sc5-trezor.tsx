@@ -32,7 +32,7 @@ const Sc5Trezor = () => {
         <img src={bg} alt="Trezor" className="bg" />
         <div className="dialogText">"{dialog}"</div>
         <div
-          className="sc4-tlacitko"
+          className="debug-tlacitko"
           onClick={() => konec()}
           style={{
             right: "0%",

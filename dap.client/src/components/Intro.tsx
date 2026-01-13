@@ -1,7 +1,5 @@
 import bg from "../assets/img/intro-bg.png";
-import postava from "../assets/img/intro-postava.png";
-import nadpis from "../assets/img/intro-nadpis.png";
-import "../assets/styles/Intro.css";
+import Styles from "../assets/styles/Intro.module.css";
 import { useContext } from "react";
 import { GameContext } from "../GameContext";
 import { useNavigate } from "react-router-dom";
@@ -25,10 +23,7 @@ const Intro = () => {
     <div className="scena">
       <div className="grafika">
         <img src={bg} alt="pozadi" className="bg" />
-        <div className="zatmaveni" />
-        <img src={nadpis} className="nadpis" alt="Případ soukromé Švestky" />
-        <img src={postava} className="postava-intro" alt="Postava" />
-        <button className="start-tlacitko" onClick={klikTlacitkoStart}>
+        <button className={Styles["start-tlacitko"]} onClick={klikTlacitkoStart}>
           Nová hra
         </button>
       </div>

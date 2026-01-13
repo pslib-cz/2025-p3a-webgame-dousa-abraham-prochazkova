@@ -1,8 +1,7 @@
 import bg from "../assets/img/sc4-vault.png";
 import postava from "../assets/img/character.png";
 import Inventar from "../components/Inventar";
-import "../assets/styles/Intro.css";
-import "../assets/styles/Sc4-sklep-trezor.css";
+import Styles from "../assets/styles/Sc4-sklep-trezor.module.css";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -78,29 +77,29 @@ const Sc4SklepTrezor = () => {
             <img
               src={nastavenipak[0] ? down : up}
               alt="paka"
-              className={nastavenipak[0] ? "paka-down" : "paka-up"}
+              className={nastavenipak[0] ? Styles["paka-down"] : Styles["paka-up"]}
               style={{ left: "30%" }}
             />
             <img
               src={nastavenipak[1] ? down : up}
               alt="paka"
-              className={nastavenipak[1] ? "paka-down" : "paka-up"}
+              className={nastavenipak[1] ? Styles["paka-down"] : Styles["paka-up"]}
               style={{ left: "45%" }}
             />
             <img
               src={nastavenipak[2] ? down : up}
               alt="paka"
-              className={nastavenipak[2] ? "paka-down" : "paka-up"}
+              className={nastavenipak[2] ? Styles["paka-down"] : Styles["paka-up"]}
               style={{ left: "60%" }}
             />
             <img
               src={nastavenipak[3] ? down : up}
               alt="paka"
-              className={nastavenipak[3] ? "paka-down" : "paka-up"}
+              className={nastavenipak[3] ? Styles["paka-down"] : Styles["paka-up"]}
               style={{ left: "75%" }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => prepniPaku(0)}
               style={{
                 left: "30%",
@@ -110,7 +109,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => prepniPaku(1)}
               style={{
                 left: "45%",
@@ -120,7 +119,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => prepniPaku(2)}
               style={{
                 left: "60%",
@@ -130,7 +129,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => prepniPaku(3)}
               style={{
                 left: "75%",
@@ -147,13 +146,13 @@ const Sc4SklepTrezor = () => {
         <div className="scena">
           <div className="grafika">
             <img src={bg} alt="Trezor" className="bg" />
-            <div className="inventar-sc4">
+            <div className="inventar">
               <Inventar />
             </div>
             <div className="dialogText">"{dialog}"</div>
-            <img src={postava} alt="Postava" className="postava-sc4" />
+            <img src={postava} alt="Postava" className={Styles["postava-sc4"]} />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => vodaDoGen()}
               style={{
                 left: "5%",
@@ -163,7 +162,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => nastavPaky()}
               style={{
                 left: "15%",
@@ -173,7 +172,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => magnetickaKarta()}
               style={{
                 left: "72%",
@@ -183,7 +182,7 @@ const Sc4SklepTrezor = () => {
               }}
             />
             <div
-              className="sc4-tlacitko"
+              className="debug-tlacitko"
               onClick={() => konec()}
               style={{
                 right: "0%",
