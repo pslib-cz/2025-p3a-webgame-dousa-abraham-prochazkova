@@ -7,26 +7,24 @@ using System;
 namespace DAP.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class SceneController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
+[Route("api/scene")]
+public class SceneController : ControllerBase
+{
+        private readonly ApplicationDbContext _db;
 
-        public SceneController(ApplicationDbContext context)
+        public SceneController(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<int>> GetId(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetCurrentScene(string userId)
         {
-            var product = await _context.Scenes
-                                        .Where(p => p.RoomId == id)
-                                        .Select(p => p.RoomId)
-                                        .FirstOrDefaultAsync();
-
-            if (product == 0) return NotFound();
-            return product;
+            var userScene = await _db.Scene.FindAsync(userId);
+            if (userScene == null)
+                return NotFound();
+            return Ok(userScene);
         }
     }
+
 }

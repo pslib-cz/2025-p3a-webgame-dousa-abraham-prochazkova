@@ -13,7 +13,7 @@ namespace DAP.Server.Models
 
         [ForeignKey(nameof(Scene))]
         public int RoomId { get; set; }
-        public Scene? Scene { get; set; }
+        public UserScene? Scene { get; set; }
 
     }
 }

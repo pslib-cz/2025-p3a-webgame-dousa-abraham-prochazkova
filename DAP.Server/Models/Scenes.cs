@@ -2,12 +2,12 @@
 
 namespace DAP.Server.Models
 {
-    public class Scene
+    public class UserScene
     {
         [Key]
-        public int RoomId { get; set; }
-        public string RoomName { get; set; }
-        public string ImageURL { get; set; }
+        public int UserId { get; set; }
+        public string Scene { get; set; } = null!;
+        public string? SceneImage { get; set; }
         public ICollection<Item>? Item { get; set; }
     }
 }
