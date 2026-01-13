@@ -12,7 +12,7 @@ namespace DAP.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<Item> Items { get; set; }
-        public DbSet<Scene> Scenes { get; set; }
+        public DbSet<UserScene> Scene => Set<UserScene>();
         public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<Minigame> Minigames { get; set; }
 
@@ -74,41 +74,41 @@ namespace DAP.Server.Data
                 RoomId = 2
             };
 
-            Scene menu = new()
+            UserScene menu = new()
             {
-                RoomId = 1,
-                RoomName = "Main Menu",
-                ImageURL = "./images/sc0-intro.png"
+                UserId = 1,
+                Scene = "Main Menu",
+                SceneImage = "./images/sc0-intro.png"
             };
-            Scene namesti = new()
+            UserScene namesti = new()
             {
-                RoomId = 2,
-                RoomName = "Náměstí",
-                ImageURL = "./images/sc1-square.png"
+                UserId = 2,
+                Scene = "Náměstí",
+                SceneImage = "./images/sc1-square.png"
             };
-            Scene recepce = new()
+            UserScene recepce = new()
             {
-                RoomId = 3,
-                RoomName = "Recepce",
-                ImageURL = "./images/sc2-hall.png"
+                UserId = 3,
+                Scene = "Recepce",
+                SceneImage = "./images/sc2-hall.png"
             };
-            Scene kancelar = new()
+            UserScene kancelar = new()
             {
-                RoomId = 4,
-                RoomName = "Kancelář",
-                ImageURL = "./images/sc3-office.png"
+                UserId = 4,
+                Scene = "Kancelář",
+                SceneImage = "./images/sc3-office.png"
             };
-            Scene trezor = new()
+            UserScene trezor = new()
             {
-                RoomId = 5,
-                RoomName = "Místnost s trezorem",
-                ImageURL = "./images/sc4-vault.png"
+                UserId = 5,
+                Scene = "Trezor",
+                SceneImage = "./images/sc4-vault.png"
             };
-            Scene konec = new()
+            UserScene konec = new()
             {
-                RoomId = 6,
-                RoomName = "Vnitřek trezoru",
-                ImageURL = "./images/sc5-end.png"
+                UserId = 6,
+                Scene = "Konec",
+                SceneImage = "./images/sc5-end.png"
             };
         }
     }
