@@ -1,5 +1,5 @@
-import bg from "../assets/img/sc1-square.png";
-import postava from "../assets/img/character.png";
+import bg from "/img/sc1-square.png";
+import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
@@ -72,7 +72,7 @@ const Sc1Namesti = () => {
         <div className="inventar">
           <Inventar />
         </div>
-        <div className={Styles["dialogText"]}>"{dialog}"</div>
+        <div className="dialogText">"{dialog}"</div>
         <img src={postava} className={Styles["postava-sc1"]} />
         <div
           className="debug-tlacitko"

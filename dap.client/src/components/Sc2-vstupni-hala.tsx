@@ -1,5 +1,5 @@
-import bg from "../assets/img/sc2-hall.png";
-import postava from "../assets/img/character.png";
+import bg from "/img/sc2-hall.png";
+import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import { GameContext, type ItemId } from "../GameContext";
