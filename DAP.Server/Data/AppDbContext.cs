@@ -12,7 +12,7 @@ namespace DAP.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<Item> Items { get; set; }
-        public DbSet<UserScene> Scene => Set<UserScene>();
+        public DbSet<UserScene> Scene { get; set; }
         public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<Minigame> Minigames { get; set; }
 
@@ -23,6 +23,8 @@ namespace DAP.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+        
 
             Item medenyDrat = new()
             {
@@ -110,6 +112,25 @@ namespace DAP.Server.Data
                 Scene = "Konec",
                 SceneImage = "/images/sc5-end.png"
             };
+
+            modelBuilder.Entity<Item>().HasData(
+                medenyDrat,
+                klicRadnice,
+                pojistka,
+                klicSuplik,
+                karta,
+                hrnekVoda,
+                kombinacePaky
+);
+
+            modelBuilder.Entity<UserScene>().HasData(
+                menu,
+                namesti,
+                recepce,
+                kancelar,
+                trezor,
+                konec
+            );
         }
     }
 }
