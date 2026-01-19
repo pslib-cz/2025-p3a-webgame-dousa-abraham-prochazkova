@@ -1,12 +1,12 @@
 import "../assets/styles/Inventar.css";
-import klic1 from "../assets/img/key1.png";
-import klic2 from "../assets/img/key2.png";
-import wire from "../assets/img/wire.png";
-import card from "../assets/img/card.png";
-import kod from "../assets/img/kod.png";
-import coil from "../assets/img/coil.png";
-import leverscomb from "../assets/img/levers-comb.png";
-import mug from "../assets/img/mug.png";
+import klic1 from "/img/key1.png";
+import klic2 from "/img/key2.png";
+import wire from "/img/wire.png";
+import card from "/img/card.png";
+import kod from "/img/kod.png";
+import coil from "/img/coil.png";
+import leverscomb from "/img/levers-comb.png";
+import mug from "/img/mug.png";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext } from "react";
 

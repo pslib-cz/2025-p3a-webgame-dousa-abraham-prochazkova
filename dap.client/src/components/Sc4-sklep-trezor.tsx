@@ -1,13 +1,13 @@
-import bg from "../assets/img/sc4-vault.png";
-import postava from "../assets/img/character.png";
+import bg from "/img/sc4-vault.png";
+import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import Styles from "../assets/styles/Sc4-sklep-trezor.module.css";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import lv from "../assets/img/laverage-background.png";
-import up from "../assets/img/up.png";
-import down from "../assets/img/down.png";
+import lv from "/img/laverage-background.png";
+import up from "/img/up.png";
+import down from "/img/down.png";
 import fetchDialogue from "../dialogApi";
 
 const Sc4SklepTrezor = () => {

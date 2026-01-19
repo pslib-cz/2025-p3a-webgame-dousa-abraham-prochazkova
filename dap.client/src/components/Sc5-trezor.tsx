@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import bg from "../assets/img/sc5-end.png";
+import bg from "/img/sc5-end.png";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import fetchDialogue from "../dialogApi";

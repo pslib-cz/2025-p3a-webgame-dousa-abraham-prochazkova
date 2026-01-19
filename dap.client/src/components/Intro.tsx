@@ -1,4 +1,4 @@
-import bg from "../assets/img/intro-bg.png";
+import bg from "/img/intro-bg.png";
 import Styles from "../assets/styles/Intro.module.css";
 import { useContext } from "react";
 import { GameContext } from "../GameContext";

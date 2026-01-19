@@ -1,5 +1,5 @@
-import bg from "../assets/img/sc3-office.png";
-import postava from "../assets/img/character.png";
+import bg from "/img/sc3-office.png";
+import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
 import { GameContext, type ItemId } from "../GameContext";
