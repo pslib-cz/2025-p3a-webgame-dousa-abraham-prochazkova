@@ -15,14 +15,13 @@ function SceneSwitch() {
 
   if (!game) return null;
 
-  // Synchronizace URL do Contextu (aby se uložila do localStorage)
+
   useEffect(() => {
     if (sceneId && sceneId !== game.scena) {
       game.setScena(sceneId);
     }
   }, [sceneId]);
 
-  // Výběr komponenty podle ID v URL
   switch (sceneId) {
     case "intro": return <Intro />;
     case "sc1": return <Sc1Namesti />;
@@ -30,7 +29,7 @@ function SceneSwitch() {
     case "sc3": return <Sc3KancelarStarosty />;
     case "sc4": return <Sc4SklepTrezor />;
     case "sc5": return <Sc5Trezor />;
-    default: return <Navigate to="/intro" />; // Pokud je URL špatně, hodí nás to na začátek
+    default: return <Navigate to="/intro" />;
   }
 }
 

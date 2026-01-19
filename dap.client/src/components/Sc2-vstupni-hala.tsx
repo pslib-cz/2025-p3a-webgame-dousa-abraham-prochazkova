@@ -1,10 +1,11 @@
 import bg from "/img/sc2-hall.png";
 import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
+import overlay from "/img/phone-overlay.png";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import fetchDialogue from "../dialogApi";
 
 const Sc2VstupniHala = () => {
@@ -24,21 +25,23 @@ const Sc2VstupniHala = () => {
   };
   const u = useNavigate();
 
+  const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+
   const klikNaTelefon = () => {
-    if (hasItem("kod")) {
-      setScena("sc4");
-      u("/sc4");
-    }
+    setIsPhoneClicked(true);
   };
 
-  useEffect(() => {
+  const buttonBack = () => {
+    u("/sc1");
+  }
+  useEffect(() => {/*
     if (postup) return;
     if (hasItem("coil") && hasItem("levers-comb") && !hasItem("kod")) {
       setPostup(true);
       removeItem("klic-od-radnice");
       setScena("sc3");
       u("/sc3");
-    }
+    }*/
   }, [hasItem, postup, setScena]);
 
   useEffect(() => {
@@ -66,10 +69,10 @@ const Sc2VstupniHala = () => {
           className="debug-tlacitko"
           onClick={() => klikNaTelefon()}
           style={{
-            left: "2%",
-            bottom: "55%",
+            left: "6.5%",
+            bottom: "57%",
             width: "7%",
-            height: "22%",
+            height: "18%",
           }}
         />
         <div
@@ -79,7 +82,7 @@ const Sc2VstupniHala = () => {
             left: "62%",
             bottom: "40%",
             width: "12%",
-            height: "36%",
+            height: "34%",
           }}
         />
         <div
@@ -97,12 +100,21 @@ const Sc2VstupniHala = () => {
           className="debug-tlacitko"
           onClick={() => klikTlacitko("levers-comb")}
           style={{
-            left: "42%",
-            bottom: "15%",
-            width: "10%",
+            left: "17%",
+            bottom: "43%",
+            width: "28%",
             height: "16%",
           }}
         />
+        <button className="buttonBack" onClick={buttonBack}>Zpět</button>
+        {isPhoneClicked && (
+          <div className={Styles["overlay-blur"]}>
+            <div className={Styles["overlay"]}>
+              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+              <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

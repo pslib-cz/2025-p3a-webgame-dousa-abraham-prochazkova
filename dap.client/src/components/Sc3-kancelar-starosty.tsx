@@ -29,6 +29,10 @@ const Sc3KancelarStarosty = () => {
   };
   const u = useNavigate();
 
+  const buttonBack = () => {
+    u("/sc2");
+  }
+
   const clickCheck = (idCheck: ItemId, idGive: ItemId) => {
     if (hasItem(idCheck)) {
       addItem(idGive)
@@ -117,6 +121,7 @@ const Sc3KancelarStarosty = () => {
             aspectRatio: 1 / 1,
           }}
         />
+        <button className="buttonBack" onClick={buttonBack}>Zpět</button>
       </div>
     </div>
   );
