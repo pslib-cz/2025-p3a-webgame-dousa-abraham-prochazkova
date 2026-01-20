@@ -17,7 +17,7 @@ const Sc2VstupniHala = () => {
     throw new Error("Neni game");
   }
 
-  const { setScena, addItem, removeItem, hasItem, clearItems, isCoilRequired, setIsCoilRequired } = game;
+  const { setScena, addItem, removeItem, hasItem, clearItems, history, setDone, isDone } = game;
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
@@ -29,16 +29,15 @@ const Sc2VstupniHala = () => {
 
 
   const klikNaTelefon = () => {
-    if (isCoilRequired) {
-      if (hasItem("coil")) {
-        setIsPhoneClicked(true);
-        removeItem("coil");
-        setIsCoilRequired(false);
-      }
-    } else if (!isCoilRequired) {
+    if (isDone("phone-fixed")) {
       setIsPhoneClicked(true);
     }
-  }
+    else if (hasItem("coil")) {
+      removeItem("coil");
+      setDone("phone-fixed");
+      setIsPhoneClicked(true);
+    }
+  };
   useEffect(() => {/*
     if (postup) return;
     if (hasItem("coil") && hasItem("levers-comb") && !hasItem("kod")) {
@@ -80,16 +79,17 @@ const Sc2VstupniHala = () => {
             height: "18%",
           }}
         />
-        <div
-          className="debug-tlacitko"
-          onClick={() => klikTlacitko("coil")}
-          style={{
-            left: "62%",
-            bottom: "40%",
-            width: "12%",
-            height: "34%",
-          }}
-        />
+        {!isDone("coil") && (
+          <div
+            className="debug-tlacitko"
+            onClick={() => klikTlacitko("coil")}
+            style={{
+              left: "62%",
+              bottom: "40%",
+              width: "12%",
+              height: "34%",
+            }}
+          />)}
         <div
           className="debug-tlacitko"
           onClick={() => konec()}
@@ -101,16 +101,17 @@ const Sc2VstupniHala = () => {
             aspectRatio: 1 / 1,
           }}
         />
-        <div
-          className="debug-tlacitko"
-          onClick={() => klikTlacitko("levers-comb")}
-          style={{
-            left: "17%",
-            bottom: "43%",
-            width: "28%",
-            height: "16%",
-          }}
-        />
+        {!isDone("levers-comb") && (
+          <div
+            className="debug-tlacitko"
+            onClick={() => klikTlacitko("levers-comb")}
+            style={{
+              left: "17%",
+              bottom: "43%",
+              width: "28%",
+              height: "16%",
+            }}
+          />)}
         {isPhoneClicked && (
           <div className={Styles["overlay-blur"]}>
             <div className={Styles["overlay"]}>

@@ -24,13 +24,16 @@ type GameContextValue = {
   removeItem: (item: ItemId) => void;
   hasItem: (item: ItemId) => boolean;
   clearItems: () => void;
-  isCoilRequired: boolean;
-  setIsCoilRequired: (required: boolean) => void;
+  history: string[];
+  isDone: (id: string) => boolean;
+  setDone: (id: string) => void;
 };
+
 
 export const GameContext = createContext<GameContextValue | null>(null);
 
 export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
+
   const [isCoilRequired, setIsCoilRequired] = useState(true);
 
   const [scena, setScena] = useState<ScenaId>(() => {
@@ -54,19 +57,24 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
       return [];
     }
   });
+  const [history, setHistory] = useState<string[]>(() => {
+    const data = localStorage.getItem("stavhry");
+    return JSON.parse(data || "{}").history ?? [];
+  });
 
   useEffect(() => {
-    localStorage.setItem("stavhry", JSON.stringify({ scena, items, isCoilRequired }));
-  }, [scena, items, isCoilRequired]);
+    localStorage.setItem("stavhry", JSON.stringify({ scena, items, history }));
+  }, [scena, items, history]);
+
+  const setDone = (id: string) => {
+    setHistory(prev => prev.includes(id) ? prev : [...prev, id]);
+  };
 
   const addItem = (item: ItemId) => {
-    setItems((asf) => {
-      if (asf.includes(item)) {
-        return asf;
-      }
-      return [...asf, item];
-    });
+    setItems(prev => prev.includes(item) ? prev : [...prev, item]);
+    setDone(item);
   };
+  const isDone = (id: string) => history.includes(id);
 
   const removeItem = (item: ItemId) => {
     setItems((asf) => {
@@ -95,8 +103,9 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
         removeItem,
         hasItem,
         clearItems,
-        isCoilRequired,
-        setIsCoilRequired,
+        history,
+        isDone,
+        setDone,
       }}
     >
       {children}
