@@ -17,7 +17,7 @@ const Sc2VstupniHala = () => {
     throw new Error("Neni game");
   }
 
-  const { setScena, addItem, removeItem, hasItem, clearItems } = game;
+  const { setScena, addItem, removeItem, hasItem, clearItems, isCoilRequired, setIsCoilRequired } = game;
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
@@ -27,12 +27,17 @@ const Sc2VstupniHala = () => {
 
   const [isPhoneClicked, setIsPhoneClicked] = useState(false);
 
-  const klikNaTelefon = () => {
-    setIsPhoneClicked(true);
-  };
 
-  const buttonBack = () => {
-    u("/sc1");
+  const klikNaTelefon = () => {
+    if (isCoilRequired) {
+      if (hasItem("coil")) {
+        setIsPhoneClicked(true);
+        removeItem("coil");
+        setIsCoilRequired(false);
+      }
+    } else if (!isCoilRequired) {
+      setIsPhoneClicked(true);
+    }
   }
   useEffect(() => {/*
     if (postup) return;
@@ -57,7 +62,7 @@ const Sc2VstupniHala = () => {
   };
 
   return (
-    <div className={Styles.scena}>
+    <div className="scena">
       <div className="grafika">
         <img src={bg} className="bg" alt="Vstupní hala" />
         <div className="inventar">
@@ -106,7 +111,6 @@ const Sc2VstupniHala = () => {
             height: "16%",
           }}
         />
-        <button className="buttonBack" onClick={buttonBack}>Zpět</button>
         {isPhoneClicked && (
           <div className={Styles["overlay-blur"]}>
             <div className={Styles["overlay"]}>

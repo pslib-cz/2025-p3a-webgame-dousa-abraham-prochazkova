@@ -32,6 +32,10 @@ const Sc4SklepTrezor = () => {
     setMinigameActive(true);
   };
 
+  const buttonBack = () => {
+    u("/sc2");
+  }
+
   const nastavPaky = () => {
     removeItem("levers-comb");
   };
@@ -192,6 +196,8 @@ const Sc4SklepTrezor = () => {
                 aspectRatio: 1 / 1,
               }}
             />
+
+            <button className="buttonBack" onClick={buttonBack}>Zpět</button>
           </div>
         </div>
       );
