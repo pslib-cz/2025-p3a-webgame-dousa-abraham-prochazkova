@@ -54,4 +54,6 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
+app.UseStaticFiles();
+
 app.Run();

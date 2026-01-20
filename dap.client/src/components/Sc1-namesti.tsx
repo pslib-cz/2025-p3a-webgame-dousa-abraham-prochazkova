@@ -61,11 +61,22 @@ const Sc1Namesti = () => {
       .then(setDialog);
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:5274/api/scene/1")
-      .then(res => res.json())
-      .then((data: Scene) => setScene(data));
-  }, []);
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/2");
+                if (!res.ok) throw new Error("Chyba při načítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+
   
 
   const konec = () => {
@@ -77,9 +88,9 @@ const Sc1Namesti = () => {
   if (!scene) return <p>Načítám scénu...</p>;
 
   return (
-    /*<div className="scena">
+    <div className="scena">
       <div className="grafika">
-        <img src={bg} className="bg" />
+        <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>
@@ -127,9 +138,6 @@ const Sc1Namesti = () => {
           }}
         />
       </div>
-    </div>*/
-    <div>
-      <img src={`http://localhost:5274${scene.sceneImage}`} className="bg" alt="intro" />
     </div>
   );
 };
