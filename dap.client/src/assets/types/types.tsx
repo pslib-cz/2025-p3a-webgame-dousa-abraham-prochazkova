@@ -16,9 +16,10 @@ type Minigame = {
 };
 
 type Scene = {
-  SceneID: number;
-  SceneName: string;
-  ImageURL: string;
+  userId: number;
+  scene: string;
+  sceneImage: string;
 };
+
 
 export type { Dialogue, Item, Minigame, Scene };

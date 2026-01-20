@@ -1,4 +1,5 @@
 import bg from "/img/sc1-square.png";
+import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
@@ -17,6 +18,7 @@ const Sc1Namesti = () => {
   }
 
   const { setScena, addItem, hasItem, clearItems, removeItem } = game;
+  const [scene, setScene] = useState<Scene | null>(null);
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
@@ -59,16 +61,36 @@ const Sc1Namesti = () => {
       .then(setDialog);
   }, []);
 
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/2");
+                if (!res.ok) throw new Error("Chyba při načítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+
+  
+
   const konec = () => {
     setScena("intro");
     clearItems();
     u("/");
   };
 
+  if (!scene) return <p>Načítám scénu...</p>;
+
   return (
     <div className="scena">
       <div className="grafika">
-        <img src={bg} className="bg" />
+        <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>
