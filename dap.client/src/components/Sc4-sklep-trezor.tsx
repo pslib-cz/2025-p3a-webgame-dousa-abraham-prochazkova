@@ -30,7 +30,6 @@ const Sc4SklepTrezor = () => {
 
   const vodaDoGen = () => {
     removeItem("mug");
-    setMinigameActive(true);
   };
 
   const buttonBack = () => {
@@ -39,6 +38,7 @@ const Sc4SklepTrezor = () => {
 
   const nastavPaky = () => {
     removeItem("levers-comb");
+    setMinigameActive(true);
   };
   const u = useNavigate();
 
@@ -177,21 +177,21 @@ const Sc4SklepTrezor = () => {
             <img src={postava} alt="Postava" className={Styles["postava-sc4"]} />
             <div
               className="debug-tlacitko"
-              onClick={() => vodaDoGen()}
+              onClick={() => nastavPaky()}
               style={{
-                left: "5%",
-                bottom: "42%",
-                width: "20%",
-                height: "22%",
+                left: "20%",
+                bottom: "52%",
+                width: "15%",
+                height: "15%",
               }}
             />
             <div
               className="debug-tlacitko"
-              onClick={() => nastavPaky()}
+              onClick={() => vodaDoGen()}
               style={{
-                left: "15%",
+                left: "18%",
                 bottom: "27%",
-                width: "13%",
+                width: "10%",
                 height: "13%",
               }}
             />

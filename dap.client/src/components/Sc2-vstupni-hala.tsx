@@ -1,7 +1,7 @@
 import bg from "/img/sc1-square.png";
 import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
-import Styles from "../assets/styles/Sc1-namesti.module.css";
+import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
@@ -26,8 +26,28 @@ const Sc2VstupniHala = () => {
   };
   const u = useNavigate();
 
-  const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+    const [isPhoneClicked, setIsPhoneClicked] = useState(false);
 
+    const [phoneInput, setPhoneInput] = useState(""); 
+    const correctCode = "7872"; 
+    const [error, setError] = useState(false); 
+
+    const handlePhoneButton = (num: string) => {
+        if (phoneInput.length >= 4) return;
+        setPhoneInput(prev => prev + num);
+    };
+
+    const checkPhoneCode = () => {
+        if (phoneInput === correctCode) {
+            setIsPhoneClicked(false);
+            setScena("sc4");
+            u("/sc4")
+        } else {
+            setError(true);
+            setPhoneInput("");
+            setTimeout(() => setError(false), 1000); 
+        }
+    };
 
   const klikNaTelefon = () => {
     if (isDone("phone-fixed")) {
@@ -38,7 +58,13 @@ const Sc2VstupniHala = () => {
       setDone("phone-fixed");
       setIsPhoneClicked(true);
     }
-  };
+    };
+
+    const sceneSwitch = () => {
+        setScena("sc3")
+        u("/sc3")
+    }
+
   useEffect(() => {/*
     if (postup) return;
     if (hasItem("coil") && hasItem("levers-comb") && !hasItem("kod")) {
@@ -93,11 +119,21 @@ const Sc2VstupniHala = () => {
           className="debug-tlacitko"
           onClick={() => klikNaTelefon()}
           style={{
-            left: "6.5%",
-            bottom: "57%",
+            left: "2%",
+            bottom: "52%",
             width: "7%",
-            height: "18%",
+            height: "26%",
           }}
+        />
+        <div
+             className="debug-tlacitko"
+             onClick={() => sceneSwitch()}
+             style={{
+             left: "82%",
+             bottom: "40%",
+             width: "10%",
+             height: "45%",
+           }}
         />
         {!isDone("coil") && (
           <div
@@ -132,14 +168,38 @@ const Sc2VstupniHala = () => {
               height: "16%",
             }}
           />)}
-        {isPhoneClicked && (
-          <div className={Styles["overlay-blur"]}>
-            <div className={Styles["overlay"]}>
-              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
-              <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
-            </div>
-          </div>
-        )}
+              {isPhoneClicked && (
+                  <div className={Styles["overlay-blur"]}>
+                      <div className={Styles["overlay"]}>
+                          <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+
+                          <div className={Styles["phone-display"]} style={{ color: error ? "red" : "black" }}>
+                              {phoneInput || "----"}
+                          </div>
+
+                          <div className={Styles["phone-buttons"]}>
+                              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
+                                  <button
+                                      key={n}
+                                      onClick={() => handlePhoneButton(n.toString())}
+                                      className={Styles["phone-btn"]}
+                                  >
+                                      {n}
+                                  </button>
+                              ))}
+                              <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>
+                                  OK
+                              </button>
+                              <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>
+                                  C
+                              </button>
+                          </div>
+
+                          <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
+                      </div>
+                  </div>
+              )}
+
       </div>
     </div>
   );

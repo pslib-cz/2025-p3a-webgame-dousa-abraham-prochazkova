@@ -31,7 +31,7 @@ const Sc5Trezor = () => {
     useEffect(() => {
         const fetchScene = async () => {
             try {
-                const res = await fetch("https://localhost:7219/api/scene/5");
+                const res = await fetch("https://localhost:7219/api/scene/6");
                 if (!res.ok) throw new Error("Chyba pøi naèítání scény");
                 const data: Scene = await res.json();
                 setScene(data);

@@ -1,6 +1,6 @@
 
 import type { Scene } from "../assets/types/types";
-import Styles from "../assets/styles/Sc1-namesti.module.css";
+import Styles from "../assets/styles/Intro.module.css";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

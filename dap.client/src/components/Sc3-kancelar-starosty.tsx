@@ -1,6 +1,6 @@
 import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
-import Styles from "../assets/styles/Sc1-namesti.module.css";
+import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
@@ -44,15 +44,6 @@ const Sc3KancelarStarosty = () => {
     clearItems();
     u("/");
   };
-
-  useEffect(() => {
-    if (postup) return;
-    if (hasItem("card") && hasItem("kod") && hasItem("mug")) {
-      setPostup(true);
-      setScena("sc2");
-      u("/sc2");
-    }
-  }, [hasItem, postup, setScena]);
 
   useEffect(() => {
     fetchDialogue(3)
