@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import bg from "/img/sc5-end.png";
+import type { Scene } from "../assets/types/types";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import fetchDialogue from "../dialogApi";
+import { useNavigate } from "react-router-dom";
+import { fetchDialogue } from "../dialogApi";
 
 const Sc5Trezor = () => {
   const game = useContext(GameContext);
@@ -26,10 +26,29 @@ const Sc5Trezor = () => {
       .then(setDialog);
   }, []);
 
+    const [scene, setScene] = useState<Scene | null>(null);
+
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/5");
+                if (!res.ok) throw new Error("Chyba pøi naèítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+    if (!scene) return <p>Naèítám scénu...</p>;
+
   return (
     <div className="scena">
       <div className="grafika">
-        <img src={bg} alt="Trezor" className="bg" />
+        <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
         <div className="dialogText">"{dialog}"</div>
         <div
           className="debug-tlacitko"

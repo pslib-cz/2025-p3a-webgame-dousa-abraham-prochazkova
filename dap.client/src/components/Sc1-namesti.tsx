@@ -1,4 +1,4 @@
-import bg from "/img/sc1-square.png";
+
 import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";

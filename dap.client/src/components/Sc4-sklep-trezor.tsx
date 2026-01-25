@@ -1,4 +1,4 @@
-import bg from "/img/sc4-vault.png";
+
 import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import Styles from "../assets/styles/Sc4-sklep-trezor.module.css";
@@ -9,6 +9,7 @@ import lv from "/img/laverage-background.png";
 import up from "/img/up.png";
 import down from "/img/down.png";
 import fetchDialogue from "../dialogApi";
+import type { Scene } from "../assets/types/types";
 
 const Sc4SklepTrezor = () => {
   const game = useContext(GameContext);
@@ -61,6 +62,25 @@ const Sc4SklepTrezor = () => {
       .then((d) => d.dialogueText)
       .then(setDialog);
   }, []);
+
+    const [scene, setScene] = useState<Scene | null>(null);
+
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/5");
+                if (!res.ok) throw new Error("Chyba při načítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+    if (!scene) return <p>Načítám scénu...</p>;
 
   if (
     nastavenipak[0] &&
@@ -149,7 +169,7 @@ const Sc4SklepTrezor = () => {
       return (
         <div className="scena">
           <div className="grafika">
-            <img src={bg} alt="Trezor" className="bg" />
+                  <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
             <div className="inventar">
               <Inventar />
             </div>

@@ -1,12 +1,11 @@
-import bg from "/img/sc3-office.png";
+import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
+import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
-import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchDialogue from "../dialogApi";
-import type { Item } from "../assets/types/types";
+import { fetchDialogue } from "../dialogApi";
 
 const Sc3KancelarStarosty = () => {
   const game = useContext(GameContext);
@@ -61,10 +60,29 @@ const Sc3KancelarStarosty = () => {
       .then(setDialog);
   }, []);
 
+    const [scene, setScene] = useState<Scene | null>(null);
+
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/4");
+                if (!res.ok) throw new Error("Chyba při načítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+    if (!scene) return <p>Načítám scénu...</p>;
+
   return (
     <div className="scena">
       <div className="grafika">
-        <img src={bg} className="bg" alt="Kancelář" />
+              <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>

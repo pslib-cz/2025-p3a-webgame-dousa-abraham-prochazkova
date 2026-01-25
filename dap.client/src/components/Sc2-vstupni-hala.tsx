@@ -1,12 +1,13 @@
-import bg from "/img/sc2-hall.png";
+import bg from "/img/sc1-square.png";
+import type { Scene } from "../assets/types/types";
 import postava from "/img/character.png";
+import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
-import overlay from "/img/phone-overlay.png";
-import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import fetchDialogue from "../dialogApi";
+import { useNavigate } from "react-router-dom";
+import { fetchDialogue } from "../dialogApi";
+import overlay from "/img/phone-overlay.png";
 
 const Sc2VstupniHala = () => {
   const game = useContext(GameContext);
@@ -58,12 +59,31 @@ const Sc2VstupniHala = () => {
     setScena("intro");
     clearItems();
     u("/");
-  };
+    };
+
+    const [scene, setScene] = useState<Scene | null>(null);
+
+    useEffect(() => {
+        const fetchScene = async () => {
+            try {
+                const res = await fetch("https://localhost:7219/api/scene/3");
+                if (!res.ok) throw new Error("Chyba při načítání scény");
+                const data: Scene = await res.json();
+                setScene(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        fetchScene();
+    }, []);
+
+    if (!scene) return <p>Načítám scénu...</p>;
 
   return (
     <div className="scena">
       <div className="grafika">
-        <img src={bg} className="bg" alt="Vstupní hala" />
+              <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>
