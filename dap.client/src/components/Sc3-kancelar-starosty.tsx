@@ -6,11 +6,13 @@ import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
+import overlay from "/img/kod.png";
 
 const Sc3KancelarStarosty = () => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
   const [dialog, setDialog] = useState("prazdny text");
+  const [isDrawerClicked, setIsDrawerClicked] = useState(false);
 
   if (!game) {
     throw new Error("Neni game");
@@ -37,7 +39,12 @@ const Sc3KancelarStarosty = () => {
       addItem(idGive)
       removeItem(idCheck)
     }
-  }
+    }
+
+    const drawerCode = () => {
+        removeItem("klic-od-supliku");
+        setIsDrawerClicked(true);
+    }
 
   const konec = () => {
     setScena("intro");
@@ -111,7 +118,7 @@ const Sc3KancelarStarosty = () => {
         />
         <div
           className="debug-tlacitko"
-          onClick={() => clickCheck("klic-od-supliku", "kod")}
+          onClick={() => drawerCode()}
           style={{
             left: "62%",
             bottom: "20%",
@@ -129,7 +136,15 @@ const Sc3KancelarStarosty = () => {
             height: "auto",
             aspectRatio: 1 / 1,
           }}
-        />
+              />
+              {isDrawerClicked && (
+                  <div className={Styles["overlay-blur"]}>
+                      <div className={Styles["overlay"]}>
+                          <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+                          <button className={Styles["overlay-close-button"]} onClick={() => setIsDrawerClicked(false)}>×</button>
+                      </div>
+                  </div>
+              )}
         <button className="buttonBack" onClick={buttonBack}>Zpět</button>
       </div>
     </div>

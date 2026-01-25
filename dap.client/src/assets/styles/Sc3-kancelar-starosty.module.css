@@ -4,3 +4,47 @@
   bottom: 0%;
   height: 73%;
 }
+
+.overlay-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9;
+}
+
+.overlay {
+    position: relative;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    z-index: 10;
+}
+
+.overlay-img {
+    width: 100%;
+    height: 100%;
+}
+
+.overlay-close-button {
+    position: absolute;
+    top: 0;
+    right: -2%;
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 60px;
+    font-weight: 900;
+    z-index: 20;
+    padding: 0;
+    line-height: 0;
+    transition: transform 0.2s, background 0.2s;
+}
+
+    .overlay-close-button:hover {
+        transform: scale(1.2);
+    }
