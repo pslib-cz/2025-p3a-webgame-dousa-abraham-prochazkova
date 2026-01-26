@@ -50,64 +50,72 @@
 }
 
 .phone-display {
-    position: absolute;
-    top: 18%;
-    left: 54%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    letter-spacing: 2rem;
-    font-weight: bold;
+  position: absolute;
+  bottom: 75%;
+  left: 54%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  letter-spacing: 1rem;
+  font-weight: bold;
 }
 
 
 .phone-buttons {
-    position: absolute;
-    bottom: 29%;
-    left: 54%;
-    transform: translateX(-50%);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 18%;
+  position: absolute;
+  bottom: 24%;
+  left: 54%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  height: 44%;
+  width: 18%;
+  margin: 0;
+  padding: 0;
 }
 
-.phone-btn {
-    height: 90px;
-    font-size: 1.5rem;
-    border-radius: 6px;
-    border: none;
-    background: #222;
-    color: white;
-    cursor: pointer;
-    background-color: transparent;
+.phone-btn,
+.phone-btn-enter,
+.phone-btn-clear {
+  height: 35%;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  border: none;
+  background: #222;
+  color: white;
+  cursor: pointer;
+  background-color: transparent;
+  margin: 0;
 }
 
 .phone-btn:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 
-.phone-btn-enter, .phone-btn-clear {
-    font-size: 1rem;
-    font-weight: 700;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid #333;
-    background-color: transparent;
-    transition: transform 0.1s;
+.phone-btn-enter,
+.phone-btn-clear {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background-color: transparent;
+  transition: transform 0.1s;
 }
 
-.phone-btn:hover, .phone-btn-enter:hover, .phone-btn-clear:hover {
-    transform: scale(1.1);
+.phone-btn:hover,
+.phone-btn-enter:hover,
+.phone-btn-clear:hover {
+  transform: scale(1.1);
 }
 
 .phone-btn-enter {
-    border: none;
-    margin-top: 0.75rem;
+  border: none;
 }
 
 .phone-btn-clear {
-    grid-column: 3;
-    border: none;
+  grid-column: 3;
+  border: none;
 }
-
