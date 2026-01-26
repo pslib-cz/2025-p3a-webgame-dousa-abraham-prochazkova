@@ -63,24 +63,24 @@ const Sc4SklepTrezor = () => {
       .then(setDialog);
   }, []);
 
-    const [scene, setScene] = useState<Scene | null>(null);
+  const [scene, setScene] = useState<Scene | null>(null);
 
-    useEffect(() => {
-        const fetchScene = async () => {
-            try {
-                const res = await fetch("https://localhost:7219/api/scene/5");
-                if (!res.ok) throw new Error("Chyba při načítání scény");
-                const data: Scene = await res.json();
-                setScene(data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
+  useEffect(() => {
+    const fetchScene = async () => {
+      try {
+        const res = await fetch("/api/scene/5");
+        if (!res.ok) throw new Error("Chyba při načítání scény");
+        const data: Scene = await res.json();
+        setScene(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-        fetchScene();
-    }, []);
+    fetchScene();
+  }, []);
 
-    if (!scene) return <p>Načítám scénu...</p>;
+  if (!scene) return <p>Načítám scénu...</p>;
 
   if (
     nastavenipak[0] &&
@@ -169,7 +169,7 @@ const Sc4SklepTrezor = () => {
       return (
         <div className="scena">
           <div className="grafika">
-                  <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
+            <img src={`${scene.sceneImage}`} className="bg" />
             <div className="inventar">
               <Inventar />
             </div>

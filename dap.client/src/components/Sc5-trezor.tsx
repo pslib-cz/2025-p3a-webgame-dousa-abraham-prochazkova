@@ -26,29 +26,29 @@ const Sc5Trezor = () => {
       .then(setDialog);
   }, []);
 
-    const [scene, setScene] = useState<Scene | null>(null);
+  const [scene, setScene] = useState<Scene | null>(null);
 
-    useEffect(() => {
-        const fetchScene = async () => {
-            try {
-                const res = await fetch("https://localhost:7219/api/scene/6");
-                if (!res.ok) throw new Error("Chyba pøi naèítání scény");
-                const data: Scene = await res.json();
-                setScene(data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
+  useEffect(() => {
+    const fetchScene = async () => {
+      try {
+        const res = await fetch("/api/scene/6");
+        if (!res.ok) throw new Error("Chyba pÅ™i naÄÃ­tÃ¡nÃ­ scÃ©ny");
+        const data: Scene = await res.json();
+        setScene(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-        fetchScene();
-    }, []);
+    fetchScene();
+  }, []);
 
-    if (!scene) return <p>Naèítám scénu...</p>;
+  if (!scene) return <p>Naï¿½ï¿½tï¿½m scï¿½nu...</p>;
 
   return (
     <div className="scena">
       <div className="grafika">
-        <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
+        <img src={`${scene.sceneImage}`} className="bg" />
         <div className="dialogText">"{dialog}"</div>
         <div
           className="debug-tlacitko"

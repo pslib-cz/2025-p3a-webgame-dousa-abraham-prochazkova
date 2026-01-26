@@ -26,28 +26,28 @@ const Sc2VstupniHala = () => {
   };
   const u = useNavigate();
 
-    const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+  const [isPhoneClicked, setIsPhoneClicked] = useState(false);
 
-    const [phoneInput, setPhoneInput] = useState(""); 
-    const correctCode = "7872"; 
-    const [error, setError] = useState(false); 
+  const [phoneInput, setPhoneInput] = useState("");
+  const correctCode = "7872";
+  const [error, setError] = useState(false);
 
-    const handlePhoneButton = (num: string) => {
-        if (phoneInput.length >= 4) return;
-        setPhoneInput(prev => prev + num);
-    };
+  const handlePhoneButton = (num: string) => {
+    if (phoneInput.length >= 4) return;
+    setPhoneInput(prev => prev + num);
+  };
 
-    const checkPhoneCode = () => {
-        if (phoneInput === correctCode) {
-            setIsPhoneClicked(false);
-            setScena("sc4");
-            u("/sc4")
-        } else {
-            setError(true);
-            setPhoneInput("");
-            setTimeout(() => setError(false), 1000); 
-        }
-    };
+  const checkPhoneCode = () => {
+    if (phoneInput === correctCode) {
+      setIsPhoneClicked(false);
+      setScena("sc4");
+      u("/sc4")
+    } else {
+      setError(true);
+      setPhoneInput("");
+      setTimeout(() => setError(false), 1000);
+    }
+  };
 
   const klikNaTelefon = () => {
     if (isDone("phone-fixed")) {
@@ -58,12 +58,12 @@ const Sc2VstupniHala = () => {
       setDone("phone-fixed");
       setIsPhoneClicked(true);
     }
-    };
+  };
 
-    const sceneSwitch = () => {
-        setScena("sc3")
-        u("/sc3")
-    }
+  const sceneSwitch = () => {
+    setScena("sc3")
+    u("/sc3")
+  }
 
   useEffect(() => {/*
     if (postup) return;
@@ -85,31 +85,31 @@ const Sc2VstupniHala = () => {
     setScena("intro");
     clearItems();
     u("/");
+  };
+
+  const [scene, setScene] = useState<Scene | null>(null);
+
+  useEffect(() => {
+    const fetchScene = async () => {
+      try {
+        const res = await fetch("/api/scene/3");
+        if (!res.ok) throw new Error("Chyba při načítání scény");
+        const data: Scene = await res.json();
+        setScene(data);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
-    const [scene, setScene] = useState<Scene | null>(null);
+    fetchScene();
+  }, []);
 
-    useEffect(() => {
-        const fetchScene = async () => {
-            try {
-                const res = await fetch("https://localhost:7219/api/scene/3");
-                if (!res.ok) throw new Error("Chyba při načítání scény");
-                const data: Scene = await res.json();
-                setScene(data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchScene();
-    }, []);
-
-    if (!scene) return <p>Načítám scénu...</p>;
+  if (!scene) return <p>Načítám scénu...</p>;
 
   return (
     <div className="scena">
       <div className="grafika">
-              <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
+        <img src={`${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>
@@ -126,14 +126,14 @@ const Sc2VstupniHala = () => {
           }}
         />
         <div
-             className="debug-tlacitko"
-             onClick={() => sceneSwitch()}
-             style={{
-             left: "82%",
-             bottom: "40%",
-             width: "10%",
-             height: "45%",
-           }}
+          className="debug-tlacitko"
+          onClick={() => sceneSwitch()}
+          style={{
+            left: "82%",
+            bottom: "40%",
+            width: "10%",
+            height: "45%",
+          }}
         />
         {!isDone("coil") && (
           <div
@@ -168,37 +168,37 @@ const Sc2VstupniHala = () => {
               height: "16%",
             }}
           />)}
-              {isPhoneClicked && (
-                  <div className={Styles["overlay-blur"]}>
-                      <div className={Styles["overlay"]}>
-                          <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+        {isPhoneClicked && (
+          <div className={Styles["overlay-blur"]}>
+            <div className={Styles["overlay"]}>
+              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
 
-                          <div className={Styles["phone-display"]} style={{ color: error ? "red" : "black" }}>
-                              {phoneInput || "----"}
-                          </div>
+              <div className={Styles["phone-display"]} style={{ color: error ? "red" : "black" }}>
+                {phoneInput || "----"}
+              </div>
 
-                          <div className={Styles["phone-buttons"]}>
-                              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
-                                  <button
-                                      key={n}
-                                      onClick={() => handlePhoneButton(n.toString())}
-                                      className={Styles["phone-btn"]}
-                                  >
-                                      {n}
-                                  </button>
-                              ))}
-                              <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>
-                                  OK
-                              </button>
-                              <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>
-                                  C
-                              </button>
-                          </div>
+              <div className={Styles["phone-buttons"]}>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
+                  <button
+                    key={n}
+                    onClick={() => handlePhoneButton(n.toString())}
+                    className={Styles["phone-btn"]}
+                  >
+                    {n}
+                  </button>
+                ))}
+                <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>
+                  OK
+                </button>
+                <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>
+                  C
+                </button>
+              </div>
 
-                          <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
-                      </div>
-                  </div>
-              )}
+              <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

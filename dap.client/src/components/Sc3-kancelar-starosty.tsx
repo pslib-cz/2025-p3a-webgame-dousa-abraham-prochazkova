@@ -39,12 +39,12 @@ const Sc3KancelarStarosty = () => {
       addItem(idGive)
       removeItem(idCheck)
     }
-    }
+  }
 
-    const drawerCode = () => {
-        removeItem("klic-od-supliku");
-        setIsDrawerClicked(true);
-    }
+  const drawerCode = () => {
+    removeItem("klic-od-supliku");
+    setIsDrawerClicked(true);
+  }
 
   const konec = () => {
     setScena("intro");
@@ -58,29 +58,29 @@ const Sc3KancelarStarosty = () => {
       .then(setDialog);
   }, []);
 
-    const [scene, setScene] = useState<Scene | null>(null);
+  const [scene, setScene] = useState<Scene | null>(null);
 
-    useEffect(() => {
-        const fetchScene = async () => {
-            try {
-                const res = await fetch("https://localhost:7219/api/scene/4");
-                if (!res.ok) throw new Error("Chyba při načítání scény");
-                const data: Scene = await res.json();
-                setScene(data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
+  useEffect(() => {
+    const fetchScene = async () => {
+      try {
+        const res = await fetch("/api/scene/4");
+        if (!res.ok) throw new Error("Chyba při načítání scény");
+        const data: Scene = await res.json();
+        setScene(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-        fetchScene();
-    }, []);
+    fetchScene();
+  }, []);
 
-    if (!scene) return <p>Načítám scénu...</p>;
+  if (!scene) return <p>Načítám scénu...</p>;
 
   return (
     <div className="scena">
       <div className="grafika">
-              <img src={`https://localhost:7219${scene.sceneImage}`} className="bg" />
+        <img src={`${scene.sceneImage}`} className="bg" />
         <div className="inventar">
           <Inventar />
         </div>
@@ -136,15 +136,15 @@ const Sc3KancelarStarosty = () => {
             height: "auto",
             aspectRatio: 1 / 1,
           }}
-              />
-              {isDrawerClicked && (
-                  <div className={Styles["overlay-blur"]}>
-                      <div className={Styles["overlay"]}>
-                          <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
-                          <button className={Styles["overlay-close-button"]} onClick={() => setIsDrawerClicked(false)}>×</button>
-                      </div>
-                  </div>
-              )}
+        />
+        {isDrawerClicked && (
+          <div className={Styles["overlay-blur"]}>
+            <div className={Styles["overlay"]}>
+              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+              <button className={Styles["overlay-close-button"]} onClick={() => setIsDrawerClicked(false)}>×</button>
+            </div>
+          </div>
+        )}
         <button className="buttonBack" onClick={buttonBack}>Zpět</button>
       </div>
     </div>
