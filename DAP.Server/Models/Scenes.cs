@@ -9,5 +9,6 @@ namespace DAP.Server.Models
         public string Scene { get; set; } = null!;
         public string? SceneImage { get; set; }
         public ICollection<Item>? Item { get; set; }
+        public ICollection<Zones> Zones { get; set; } = new List<Zones>();
     }
 }

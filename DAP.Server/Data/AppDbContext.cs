@@ -15,6 +15,7 @@ namespace DAP.Server.Data
         public DbSet<UserScene> Scene { get; set; }
         public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<Minigame> Minigames { get; set; }
+        public DbSet <Zones> Zones { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,49 +32,49 @@ namespace DAP.Server.Data
                 ItemId = 1,
                 ItemName = "Měďený drát",
                 ImageURL = "/images/wire.png",
-                RoomId = 1
+                UserId = 1
             };
             Item klicRadnice = new()
             {
                 ItemId = 2,
                 ItemName = "Klíč od radnice",
                 ImageURL = "/images/key1.png",
-                RoomId = 1
+                UserId = 1
             };
             Item pojistka = new()
             {
                 ItemId = 3,
                 ItemName = "Pojistka",
                 ImageURL = "/images/coil.png",
-                RoomId = 2
+                UserId = 2
             };
             Item klicSuplik = new()
             {
                 ItemId = 4,
                 ItemName = "Klíč od šuplíku",
                 ImageURL = "/images/key2.png",
-                RoomId = 3
+                UserId = 3
             };
             Item karta = new()
             {
                 ItemId = 5,
                 ItemName = "Karta",
                 ImageURL = "/images/card.png",
-                RoomId = 3
+                UserId = 3
             };
             Item hrnekVoda = new()
             {
                 ItemId = 6,
                 ItemName = "Hrnek s vodou",
                 ImageURL = "/images/mug.png",
-                RoomId = 3
+                UserId = 3
             };
             Item kombinacePaky = new()
             {
                 ItemId = 7,
                 ItemName = "Lístek s kombinací pák",
                 ImageURL = "/images/levers-comb.png",
-                RoomId = 2
+                UserId = 2
             };
 
             UserScene menu = new()
@@ -111,6 +112,36 @@ namespace DAP.Server.Data
                 UserId = 6,
                 Scene = "Konec",
                 SceneImage = "/images/sc5-end.png"
+            };
+
+            Zones zone1 = new()
+            {
+                ZoneId = 1,
+                Bottom = 0,
+                Left = 6,
+                Width = 8,
+                Height = 22,
+                UserId = 1
+            };
+
+            Zones zone2 = new()
+            {
+                ZoneId = 2,
+                Bottom = 0,
+                Left = 35,
+                Width = 12,
+                Height = 6,
+                UserId = 1
+            };
+
+            Zones zone3 = new()
+            {
+                ZoneId = 3,
+                Bottom = 33,
+                Left = 36,
+                Width = 7,
+                Height = 18,
+                UserId = 1
             };
 
             modelBuilder.Entity<Item>().HasData(
