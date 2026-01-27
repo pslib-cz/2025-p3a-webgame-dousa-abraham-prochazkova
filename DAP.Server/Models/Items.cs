@@ -11,9 +11,8 @@ namespace DAP.Server.Models
         public string ItemName { get; set; }
         public string ImageURL { get; set; }
 
-        [ForeignKey(nameof(Scene))]
-        public int RoomId { get; set; }
-        public UserScene? Scene { get; set; }
+        [ForeignKey(nameof(UserScene))]
+        public int UserId { get; set; }
 
     }
 }
