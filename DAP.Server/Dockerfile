@@ -1,5 +1,3 @@
-# Multi-stage Dockerfile for dap.client and dap.server
-
 # 1. Build Stage for Client (Frontend)
 FROM node:20-alpine AS client-build
 WORKDIR /app
@@ -13,7 +11,7 @@ COPY dap.client ./dap.client
 RUN npm run build --prefix dap.client
 
 # 2. Build Stage for Server (Backend)
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS server-build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS server-build
 WORKDIR /app
 
 # Copy server-related project files (C# and dependencies)
@@ -25,7 +23,7 @@ COPY DAP.Server ./
 RUN dotnet publish -c Release -o /app/out
 
 # 3. Final Stage for Combined Environment
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 
 # Copy server application files
