@@ -121,7 +121,7 @@ const Sc1Namesti = () => {
           onClick={() => vstupRadnice()}
           style={{
             left: "36%",
-            top: "50%",
+            bottom: "33%",
             width: "7%",
             height: "18%",
           }}
@@ -130,8 +130,8 @@ const Sc1Namesti = () => {
           className="debug-tlacitko"
           onClick={() => konec()}
           style={{
-            right: "0%",
-            top: "0%",
+            left: "95%",
+            bottom: "92%",
             width: "5%",
             height: "auto",
             aspectRatio: 1 / 1,

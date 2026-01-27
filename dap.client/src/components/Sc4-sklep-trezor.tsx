@@ -209,8 +209,8 @@ const Sc4SklepTrezor = () => {
               className="debug-tlacitko"
               onClick={() => konec()}
               style={{
-                right: "0%",
-                top: "0%",
+                left: "95%",
+                bottom: "92%",
                 width: "5%",
                 height: "auto",
                 aspectRatio: 1 / 1,
