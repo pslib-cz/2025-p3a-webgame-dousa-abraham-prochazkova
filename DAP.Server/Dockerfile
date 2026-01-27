@@ -1,54 +1,21 @@
-# Stage 1: Build the React client
-FROM node:22-alpine AS client-build
-WORKDIR /app/client
+# Updated Dockerfile
 
-# Copy package files
-COPY dap.client/package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy client source
-COPY dap.client/ ./
-
-# Build the client
-RUN npm run build
-
-# Stage 2: Build the .NET server
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS server-build
-WORKDIR /app/server
-
-# Copy csproj and restore
-COPY DAP.Server/DAP.Server.csproj ./
-COPY dap.client/dap.client.esproj ./dap.client/
-
-RUN dotnet restore --force
-
-# Copy server source
-COPY DAP.Server/ ./
-
-# Copy built client files to wwwroot
-COPY --from=client-build /app/client/dist ./wwwroot
-
-# Build the server
-RUN dotnet publish -c Release -o /app/publish
-
-# Stage 3: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-# Copy published app
-COPY --from=server-build /app/publish .
+# Copy csproj and restore as distinct layers
+COPY dap.client/*.esproj dap.client/
+RUN dotnet restore dap.client/dap.client.esproj
 
-# Create directory for database
-RUN mkdir -p /app/data
+# Copy everything else
+COPY dap.client/ /app/dap.client/
+COPY . .
 
-# Set environment variables
-ENV ASPNETCORE_URLS=http://+:8080
-ENV ASPNETCORE_ENVIRONMENT=Production
+# Publish
+RUN dotnet publish -c Release -o out dap.client/dap.client.esproj
 
-# Expose port
-EXPOSE 8080
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app/out .
 
-# Start the application
-ENTRYPOINT ["dotnet", "DAP.Server.dll"]
+ENTRYPOINT ["dotnet", "dap.client.dll"]
