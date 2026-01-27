@@ -44,6 +44,7 @@ RUN mkdir -p /app/data
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV BUILD_CONFIGURATION=Release
 
 # Expose port
 EXPOSE 8080
