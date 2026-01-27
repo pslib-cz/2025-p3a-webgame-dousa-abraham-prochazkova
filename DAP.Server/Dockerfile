@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for dap.client and dap.server
 
 # 1. Build Stage for Client (Frontend)
-FROM node:18-alpine AS client-build
+FROM node:20-alpine AS client-build
 WORKDIR /app
 
 # Install dependencies and build the React-based client
