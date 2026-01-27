@@ -1,6 +1,6 @@
 # Stage 1: Build the React client
 FROM node:22-alpine AS client-build
-WORKDIR /app/client
+WORKDIR ../app/client
 
 # Copy package files
 COPY dap.client/package*.json ./
@@ -19,7 +19,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS server-build
 WORKDIR /app/server
 
 # Copy csproj and restore
-COPY DAP.Server/*.csproj ./
+COPY DAP.Server/DAP.Server.csproj ./
 RUN dotnet restore
 
 # Copy server source
