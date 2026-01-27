@@ -5,6 +5,7 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
+import { useNavigate } from "react-router-dom";
 
 type ScenaId = "intro" | "sc1" | "sc2" | "sc3" | "sc4" | "sc5";
 export type ItemId =
@@ -27,7 +28,10 @@ type GameContextValue = {
   history: string[];
   isDone: (id: string) => boolean;
   setDone: (id: string) => void;
+  konec: () => void;
 };
+
+
 
 
 export const GameContext = createContext<GameContextValue | null>(null);
@@ -70,6 +74,16 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
     setHistory(prev => prev.includes(id) ? prev : [...prev, id]);
   };
 
+  const u = useNavigate();
+
+  const konec = () => {
+    setHistory([]);
+    setScena("intro");
+    clearItems();
+    u("/");
+    console.log("Hra byla ukoncena a stav vymazan.");
+  };
+
   const addItem = (item: ItemId) => {
     setItems(prev => prev.includes(item) ? prev : [...prev, item]);
     setDone(item);
@@ -106,6 +120,7 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
         history,
         isDone,
         setDone,
+        konec,
       }}
     >
       {children}

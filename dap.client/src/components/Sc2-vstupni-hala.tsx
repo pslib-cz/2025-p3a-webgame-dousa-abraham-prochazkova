@@ -18,7 +18,7 @@ const Sc2VstupniHala = () => {
     throw new Error("Neni game");
   }
 
-  const { setScena, addItem, removeItem, hasItem, clearItems, history, setDone, isDone } = game;
+  const { setScena, addItem, removeItem, hasItem, clearItems, history, setDone, isDone, konec } = game;
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
@@ -40,6 +40,7 @@ const Sc2VstupniHala = () => {
   const checkPhoneCode = () => {
     if (phoneInput === correctCode) {
       setIsPhoneClicked(false);
+      setDone("phone-correct");
       setScena("sc4");
       u("/sc4")
     } else {
@@ -50,15 +51,20 @@ const Sc2VstupniHala = () => {
   };
 
   const klikNaTelefon = () => {
-    if (isDone("phone-fixed")) {
-      setIsPhoneClicked(true);
-    }
-    else if (hasItem("coil")) {
-      removeItem("coil");
-      setDone("phone-fixed");
-      setIsPhoneClicked(true);
-    }
-  };
+    if (isDone("phone-correct")) {
+      setScena("sc4")
+      u("/sc4")
+    } else {
+      if (isDone("phone-fixed")) {
+        setIsPhoneClicked(true);
+      }
+      else if (hasItem("coil")) {
+        removeItem("coil");
+        setDone("phone-fixed");
+        setIsPhoneClicked(true);
+      }
+    };
+  }
 
   const sceneSwitch = () => {
     setScena("sc3")
@@ -81,11 +87,7 @@ const Sc2VstupniHala = () => {
       .then(setDialog);
   }, []);
 
-  const konec = () => {
-    setScena("intro");
-    clearItems();
-    u("/");
-  };
+
 
   const [scene, setScene] = useState<Scene | null>(null);
 
