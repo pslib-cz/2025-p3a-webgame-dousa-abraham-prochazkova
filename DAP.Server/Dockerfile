@@ -1,6 +1,6 @@
 # Stage 1: Build the React client
 FROM node:22-alpine AS client-build
-WORKDIR ../app/client
+WORKDIR /app/client
 
 # Copy package files
 COPY dap.client/package*.json ./
@@ -20,7 +20,9 @@ WORKDIR /app/server
 
 # Copy csproj and restore
 COPY DAP.Server/DAP.Server.csproj ./
-RUN dotnet restore
+COPY dap.client/dap.client.esproj ./dap.client/
+
+RUN dotnet restore --force
 
 # Copy server source
 COPY DAP.Server/ ./
@@ -44,7 +46,6 @@ RUN mkdir -p /app/data
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV BUILD_CONFIGURATION=Release
 
 # Expose port
 EXPOSE 8080
