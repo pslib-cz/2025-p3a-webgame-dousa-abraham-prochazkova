@@ -144,6 +144,188 @@ namespace DAP.Server.Data
                 UserId = 1
             };
 
+            Zones zone4 = new()
+            {
+                ZoneId = 4,
+                Bottom = 52,
+                Left = 2,
+                Width = 7,
+                Height = 26,
+                UserId = 2
+            };
+
+            Zones zone5 = new()
+            {
+                ZoneId = 5,
+                Bottom = 40,
+                Left = 82,
+                Width = 10,
+                Height = 45,
+                UserId = 2
+            };
+
+            Zones zone6 = new()
+            {
+                ZoneId = 6,
+                Bottom = 40,
+                Left = 62,
+                Width = 12,
+                Height = 34,
+                UserId = 2
+            };
+
+            Zones zone7 = new()
+            {
+                ZoneId = 7,
+                Bottom = 43,
+                Left = 17,
+                Width = 28,
+                Height = 16,
+                UserId = 2
+            };
+
+            Zones zone8 = new()
+            {
+                ZoneId = 8,
+                Bottom = 38,
+                Left = 5,
+                Width = 14,
+                Height = 27,
+                UserId = 3
+            };
+
+            Zones zone9 = new()
+            {
+                ZoneId = 9,
+                Bottom = 30,
+                Left = 75,
+                Width = 18,
+                Height = 36,
+                UserId = 3
+            };
+
+            Zones zone10 = new()
+            {
+                ZoneId = 10,
+                Bottom = 45,
+                Left = 57,
+                Width = 7,
+                Height = 15,
+                UserId = 3
+            };
+
+            Zones zone11 = new()
+            {
+                ZoneId = 11,
+                Bottom = 20,
+                Left = 62,
+                Width = 7,
+                Height = 15,
+                UserId = 3
+            };
+
+            Zones zone12 = new()
+            {
+                ZoneId = 12,
+                Bottom = 27,
+                Left = 30,
+                Width = 5,
+                Height = 40,
+                UserId = 4
+            };
+
+            Zones zone13 = new()
+            {
+                ZoneId = 13,
+                Bottom = 27,
+                Left = 45,
+                Width = 5,
+                Height = 40,
+                UserId = 4
+            };
+
+            Zones zone14 = new()
+            {
+                ZoneId = 14,
+                Bottom = 27,
+                Left = 60,
+                Width = 5,
+                Height = 40,
+                UserId = 4
+            };
+
+            Zones zone15 = new()
+            {
+                ZoneId = 15,
+                Bottom = 27,
+                Left = 75,
+                Width = 5,
+                Height = 40,
+                UserId = 4
+            };
+
+            Zones zone16 = new()
+            {
+                ZoneId = 16,
+                Bottom = 39,
+                Left = 72,
+                Width = 6,
+                Height = 13,
+                UserId = 4
+            };
+
+            Zones zone17 = new()
+            {
+                ZoneId = 17,
+                Bottom = 52,
+                Left = 20,
+                Width = 15,
+                Height = 15,
+                UserId = 4
+            };
+
+            Zones zone18 = new()
+            {
+                ZoneId = 18,
+                Bottom = 27,
+                Left = 18,
+                Width = 10,
+                Height = 13,
+                UserId = 4
+            };
+
+            Zones zone19 = new()
+            {
+                ZoneId = 19,
+                Bottom = 39,
+                Left = 72,
+                Width = 6,
+                Height = 13,
+                UserId = 4
+            };
+
+            modelBuilder.Entity<Zones>().HasData(
+                zone1,
+                zone2,
+                zone3,
+                zone4,
+                zone5,
+                zone6,
+                zone7,
+                zone8,
+                zone9,
+                zone10,
+                zone11,
+                zone12,
+                zone13,
+                zone14,
+                zone15,
+                zone16,
+                zone17,
+                zone18,
+                zone19
+            );
+
             modelBuilder.Entity<Item>().HasData(
                 medenyDrat,
                 klicRadnice,
@@ -152,7 +334,7 @@ namespace DAP.Server.Data
                 karta,
                 hrnekVoda,
                 kombinacePaky
-);
+            );
 
             modelBuilder.Entity<UserScene>().HasData(
                 menu,

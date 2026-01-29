@@ -20,10 +20,13 @@ namespace DAP.Server.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetCurrentScene(int userId)
         {
-            var userScene = await _db.Scene.FindAsync(userId);
-            if (userScene == null)
+            var scene = await _db.Scene
+                .Include(s => s.Zones)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (scene == null)
                 return NotFound();
-            return Ok(userScene);
+            return Ok(scene);
         }
     }
 
