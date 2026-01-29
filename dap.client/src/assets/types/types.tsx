@@ -19,7 +19,17 @@ type Scene = {
   userId: number;
   scene: string;
   sceneImage: string;
+  zones: Zone[];
 };
 
+type Zone = {
+  zoneId: number;
+  bottom: number;
+  left: number;
+  width: number;
+  height: number;
+  userId: number;
+}
+
 type ScProps = { sceneId: string };
-export type { Dialogue, Item, Minigame, Scene, ScProps };
+export type { Dialogue, Item, Minigame, Scene, ScProps, Zone };
