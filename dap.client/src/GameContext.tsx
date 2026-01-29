@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-type ScenaId = "intro" | "sc1" | "sc2" | "sc3" | "sc4" | "sc5";
+type ScenaId = "1" | "2" | "3" | "4" | "5" | "6";
 export type ItemId =
   | "wire"
   | "klic-od-radnice"
@@ -31,23 +31,19 @@ type GameContextValue = {
   konec: () => void;
 };
 
-
-
-
 export const GameContext = createContext<GameContextValue | null>(null);
 
 export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
-
   const [isCoilRequired, setIsCoilRequired] = useState(true);
 
   const [scena, setScena] = useState<ScenaId>(() => {
     try {
       const data = localStorage.getItem("stavhry");
-      if (!data) return "intro";
+      if (!data) return "1";
       const parsed = JSON.parse(data) as { scena?: ScenaId; items?: ItemId[] };
-      return parsed.scena ?? "intro";
+      return parsed.scena ?? "1";
     } catch {
-      return "intro";
+      return "1";
     }
   });
 
@@ -71,21 +67,21 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [scena, items, history]);
 
   const setDone = (id: string) => {
-    setHistory(prev => prev.includes(id) ? prev : [...prev, id]);
+    setHistory((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
   const u = useNavigate();
 
   const konec = () => {
     setHistory([]);
-    setScena("intro");
+    setScena("1");
     clearItems();
     u("/");
     console.log("Hra byla ukoncena a stav vymazan.");
   };
 
   const addItem = (item: ItemId) => {
-    setItems(prev => prev.includes(item) ? prev : [...prev, item]);
+    setItems((prev) => (prev.includes(item) ? prev : [...prev, item]));
     setDone(item);
   };
   const isDone = (id: string) => history.includes(id);

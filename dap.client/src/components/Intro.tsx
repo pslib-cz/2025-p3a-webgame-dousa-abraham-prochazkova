@@ -1,11 +1,10 @@
-
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import Styles from "../assets/styles/Intro.module.css";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Intro = () => {
+const Intro = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [scene, setScene] = useState<Scene | null>(null);
 
@@ -16,15 +15,15 @@ const Intro = () => {
   const { setScena } = game;
   const u = useNavigate();
   const klikTlacitkoStart = () => {
-    setScena("sc1");
+    setScena("2");
     //const u = useNavigate();
-    u("/sc1");
+    u("/2");
   };
 
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/1");
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);
@@ -42,7 +41,10 @@ const Intro = () => {
     <div className="scena">
       <div className="grafika">
         <img src={`${scene.sceneImage}`} className="bg" />
-        <button className={Styles["start-tlacitko"]} onClick={klikTlacitkoStart}>
+        <button
+          className={Styles["start-tlacitko"]}
+          onClick={klikTlacitkoStart}
+        >
           Nová hra
         </button>
       </div>

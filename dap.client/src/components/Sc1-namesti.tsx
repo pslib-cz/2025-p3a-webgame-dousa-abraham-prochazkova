@@ -1,5 +1,4 @@
-
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
@@ -8,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 
-const Sc1Namesti = () => {
+const Sc1Namesti = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
   const [dialog, setDialog] = useState("prazdny text");
@@ -32,16 +31,16 @@ const Sc1Namesti = () => {
     if (hasItem(idCheck)) {
       addItem(idGive);
     }
-  }
+  };
   const vstupRadnice = () => {
     if (hasItem("klic-od-radnice")) {
       setPostup(true);
-      setScena("sc2");
-      removeItem("klic-od-radnice")
-      u("/sc2");
+      setScena("3");
+      removeItem("klic-od-radnice");
+      u("/3");
     }
   };
-  const u = useNavigate();/*
+  const u = useNavigate(); /*
   useEffect(() => {
     if (postup) return;
     if (hasItem("wire") && hasItem("klic-od-radnice")) {
@@ -50,8 +49,6 @@ const Sc1Namesti = () => {
       u("/sc2");
     }
   }, [hasItem, postup, setScena]);*/
-
-
 
   useEffect(() => {
     fetchDialogue(1)
@@ -64,7 +61,8 @@ const Sc1Namesti = () => {
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/2");
+        console.log(sceneId);
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);
@@ -76,11 +74,8 @@ const Sc1Namesti = () => {
     fetchScene();
   }, []);
 
-
-
-
   const konec = () => {
-    setScena("intro");
+    setScena("1");
     clearItems();
     u("/");
   };

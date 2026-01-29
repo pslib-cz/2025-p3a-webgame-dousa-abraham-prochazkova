@@ -1,4 +1,3 @@
-
 import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import Styles from "../assets/styles/Sc4-sklep-trezor.module.css";
@@ -9,9 +8,9 @@ import lv from "/img/laverage-background.png";
 import up from "/img/up.png";
 import down from "/img/down.png";
 import fetchDialogue from "../dialogApi";
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 
-const Sc4SklepTrezor = () => {
+const Sc4SklepTrezor = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [minigameActive, setMinigameActive] = useState(false);
   const [nastavenipak, setnastavenipak] = useState([true, false, false, false]);
@@ -23,7 +22,7 @@ const Sc4SklepTrezor = () => {
 
   const { setScena, removeItem, clearItems } = game;
   const konec = () => {
-    setScena("intro");
+    setScena("1");
     clearItems();
     u("/");
   };
@@ -33,8 +32,8 @@ const Sc4SklepTrezor = () => {
   };
 
   const buttonBack = () => {
-    u("/sc2");
-  }
+    u("/3");
+  };
 
   const nastavPaky = () => {
     removeItem("levers-comb");
@@ -44,8 +43,8 @@ const Sc4SklepTrezor = () => {
 
   const magnetickaKarta = () => {
     removeItem("card");
-    setScena("sc5");
-    u("/sc5");
+    setScena("6");
+    u("/6");
   };
   const prepniPaku = (idx: number) => {
     setnastavenipak((starePole) => {
@@ -68,7 +67,7 @@ const Sc4SklepTrezor = () => {
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/5");
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);
@@ -101,25 +100,33 @@ const Sc4SklepTrezor = () => {
             <img
               src={nastavenipak[0] ? down : up}
               alt="paka"
-              className={nastavenipak[0] ? Styles["paka-down"] : Styles["paka-up"]}
+              className={
+                nastavenipak[0] ? Styles["paka-down"] : Styles["paka-up"]
+              }
               style={{ left: "30%" }}
             />
             <img
               src={nastavenipak[1] ? down : up}
               alt="paka"
-              className={nastavenipak[1] ? Styles["paka-down"] : Styles["paka-up"]}
+              className={
+                nastavenipak[1] ? Styles["paka-down"] : Styles["paka-up"]
+              }
               style={{ left: "45%" }}
             />
             <img
               src={nastavenipak[2] ? down : up}
               alt="paka"
-              className={nastavenipak[2] ? Styles["paka-down"] : Styles["paka-up"]}
+              className={
+                nastavenipak[2] ? Styles["paka-down"] : Styles["paka-up"]
+              }
               style={{ left: "60%" }}
             />
             <img
               src={nastavenipak[3] ? down : up}
               alt="paka"
-              className={nastavenipak[3] ? Styles["paka-down"] : Styles["paka-up"]}
+              className={
+                nastavenipak[3] ? Styles["paka-down"] : Styles["paka-up"]
+              }
               style={{ left: "75%" }}
             />
             <div
@@ -174,7 +181,11 @@ const Sc4SklepTrezor = () => {
               <Inventar />
             </div>
             <div className="dialogText">"{dialog}"</div>
-            <img src={postava} alt="Postava" className={Styles["postava-sc4"]} />
+            <img
+              src={postava}
+              alt="Postava"
+              className={Styles["postava-sc4"]}
+            />
             <div
               className="debug-tlacitko"
               onClick={() => nastavPaky()}
@@ -217,7 +228,9 @@ const Sc4SklepTrezor = () => {
               }}
             />
 
-            <button className="buttonBack" onClick={buttonBack}>Zpět</button>
+            <button className="buttonBack" onClick={buttonBack}>
+              Zpět
+            </button>
           </div>
         </div>
       );

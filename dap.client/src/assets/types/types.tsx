@@ -21,5 +21,5 @@ type Scene = {
   sceneImage: string;
 };
 
-
-export type { Dialogue, Item, Minigame, Scene };
+type ScProps = { sceneId: string };
+export type { Dialogue, Item, Minigame, Scene, ScProps };

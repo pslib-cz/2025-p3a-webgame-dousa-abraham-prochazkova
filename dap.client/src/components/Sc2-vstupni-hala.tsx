@@ -1,5 +1,4 @@
-import bg from "/img/sc1-square.png";
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 import Inventar from "../components/Inventar";
@@ -9,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 import overlay from "/img/phone-overlay.png";
 
-const Sc2VstupniHala = () => {
+const Sc2VstupniHala = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
   const [dialog, setDialog] = useState("prazdny text");
@@ -18,7 +17,17 @@ const Sc2VstupniHala = () => {
     throw new Error("Neni game");
   }
 
-  const { setScena, addItem, removeItem, hasItem, clearItems, history, setDone, isDone, konec } = game;
+  const {
+    setScena,
+    addItem,
+    removeItem,
+    hasItem,
+    clearItems,
+    history,
+    setDone,
+    isDone,
+    konec,
+  } = game;
 
   const klikTlacitko = (id: ItemId) => {
     console.log("Klik na hotspot:", id);
@@ -34,15 +43,15 @@ const Sc2VstupniHala = () => {
 
   const handlePhoneButton = (num: string) => {
     if (phoneInput.length >= 4) return;
-    setPhoneInput(prev => prev + num);
+    setPhoneInput((prev) => prev + num);
   };
 
   const checkPhoneCode = () => {
     if (phoneInput === correctCode) {
       setIsPhoneClicked(false);
       setDone("phone-correct");
-      setScena("sc4");
-      u("/sc4")
+      setScena("5");
+      u("/5");
     } else {
       setError(true);
       setPhoneInput("");
@@ -52,26 +61,26 @@ const Sc2VstupniHala = () => {
 
   const klikNaTelefon = () => {
     if (isDone("phone-correct")) {
-      setScena("sc4")
-      u("/sc4")
+      setScena("5");
+      u("/5");
     } else {
       if (isDone("phone-fixed")) {
         setIsPhoneClicked(true);
-      }
-      else if (hasItem("coil")) {
+      } else if (hasItem("coil")) {
         removeItem("coil");
         setDone("phone-fixed");
         setIsPhoneClicked(true);
       }
-    };
-  }
+    }
+  };
 
   const sceneSwitch = () => {
-    setScena("sc3")
-    u("/sc3")
-  }
+    setScena("4");
+    u("/4");
+  };
 
-  useEffect(() => {/*
+  useEffect(() => {
+    /*
     if (postup) return;
     if (hasItem("coil") && hasItem("levers-comb") && !hasItem("kod")) {
       setPostup(true);
@@ -87,14 +96,12 @@ const Sc2VstupniHala = () => {
       .then(setDialog);
   }, []);
 
-
-
   const [scene, setScene] = useState<Scene | null>(null);
 
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/3");
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);
@@ -147,7 +154,8 @@ const Sc2VstupniHala = () => {
               width: "12%",
               height: "34%",
             }}
-          />)}
+          />
+        )}
         <div
           className="debug-tlacitko"
           onClick={() => konec()}
@@ -169,18 +177,26 @@ const Sc2VstupniHala = () => {
               width: "28%",
               height: "16%",
             }}
-          />)}
+          />
+        )}
         {isPhoneClicked && (
           <div className={Styles["overlay-blur"]}>
             <div className={Styles["overlay"]}>
-              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
+              <img
+                className={Styles["overlay-img"]}
+                src={overlay}
+                alt="Phone Overlay"
+              />
 
-              <div className={Styles["phone-display"]} style={{ color: error ? "red" : "black" }}>
+              <div
+                className={Styles["phone-display"]}
+                style={{ color: error ? "red" : "black" }}
+              >
                 {phoneInput || "----"}
               </div>
 
               <div className={Styles["phone-buttons"]}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
                   <button
                     key={n}
                     onClick={() => handlePhoneButton(n.toString())}
@@ -189,19 +205,29 @@ const Sc2VstupniHala = () => {
                     {n}
                   </button>
                 ))}
-                <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>
+                <button
+                  onClick={checkPhoneCode}
+                  className={Styles["phone-btn-enter"]}
+                >
                   OK
                 </button>
-                <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>
+                <button
+                  onClick={() => setPhoneInput("")}
+                  className={Styles["phone-btn-clear"]}
+                >
                   C
                 </button>
               </div>
 
-              <button className={Styles["overlay-close-button"]} onClick={() => setIsPhoneClicked(false)}>×</button>
+              <button
+                className={Styles["overlay-close-button"]}
+                onClick={() => setIsPhoneClicked(false)}
+              >
+                ×
+              </button>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

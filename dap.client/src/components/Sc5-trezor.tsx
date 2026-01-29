@@ -1,10 +1,10 @@
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 
-const Sc5Trezor = () => {
+const Sc5Trezor = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [dialog, setDialog] = useState("prazdny text");
 
@@ -15,7 +15,7 @@ const Sc5Trezor = () => {
   const { setScena, clearItems } = game;
   const u = useNavigate();
   const konec = () => {
-    setScena("intro");
+    setScena("1");
     clearItems();
     u("/");
   };
@@ -31,7 +31,7 @@ const Sc5Trezor = () => {
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/6");
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);

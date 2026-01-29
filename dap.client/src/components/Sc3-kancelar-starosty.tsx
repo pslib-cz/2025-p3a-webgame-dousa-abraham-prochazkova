@@ -1,4 +1,4 @@
-import type { Scene } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
 import Inventar from "../components/Inventar";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 import overlay from "/img/kod.png";
 
-const Sc3KancelarStarosty = () => {
+const Sc3KancelarStarosty = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
   const [postup, setPostup] = useState(false);
   const [dialog, setDialog] = useState("prazdny text");
@@ -31,23 +31,23 @@ const Sc3KancelarStarosty = () => {
   const u = useNavigate();
 
   const buttonBack = () => {
-    u("/sc2");
-  }
+    u("/3");
+  };
 
   const clickCheck = (idCheck: ItemId, idGive: ItemId) => {
     if (hasItem(idCheck)) {
-      addItem(idGive)
-      removeItem(idCheck)
+      addItem(idGive);
+      removeItem(idCheck);
     }
-  }
+  };
 
   const drawerCode = () => {
     removeItem("klic-od-supliku");
     setIsDrawerClicked(true);
-  }
+  };
 
   const konec = () => {
-    setScena("intro");
+    setScena("1");
     clearItems();
     u("/");
   };
@@ -63,7 +63,7 @@ const Sc3KancelarStarosty = () => {
   useEffect(() => {
     const fetchScene = async () => {
       try {
-        const res = await fetch("/api/scene/4");
+        const res = await fetch("/api/scene/" + sceneId);
         if (!res.ok) throw new Error("Chyba při načítání scény");
         const data: Scene = await res.json();
         setScene(data);
@@ -140,12 +140,23 @@ const Sc3KancelarStarosty = () => {
         {isDrawerClicked && (
           <div className={Styles["overlay-blur"]}>
             <div className={Styles["overlay"]}>
-              <img className={Styles["overlay-img"]} src={overlay} alt="Phone Overlay" />
-              <button className={Styles["overlay-close-button"]} onClick={() => setIsDrawerClicked(false)}>×</button>
+              <img
+                className={Styles["overlay-img"]}
+                src={overlay}
+                alt="Phone Overlay"
+              />
+              <button
+                className={Styles["overlay-close-button"]}
+                onClick={() => setIsDrawerClicked(false)}
+              >
+                ×
+              </button>
             </div>
           </div>
         )}
-        <button className="buttonBack" onClick={buttonBack}>Zpět</button>
+        <button className="buttonBack" onClick={buttonBack}>
+          Zpět
+        </button>
       </div>
     </div>
   );
