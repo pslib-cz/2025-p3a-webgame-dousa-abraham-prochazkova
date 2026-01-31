@@ -200,10 +200,10 @@ const Sc4SklepTrezor = ({ sceneId }: ScProps) => {
               className="debug-tlacitko"
               onClick={() => vodaDoGen()}
               style={{
-                left: "18%",
-                bottom: "27%",
-                width: "10%",
-                height: "13%",
+                left: "2%",
+                bottom: "12%",
+                width: "30%",
+                height: "38%",
               }}
             />
             <div

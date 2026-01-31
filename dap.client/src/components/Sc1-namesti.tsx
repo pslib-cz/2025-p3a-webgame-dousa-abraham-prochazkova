@@ -1,4 +1,4 @@
-import type { Scene, ScProps } from "../assets/types/types";
+import type { Scene, ScProps, Zone } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
@@ -81,7 +81,6 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
   };
 
   if (!scene) return <p>Načítám scénu...</p>;
-
   return (
     <div className="scena">
       <div className="grafika">
@@ -95,7 +94,7 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
           className="debug-tlacitko"
           onClick={() => klikTlacitko("wire")}
           style={{
-            left: "6%",
+            left: "`${zone.left}%`",
             bottom: "0%",
             width: "8%",
             height: "22%",
