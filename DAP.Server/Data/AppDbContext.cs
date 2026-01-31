@@ -8,7 +8,6 @@ namespace DAP.Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly ApplicationDbContext _context;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         public DbSet<Item> Items { get; set; }
@@ -17,10 +16,6 @@ namespace DAP.Server.Data
         public DbSet<Minigame> Minigames { get; set; }
         public DbSet <Zones> Zones { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Filename=DAP.sqlite");
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -118,19 +113,19 @@ namespace DAP.Server.Data
                 UserId = 7,
                 Scene = "PhoneOverlay",
                 SceneImage = "/images/phone-oerlay.png"
-            }
+            };
             UserScene drawer = new()
             {
                 UserId = 8,
                 Scene = "DrawerOverlay",
                 SceneImage = "/images/kod.png"
-            }
+            };
             UserScene levers = new()
             {
                 UserId = 9,
                 Scene = "LeversOverlay",
                 SceneImage = "/images/levers-bg.png"
-            }
+            };
 
             //Zones
             Zones zone1 = new()
@@ -140,7 +135,7 @@ namespace DAP.Server.Data
                 Left = 6,
                 Width = 8,
                 Height = 22,
-                InteractioName = "wire",
+                InteractionName = "wire",
                 InteractionType = "getItem",
                 UserId = 1
             };
@@ -152,7 +147,7 @@ namespace DAP.Server.Data
                 Left = 35,
                 Width = 12,
                 Height = 6,
-                InteractioName = "klic-od-radnice",
+                InteractionName = "klic-od-radnice",
                 InteractionType = "getItem",
                 RequiredItem = "wire",
                 UserId = 1
@@ -165,7 +160,7 @@ namespace DAP.Server.Data
                 Left = 36,
                 Width = 7,
                 Height = 18,
-                InteractioName = "dvereRadnice",
+                InteractionName = "dvereRadnice",
                 InteractionType = "useItem",
                 RequiredItem = "klic-od-radnice",
                 UserId = 1
@@ -178,7 +173,7 @@ namespace DAP.Server.Data
                 Left = 2,
                 Width = 7,
                 Height = 26,
-                InteractioName = "phoneOverlay",
+                InteractionName = "phoneOverlay",
                 InteractionType = "nextScene",
                 RequiredItem = "coil",
                 UserId = 2
@@ -191,7 +186,7 @@ namespace DAP.Server.Data
                 Left = 82,
                 Width = 10,
                 Height = 45,
-                InteractioName = "DoorSc3",
+                InteractionName = "DoorSc3",
                 InteractionType = "nextScene",
                 UserId = 2
             };
@@ -203,7 +198,7 @@ namespace DAP.Server.Data
                 Left = 62,
                 Width = 12,
                 Height = 34,
-                InteractioName = "coil",
+                InteractionName = "coil",
                 InteractionType = "getItem",
                 UserId = 2
             };
@@ -214,9 +209,9 @@ namespace DAP.Server.Data
                 Bottom = 43,
                 Left = 17,
                 Width = 28,
-                InteractioName = "levers-comb",
-                InteractionType = "getItem",
                 Height = 16,
+                InteractionName = "levers-comb",
+                InteractionType = "getItem",
                 UserId = 2
             };
 
@@ -227,7 +222,7 @@ namespace DAP.Server.Data
                 Left = 5,
                 Width = 14,
                 Height = 27,
-                InteractioName = "klic-od-supliku",
+                InteractionName = "klic-od-supliku",
                 InteractionType = "getItem",
                 UserId = 3
             };
@@ -239,7 +234,7 @@ namespace DAP.Server.Data
                 Left = 75,
                 Width = 18,
                 Height = 36,
-                InteractioName = "card",
+                InteractionName = "card",
                 InteractionType = "getItem",
                 RequiredItem = "wire",
                 UserId = 3
@@ -252,7 +247,7 @@ namespace DAP.Server.Data
                 Left = 57,
                 Width = 7,
                 Height = 15,
-                InteractioName = "mug",
+                InteractionName = "mug",
                 InteractionType = "getItem",
                 UserId = 3
             };
@@ -264,7 +259,7 @@ namespace DAP.Server.Data
                 Left = 62,
                 Width = 7,
                 Height = 15,
-                InteractioName = "drawer",
+                InteractionName = "drawer",
                 InteractionType = "nextScene",
                 RequiredItem = "klic-od-supliku",
                 UserId = 3
@@ -277,7 +272,7 @@ namespace DAP.Server.Data
                 Left = 30,
                 Width = 5,
                 Height = 40,
-                InteractioName = "leverSwitch",
+                InteractionName = "leverSwitch",
                 InteractionType = "prepniPaku",
                 UserId = 9
             };
@@ -289,7 +284,7 @@ namespace DAP.Server.Data
                 Left = 45,
                 Width = 5,
                 Height = 40,
-                InteractioName = "leverSwitch",
+                InteractionName = "leverSwitch",
                 InteractionType = "prepniPaku",
                 UserId = 9
             };
@@ -301,7 +296,7 @@ namespace DAP.Server.Data
                 Left = 60,
                 Width = 5,
                 Height = 40,
-                InteractioName = "leverSwitch",
+                InteractionName = "leverSwitch",
                 InteractionType = "prepniPaku",
                 UserId = 9
             };
@@ -313,7 +308,7 @@ namespace DAP.Server.Data
                 Left = 75,
                 Width = 5,
                 Height = 40,
-                InteractioName = "leverSwitch",
+                InteractionName = "leverSwitch",
                 InteractionType = "prepniPaku",
                 UserId = 9
             };
@@ -325,7 +320,7 @@ namespace DAP.Server.Data
                 Left = 72,
                 Width = 6,
                 Height = 13,
-                InteractioName = "vaultDoors",
+                InteractionName = "vaultDoors",
                 InteractionType = "finalScene",
                 RequiredItem = "card",
                 UserId = 4
@@ -338,7 +333,7 @@ namespace DAP.Server.Data
                 Left = 20,
                 Width = 15,
                 Height = 15,
-                InteractioName = "leversOverlay",
+                InteractionName = "leversOverlay",
                 InteractionType = "nextScene",
                 UserId = 4
             };
@@ -350,7 +345,7 @@ namespace DAP.Server.Data
                 Left = 2,
                 Width = 15,
                 Height = 38,
-                InteractioName = "generator",
+                InteractionName = "generator",
                 InteractionType = "useItem",
                 RequiredItem = "mug",
                 UserId = 4
@@ -374,7 +369,7 @@ namespace DAP.Server.Data
                 zone15,
                 zone16,
                 zone17,
-                zone18,
+                zone18
             );
 
             modelBuilder.Entity<Item>().HasData(

@@ -7,7 +7,7 @@
 namespace DAP.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Create : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,6 +84,9 @@ namespace DAP.Server.Migrations
                     Left = table.Column<decimal>(type: "TEXT", nullable: false),
                     Width = table.Column<decimal>(type: "TEXT", nullable: false),
                     Height = table.Column<decimal>(type: "TEXT", nullable: false),
+                    InteractionName = table.Column<string>(type: "TEXT", nullable: false),
+                    InteractionType = table.Column<string>(type: "TEXT", nullable: false),
+                    RequiredItem = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserSceneUserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -121,33 +124,35 @@ namespace DAP.Server.Migrations
                     { 3, "Recepce", "/images/sc2-hall.png" },
                     { 4, "Kancelář", "/images/sc3-office.png" },
                     { 5, "Trezor", "/images/sc4-vault.png" },
-                    { 6, "Konec", "/images/sc5-end.png" }
+                    { 6, "Konec", "/images/sc5-end.png" },
+                    { 7, "PhoneOverlay", "/images/phone-oerlay.png" },
+                    { 8, "DrawerOverlay", "/images/kod.png" },
+                    { 9, "LeversOverlay", "/images/levers-bg.png" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Zones",
-                columns: new[] { "ZoneId", "Bottom", "Height", "Left", "UserId", "UserSceneUserId", "Width" },
+                columns: new[] { "ZoneId", "Bottom", "Height", "InteractionName", "InteractionType", "Left", "RequiredItem", "UserId", "UserSceneUserId", "Width" },
                 values: new object[,]
                 {
-                    { 1, 0m, 22m, 6m, 1, null, 8m },
-                    { 2, 0m, 6m, 35m, 1, null, 12m },
-                    { 3, 33m, 18m, 36m, 1, null, 7m },
-                    { 4, 52m, 26m, 2m, 2, null, 7m },
-                    { 5, 40m, 45m, 82m, 2, null, 10m },
-                    { 6, 40m, 34m, 62m, 2, null, 12m },
-                    { 7, 43m, 16m, 17m, 2, null, 28m },
-                    { 8, 38m, 27m, 5m, 3, null, 14m },
-                    { 9, 30m, 36m, 75m, 3, null, 18m },
-                    { 10, 45m, 15m, 57m, 3, null, 7m },
-                    { 11, 20m, 15m, 62m, 3, null, 7m },
-                    { 12, 27m, 40m, 30m, 4, null, 5m },
-                    { 13, 27m, 40m, 45m, 4, null, 5m },
-                    { 14, 27m, 40m, 60m, 4, null, 5m },
-                    { 15, 27m, 40m, 75m, 4, null, 5m },
-                    { 16, 39m, 13m, 72m, 4, null, 6m },
-                    { 17, 52m, 15m, 20m, 4, null, 15m },
-                    { 18, 27m, 13m, 18m, 4, null, 10m },
-                    { 19, 39m, 13m, 72m, 4, null, 6m }
+                    { 1, 0m, 22m, "wire", "getItem", 6m, null, 1, null, 8m },
+                    { 2, 0m, 6m, "klic-od-radnice", "getItem", 35m, "wire", 1, null, 12m },
+                    { 3, 33m, 18m, "dvereRadnice", "useItem", 36m, "klic-od-radnice", 1, null, 7m },
+                    { 4, 52m, 26m, "phoneOverlay", "nextScene", 2m, "coil", 2, null, 7m },
+                    { 5, 40m, 45m, "DoorSc3", "nextScene", 82m, null, 2, null, 10m },
+                    { 6, 40m, 34m, "coil", "getItem", 62m, null, 2, null, 12m },
+                    { 7, 43m, 16m, "levers-comb", "getItem", 17m, null, 2, null, 28m },
+                    { 8, 38m, 27m, "klic-od-supliku", "getItem", 5m, null, 3, null, 14m },
+                    { 9, 30m, 36m, "card", "getItem", 75m, "wire", 3, null, 18m },
+                    { 10, 45m, 15m, "mug", "getItem", 57m, null, 3, null, 7m },
+                    { 11, 20m, 15m, "drawer", "nextScene", 62m, "klic-od-supliku", 3, null, 7m },
+                    { 12, 27m, 40m, "leverSwitch", "prepniPaku", 30m, null, 9, null, 5m },
+                    { 13, 27m, 40m, "leverSwitch", "prepniPaku", 45m, null, 9, null, 5m },
+                    { 14, 27m, 40m, "leverSwitch", "prepniPaku", 60m, null, 9, null, 5m },
+                    { 15, 27m, 40m, "leverSwitch", "prepniPaku", 75m, null, 9, null, 5m },
+                    { 16, 39m, 13m, "vaultDoors", "finalScene", 72m, "card", 4, null, 6m },
+                    { 17, 52m, 15m, "leversOverlay", "nextScene", 20m, null, 4, null, 15m },
+                    { 18, 12m, 38m, "generator", "useItem", 2m, "mug", 4, null, 15m }
                 });
 
             migrationBuilder.CreateIndex(

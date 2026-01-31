@@ -21,11 +21,13 @@ namespace DAP.Server.Controllers
         public async Task<IActionResult> GetCurrentScene(int userId)
         {
             var scene = await _db.Scene
-                .Include(s => s.Zones)
+                .Include(s => s.Zones) 
+                .Include(s => s.Item) 
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
             if (scene == null)
                 return NotFound();
+
             return Ok(scene);
         }
     }

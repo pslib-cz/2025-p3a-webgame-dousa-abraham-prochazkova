@@ -11,8 +11,8 @@ namespace DAP.Server.Models
         public decimal Left { get; set; }
         public decimal Width { get; set; }
         public decimal Height { get; set; }
-        public string InteractionName {  get; set; }
-        public string InteractionType { get; set; }
+        public string InteractionName {  get; set; } = string.Empty;
+        public string InteractionType { get; set; } = string.Empty;
         public string? RequiredItem { get; set; }
 
         [ForeignKey(nameof(UserScene))]

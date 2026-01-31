@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260129210010_Create")]
-    partial class Create
+    [Migration("20260131172647_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,6 +184,24 @@ namespace DAP.Server.Migrations
                             UserId = 6,
                             Scene = "Konec",
                             SceneImage = "/images/sc5-end.png"
+                        },
+                        new
+                        {
+                            UserId = 7,
+                            Scene = "PhoneOverlay",
+                            SceneImage = "/images/phone-oerlay.png"
+                        },
+                        new
+                        {
+                            UserId = 8,
+                            Scene = "DrawerOverlay",
+                            SceneImage = "/images/kod.png"
+                        },
+                        new
+                        {
+                            UserId = 9,
+                            Scene = "LeversOverlay",
+                            SceneImage = "/images/levers-bg.png"
                         });
                 });
 
@@ -199,7 +217,18 @@ namespace DAP.Server.Migrations
                     b.Property<decimal>("Height")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("InteractionName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InteractionType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Left")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RequiredItem")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -223,6 +252,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 1,
                             Bottom = 0m,
                             Height = 22m,
+                            InteractionName = "wire",
+                            InteractionType = "getItem",
                             Left = 6m,
                             UserId = 1,
                             Width = 8m
@@ -232,7 +263,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 2,
                             Bottom = 0m,
                             Height = 6m,
+                            InteractionName = "klic-od-radnice",
+                            InteractionType = "getItem",
                             Left = 35m,
+                            RequiredItem = "wire",
                             UserId = 1,
                             Width = 12m
                         },
@@ -241,7 +275,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 3,
                             Bottom = 33m,
                             Height = 18m,
+                            InteractionName = "dvereRadnice",
+                            InteractionType = "useItem",
                             Left = 36m,
+                            RequiredItem = "klic-od-radnice",
                             UserId = 1,
                             Width = 7m
                         },
@@ -250,7 +287,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 4,
                             Bottom = 52m,
                             Height = 26m,
+                            InteractionName = "phoneOverlay",
+                            InteractionType = "nextScene",
                             Left = 2m,
+                            RequiredItem = "coil",
                             UserId = 2,
                             Width = 7m
                         },
@@ -259,6 +299,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 5,
                             Bottom = 40m,
                             Height = 45m,
+                            InteractionName = "DoorSc3",
+                            InteractionType = "nextScene",
                             Left = 82m,
                             UserId = 2,
                             Width = 10m
@@ -268,6 +310,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 6,
                             Bottom = 40m,
                             Height = 34m,
+                            InteractionName = "coil",
+                            InteractionType = "getItem",
                             Left = 62m,
                             UserId = 2,
                             Width = 12m
@@ -277,6 +321,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 7,
                             Bottom = 43m,
                             Height = 16m,
+                            InteractionName = "levers-comb",
+                            InteractionType = "getItem",
                             Left = 17m,
                             UserId = 2,
                             Width = 28m
@@ -286,6 +332,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 8,
                             Bottom = 38m,
                             Height = 27m,
+                            InteractionName = "klic-od-supliku",
+                            InteractionType = "getItem",
                             Left = 5m,
                             UserId = 3,
                             Width = 14m
@@ -295,7 +343,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 9,
                             Bottom = 30m,
                             Height = 36m,
+                            InteractionName = "card",
+                            InteractionType = "getItem",
                             Left = 75m,
+                            RequiredItem = "wire",
                             UserId = 3,
                             Width = 18m
                         },
@@ -304,6 +355,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 10,
                             Bottom = 45m,
                             Height = 15m,
+                            InteractionName = "mug",
+                            InteractionType = "getItem",
                             Left = 57m,
                             UserId = 3,
                             Width = 7m
@@ -313,7 +366,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 11,
                             Bottom = 20m,
                             Height = 15m,
+                            InteractionName = "drawer",
+                            InteractionType = "nextScene",
                             Left = 62m,
+                            RequiredItem = "klic-od-supliku",
                             UserId = 3,
                             Width = 7m
                         },
@@ -322,8 +378,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 12,
                             Bottom = 27m,
                             Height = 40m,
+                            InteractionName = "leverSwitch",
+                            InteractionType = "prepniPaku",
                             Left = 30m,
-                            UserId = 4,
+                            UserId = 9,
                             Width = 5m
                         },
                         new
@@ -331,8 +389,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 13,
                             Bottom = 27m,
                             Height = 40m,
+                            InteractionName = "leverSwitch",
+                            InteractionType = "prepniPaku",
                             Left = 45m,
-                            UserId = 4,
+                            UserId = 9,
                             Width = 5m
                         },
                         new
@@ -340,8 +400,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 14,
                             Bottom = 27m,
                             Height = 40m,
+                            InteractionName = "leverSwitch",
+                            InteractionType = "prepniPaku",
                             Left = 60m,
-                            UserId = 4,
+                            UserId = 9,
                             Width = 5m
                         },
                         new
@@ -349,8 +411,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 15,
                             Bottom = 27m,
                             Height = 40m,
+                            InteractionName = "leverSwitch",
+                            InteractionType = "prepniPaku",
                             Left = 75m,
-                            UserId = 4,
+                            UserId = 9,
                             Width = 5m
                         },
                         new
@@ -358,7 +422,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 16,
                             Bottom = 39m,
                             Height = 13m,
+                            InteractionName = "vaultDoors",
+                            InteractionType = "finalScene",
                             Left = 72m,
+                            RequiredItem = "card",
                             UserId = 4,
                             Width = 6m
                         },
@@ -367,6 +434,8 @@ namespace DAP.Server.Migrations
                             ZoneId = 17,
                             Bottom = 52m,
                             Height = 15m,
+                            InteractionName = "leversOverlay",
+                            InteractionType = "nextScene",
                             Left = 20m,
                             UserId = 4,
                             Width = 15m
@@ -374,20 +443,14 @@ namespace DAP.Server.Migrations
                         new
                         {
                             ZoneId = 18,
-                            Bottom = 27m,
-                            Height = 13m,
-                            Left = 18m,
+                            Bottom = 12m,
+                            Height = 38m,
+                            InteractionName = "generator",
+                            InteractionType = "useItem",
+                            Left = 2m,
+                            RequiredItem = "mug",
                             UserId = 4,
-                            Width = 10m
-                        },
-                        new
-                        {
-                            ZoneId = 19,
-                            Bottom = 39m,
-                            Height = 13m,
-                            Left = 72m,
-                            UserId = 4,
-                            Width = 6m
+                            Width = 15m
                         });
                 });
 

@@ -5,7 +5,7 @@ namespace DAP.Server.Models
     public class UserScene
     {
         [Key]
-        public int UserId { get; set; }
+        public int UserId { get; set; } //idSceny
         public string Scene { get; set; } = null!;
         public string? SceneImage { get; set; }
         public ICollection<Item>? Item { get; set; }
