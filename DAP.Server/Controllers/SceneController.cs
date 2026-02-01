@@ -30,6 +30,20 @@ namespace DAP.Server.Controllers
 
             return Ok(scene);
         }
+
+
+        [HttpGet("{userId}/zones")]
+        public async Task<IActionResult> GetZonesByScene(int userId)
+        {
+            var zones = await _db.Zones
+                .Where(z => z.UserId == userId)
+                .ToListAsync();
+
+            if (zones == null || zones.Count == 0)
+                return NotFound($"Scéna s ID {userId} nemá žádné zóny nebo neexistuje.");
+
+            return Ok(zones);
+        }
     }
 
 }

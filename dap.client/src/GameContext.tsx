@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-type ScenaId = "1" | "2" | "3" | "4" | "5" | "6";
+type ScenaId = string;
 export type ItemId =
   | "wire"
   | "klic-od-radnice"

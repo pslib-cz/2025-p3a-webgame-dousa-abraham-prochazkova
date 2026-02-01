@@ -3,7 +3,7 @@ import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 
@@ -70,9 +70,21 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
         console.error(err);
       }
     };
-
     fetchScene();
-  }, []);
+  }, [sceneId]);
+
+  useEffect(() => {
+    const fetchZone = async () => {
+      try {
+        const res = await fetch("/api/scene/" + sceneId + "/zones");
+        if (!res.ok) throw new Error("Chyba při načítání scény");
+        const data: Zone = await res.json();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchZone();
+  }, [sceneId]);
 
   const konec = () => {
     setScena("1");

@@ -1,11 +1,6 @@
 import ScenaProvider, { GameContext } from "./GameContext";
 import "./App.css";
 import Intro from "./components/Intro";
-import Sc1Namesti from "./components/Sc1-namesti";
-import Sc2VstupniHala from "./components/Sc2-vstupni-hala";
-import Sc3KancelarStarosty from "./components/Sc3-kancelar-starosty";
-import Sc4SklepTrezor from "./components/Sc4-sklep-trezor";
-import Sc5Trezor from "./components/Sc5-trezor";
 import { useContext, useEffect } from "react";
 import {
   BrowserRouter,
@@ -14,35 +9,26 @@ import {
   Navigate,
   useParams,
 } from "react-router-dom";
+import UniversalScene from "./components/Scene";
 
 function SceneSwitch() {
-  const { sceneId } = useParams<{ sceneId: any }>();
+  const { sceneId } = useParams<{ sceneId: string }>();
   const game = useContext(GameContext);
 
-  if (!game) return null;
-
   useEffect(() => {
-    if (sceneId && sceneId !== game.scena) {
-      game.setScena(sceneId);
+    if (sceneId && game && sceneId !== game.scena) {
+      game.setScena(sceneId as any);
     }
-  }, [sceneId]);
+  }, [sceneId, game]);
 
-  switch (sceneId) {
-    case "1":
-      return <Intro sceneId={sceneId} />;
-    case "2":
-      return <Sc1Namesti sceneId={sceneId} />;
-    case "3":
-      return <Sc2VstupniHala sceneId={sceneId} />;
-    case "4":
-      return <Sc3KancelarStarosty sceneId={sceneId} />;
-    case "5":
-      return <Sc4SklepTrezor sceneId={sceneId} />;
-    case "6":
-      return <Sc5Trezor sceneId={sceneId} />;
-    default:
-      return <Navigate to="/1" />;
+  // Pokud je v URL "intro" nebo "1", můžeme zobrazit Intro
+  if (sceneId === "1") {
+    return <Intro sceneId="1" />;
   }
+
+  // Vše ostatní vyřeší UniversalScene
+  // Pokud v URL nic není, defaultně skočíme na scénu "1" (nebo "2")
+  return <UniversalScene sceneId={sceneId || "1"} />;
 }
 
 const App = () => {
@@ -50,8 +36,10 @@ const App = () => {
     <BrowserRouter>
       <ScenaProvider>
         <Routes>
+          {/* Definujeme cestu pro ID scény */}
           <Route path="/:sceneId" element={<SceneSwitch />} />
-          <Route path="/" element={<Navigate to="/intro" />} />
+          {/* Základní cesta přesměruje na intro */}
+          <Route path="/" element={<Navigate to="/1" />} />
         </Routes>
       </ScenaProvider>
     </BrowserRouter>

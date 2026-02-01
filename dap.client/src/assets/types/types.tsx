@@ -29,6 +29,9 @@ type Zone = {
   width: number;
   height: number;
   userId: number;
+  interactionName: string;
+  interactionType: string;
+  requiredItem?: string;
 }
 
 type ScProps = { sceneId: string };
