@@ -3,6 +3,7 @@ import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
+import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 
 const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
@@ -16,6 +17,34 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     if (!game) throw new Error("Neni game context");
     const { addItem, hasItem, removeItem, isDone, setDone, clearItems } = game;
 
+    const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+
+    const [phoneInput, setPhoneInput] = useState("");
+    const correctCode = "7872";
+    const [error, setError] = useState(false);
+
+    const handlePhoneButton = (num: string) => {
+        if (phoneInput.length >= 4) return;
+        setPhoneInput((prev) => prev + num);
+    };
+
+    const checkPhoneCode = () => {
+        if (phoneInput === correctCode) {
+            setIsPhoneClicked(false);
+            setDone("phone-correct");
+            navigate("/5");
+        } else {
+            setError(true);
+            setPhoneInput("");
+            setTimeout(() => setError(false), 1000);
+        }
+    };
+
+    const buttonBack = () => {
+        navigate("/3");
+    }
+    
+
     useEffect(() => {
         const sceneNumber = Number(sceneId);
 
@@ -27,13 +56,13 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 const res = await fetch(`/api/scene/${sceneId}`);
 
                 if (!res.ok) {
-                    throw new Error(`Scéna ${sceneId} nenalezena`);
+                    throw new Error(`Scï¿½na ${sceneId} nenalezena`);
                 }
 
                 const data: Scene = await res.json();
                 setScene(data);
             } catch (err) {
-                console.error("Chyba pøi naèítání:", err);
+                console.error("Chyba pï¿½i naï¿½ï¿½tï¿½nï¿½:", err);
             } finally {
                 setLoading(false);
             }
@@ -44,13 +73,13 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 const res = await fetch(`/api/scene/${sceneId}/zones`);
 
                 if (!res.ok) {
-                    throw new Error(`Scéna ${sceneId} nenalezena`);
+                    throw new Error(`Scï¿½na ${sceneId} nenalezena`);
                 }
 
                 const zoneData: Zone[] = await res.json();
                 setZone(zoneData);
             } catch (err) {
-                console.error("Chyba pøi naèítání:", err);
+                console.error("Chyba pï¿½i naï¿½ï¿½tï¿½nï¿½:", err);
             } finally {
                 setLoading(false);
             }
@@ -59,21 +88,60 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
         loadData();
     }, [sceneId]);
 
-    if (loading || !scene) return <p>Naèítám...</p>;
+    if (loading || !scene) return <p>Naï¿½ï¿½tï¿½m...</p>;
     return (
         <div className="scena">
             <div className="grafika">
-                {/* Pozadí z DB */}
+                {/* Pozadï¿½ z DB */}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
-                <div className="inventar">
-                    <Inventar />
+
+        
+
+                {sceneId === "7" && (
+                <div className={Styles["overlay-blur"]}>
+                    <div className={Styles["overlay"]}>
+
+                    <div
+                        className={Styles["phone-display"]}
+                        style={{ color: error ? "red" : "black" }}
+                    >
+                        {phoneInput || "----"}
+                    </div>
+
+                    <div className={Styles["phone-buttons"]}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                        <button
+                            key={n}
+                            onClick={() => handlePhoneButton(n.toString())}
+                            className={Styles["phone-btn"]}
+                        >
+                            {n}
+                        </button>
+                        ))}
+                        <button
+                        onClick={checkPhoneCode}
+                        className={Styles["phone-btn-enter"]}
+                        >
+                        OK
+                        </button>
+                        <button
+                        onClick={() => setPhoneInput("")}
+                        className={Styles["phone-btn-clear"]}
+                        >
+                        C
+                        </button>
+                    </div>
+
+                    <button
+                        className={Styles["overlay-close-button"]}
+                        onClick={buttonBack}
+                    >
+                        Ã—
+                    </button>
+                    </div>
                 </div>
+                )}
 
-                <div className="dialogText">"{dialog}"</div>
-
-                {/* Postava - v CSS mùžeš mìnit class podle ID scény */}
-                <img src={postava} className={`postava-sc${sceneId}`} />
-                {/* DYNAMICKÉ GENEROVÁNÍ ZÓN */}
                 {zone &&
                     zone.map((zone) => {
                         return (
