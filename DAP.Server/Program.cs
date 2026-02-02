@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Default") ?? "Filename=DAP.sqlite"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Filename=DAP.sqlite"));
 
 
 
