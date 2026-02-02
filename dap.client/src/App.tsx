@@ -29,7 +29,7 @@ function SceneSwitch() {
     return <Intro sceneId="1" />;
   }
 
-    if (!isNaN(sceneNumber) && sceneNumber >= 6) {
+    if (!isNaN(sceneNumber) && sceneNumber > 6) {
         return <OverlayScene sceneId={sceneId!} />;
     }
   // Vše ostatní vyřeší UniversalScene
