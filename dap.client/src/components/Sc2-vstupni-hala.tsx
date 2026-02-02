@@ -1,3 +1,5 @@
+/*
+
 import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
@@ -80,14 +82,14 @@ const Sc2VstupniHala = ({ sceneId }: ScProps) => {
   };
 
   useEffect(() => {
-    /*
+    
     if (postup) return;
     if (hasItem("coil") && hasItem("levers-comb") && !hasItem("kod")) {
       setPostup(true);
       removeItem("klic-od-radnice");
       setScena("sc3");
       u("/sc3");
-    }*/
+    }
   }, [hasItem, postup, setScena]);
 
   useEffect(() => {
@@ -233,4 +235,4 @@ const Sc2VstupniHala = ({ sceneId }: ScProps) => {
   );
 };
 
-export default Sc2VstupniHala;
+export default Sc2VstupniHala;*/

@@ -3,8 +3,8 @@ import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchDialogue } from "../dialogApi";
+import { useNavigate } from "react-router-dom";
+/*import { fetchDialogue } from "../dialogApi";*/
 
 const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);

@@ -1,3 +1,4 @@
+/*
 import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc3-kancelar-starosty.module.css";
@@ -163,3 +164,4 @@ const Sc3KancelarStarosty = ({ sceneId }: ScProps) => {
 };
 
 export default Sc3KancelarStarosty;
+*/
