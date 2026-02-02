@@ -10,10 +10,13 @@ import {
   useParams,
 } from "react-router-dom";
 import UniversalScene from "./components/Scene";
+import OverlayScene from "./components/OverlayScene"
 
 function SceneSwitch() {
   const { sceneId } = useParams<{ sceneId: string }>();
-  const game = useContext(GameContext);
+    const game = useContext(GameContext);
+
+    const sceneNumber = Number(sceneId);
 
   useEffect(() => {
     if (sceneId && game && sceneId !== game.scena) {
@@ -26,9 +29,13 @@ function SceneSwitch() {
     return <Intro sceneId="1" />;
   }
 
+    if (!isNaN(sceneNumber) && sceneNumber >= 6) {
+        return <OverlayScene sceneId={sceneId!} />;
+    }
   // Vše ostatní vyřeší UniversalScene
   // Pokud v URL nic není, defaultně skočíme na scénu "1" (nebo "2")
-  return <UniversalScene sceneId={sceneId || "1"} />;
+    return <UniversalScene sceneId={sceneId || "1"} />;
+  
 }
 
 const App = () => {
