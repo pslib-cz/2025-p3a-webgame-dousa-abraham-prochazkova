@@ -35,6 +35,7 @@ function SceneSwitch() {
   // Vše ostatní vyřeší UniversalScene
   // Pokud v URL nic není, defaultně skočíme na scénu "1" (nebo "2")
     return <UniversalScene sceneId={sceneId || "1"} />;
+    
   
 }
 
