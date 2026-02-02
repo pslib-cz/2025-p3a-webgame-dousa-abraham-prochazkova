@@ -112,7 +112,7 @@ namespace DAP.Server.Data
             {
                 UserId = 7,
                 Scene = "PhoneOverlay",
-                SceneImage = "/images/phone-oerlay.png"
+                SceneImage = "/images/phone-overlay.png"
             };
             UserScene drawer = new()
             {
@@ -137,7 +137,7 @@ namespace DAP.Server.Data
                 Height = 22,
                 InteractionName = "wire",
                 InteractionType = "getItem",
-                UserId = 1
+                UserId = 2
             };
 
             Zones zone2 = new()
@@ -150,7 +150,7 @@ namespace DAP.Server.Data
                 InteractionName = "klic-od-radnice",
                 InteractionType = "getItem",
                 RequiredItem = "wire",
-                UserId = 1
+                UserId = 2
             };
 
             Zones zone3 = new()
@@ -163,7 +163,7 @@ namespace DAP.Server.Data
                 InteractionName = "dvereRadnice",
                 InteractionType = "useItem",
                 RequiredItem = "klic-od-radnice",
-                UserId = 1
+                UserId = 2
             };
 
             Zones zone4 = new()
@@ -173,10 +173,10 @@ namespace DAP.Server.Data
                 Left = 2,
                 Width = 7,
                 Height = 26,
-                InteractionName = "phoneOverlay",
+                InteractionName = "7",
                 InteractionType = "nextScene",
                 RequiredItem = "coil",
-                UserId = 2
+                UserId = 3
             };
 
             Zones zone5 = new()
@@ -186,9 +186,9 @@ namespace DAP.Server.Data
                 Left = 82,
                 Width = 10,
                 Height = 45,
-                InteractionName = "DoorSc3",
+                InteractionName = "3",
                 InteractionType = "nextScene",
-                UserId = 2
+                UserId = 3
             };
 
             Zones zone6 = new()
@@ -200,7 +200,7 @@ namespace DAP.Server.Data
                 Height = 34,
                 InteractionName = "coil",
                 InteractionType = "getItem",
-                UserId = 2
+                UserId = 3
             };
 
             Zones zone7 = new()
@@ -212,7 +212,7 @@ namespace DAP.Server.Data
                 Height = 16,
                 InteractionName = "levers-comb",
                 InteractionType = "getItem",
-                UserId = 2
+                UserId = 3
             };
 
             Zones zone8 = new()
@@ -224,7 +224,7 @@ namespace DAP.Server.Data
                 Height = 27,
                 InteractionName = "klic-od-supliku",
                 InteractionType = "getItem",
-                UserId = 3
+                UserId = 4
             };
 
             Zones zone9 = new()
@@ -237,7 +237,7 @@ namespace DAP.Server.Data
                 InteractionName = "card",
                 InteractionType = "getItem",
                 RequiredItem = "wire",
-                UserId = 3
+                UserId = 4
             };
 
             Zones zone10 = new()
@@ -249,7 +249,7 @@ namespace DAP.Server.Data
                 Height = 15,
                 InteractionName = "mug",
                 InteractionType = "getItem",
-                UserId = 3
+                UserId = 4
             };
 
             Zones zone11 = new()
@@ -259,10 +259,10 @@ namespace DAP.Server.Data
                 Left = 62,
                 Width = 7,
                 Height = 15,
-                InteractionName = "drawer",
+                InteractionName = "8",
                 InteractionType = "nextScene",
                 RequiredItem = "klic-od-supliku",
-                UserId = 3
+                UserId = 4
             };
             //Levers scene 9
             Zones zone12 = new()
@@ -323,7 +323,7 @@ namespace DAP.Server.Data
                 InteractionName = "vaultDoors",
                 InteractionType = "finalScene",
                 RequiredItem = "card",
-                UserId = 4
+                UserId = 5
             };
 
             Zones zone17 = new()
@@ -333,9 +333,9 @@ namespace DAP.Server.Data
                 Left = 20,
                 Width = 15,
                 Height = 15,
-                InteractionName = "leversOverlay",
+                InteractionName = "9",
                 InteractionType = "nextScene",
-                UserId = 4
+                UserId = 5
             };
 
             Zones zone18 = new()
@@ -348,7 +348,7 @@ namespace DAP.Server.Data
                 InteractionName = "generator",
                 InteractionType = "useItem",
                 RequiredItem = "mug",
-                UserId = 4
+                UserId = 5
             };
 
             modelBuilder.Entity<Zones>().HasData(

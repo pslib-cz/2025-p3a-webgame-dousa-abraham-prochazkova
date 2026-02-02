@@ -11,6 +11,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const navigate = useNavigate();
 
     const [scene, setScene] = useState<Scene | null>(null);
+    const [zone, setZone] = useState<Zone[] | null>(null);
     const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -39,6 +40,24 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
             } finally {
                 setLoading(false);
             }
+
+
+            try {
+                setLoading(true);
+                const res = await fetch(`/api/scene/${sceneId}/zones`);
+
+                if (!res.ok) {
+                    // Pokud server vrátí 400/404, vyhodíme chybu
+                    throw new Error(`Scéna ${sceneId} nenalezena`);
+                }
+
+                const zoneData: Zone[] = await res.json();
+                setZone(zoneData);
+            } catch (err) {
+                console.error("Chyba při načítání:", err);
+            } finally {
+                setLoading(false);
+            }
         };
 
         loadData();
@@ -62,6 +81,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
             case "nextScene":
                 // Pokud interactionName obsahuje ID cílové scény (např. "3")
+                //setScene(zone.interactionName);
                 navigate(`/${zone.interactionName}`);
                 break;
 
@@ -77,7 +97,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
         }
     };
-
     if (loading || !scene) return <p>Načítám...</p>;
     return (
         <div className="scena">
@@ -92,30 +111,26 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 {/* Postava - v CSS můžeš měnit class podle ID scény */}
                 <img src={postava} className={`postava-sc${sceneId}`} />
-
                 {/* DYNAMICKÉ GENEROVÁNÍ ZÓN */}
-                {scene.zones.map((zone) => {
-                    // Pokud je to předmět a už je sebraný, nevykresluj ho
-                    if (zone.interactionType === "getItem" && isDone(zone.interactionName)) {
-                        return null;
-                    }
-
-                    return (
-                        <div
-                            key={zone.zoneId}
-                            className="debug-tlacitko" // nebo Styles.hotspot
-                            onClick={() => handleZoneClick(zone)}
-                            style={{
-                                position: "absolute",
-                                left: `${zone.left}%`,
-                                bottom: `${zone.bottom}%`,
-                                width: `${zone.width}%`,
-                                height: `${zone.height}%`,
-                                cursor: "pointer",
-                            }}
-                        />
-                    );
-                })}
+                {zone &&
+                    zone.map((zone) => {
+                        return (
+                            <div
+                                key={zone.zoneId}
+                                className="debug-tlacitko" // nebo Styles.hotspot
+                                onClick={() => handleZoneClick(zone)}
+                                style={{
+                                    position: "absolute",
+                                    left: `${zone.left}%`,
+                                    bottom: `${zone.bottom}%`,
+                                    width: `${zone.width}%`,
+                                    height: `${zone.height}%`,
+                                    cursor: "pointer",
+                                }}
+                            />
+                        );
+                    })
+                }
             </div>
         </div>
     );

@@ -2,6 +2,7 @@
 using DAP.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260202080256_ZonesUpdate")]
+    partial class ZonesUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -186,7 +189,7 @@ namespace DAP.Server.Migrations
                         {
                             UserId = 7,
                             Scene = "PhoneOverlay",
-                            SceneImage = "/images/phone-overlay.png"
+                            SceneImage = "/images/phone-oerlay.png"
                         },
                         new
                         {
@@ -252,7 +255,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "wire",
                             InteractionType = "getItem",
                             Left = 6m,
-                            UserId = 2,
+                            UserId = 1,
                             Width = 8m
                         },
                         new
@@ -264,7 +267,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "getItem",
                             Left = 35m,
                             RequiredItem = "wire",
-                            UserId = 2,
+                            UserId = 1,
                             Width = 12m
                         },
                         new
@@ -276,7 +279,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "useItem",
                             Left = 36m,
                             RequiredItem = "klic-od-radnice",
-                            UserId = 2,
+                            UserId = 1,
                             Width = 7m
                         },
                         new
@@ -288,7 +291,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "nextScene",
                             Left = 2m,
                             RequiredItem = "coil",
-                            UserId = 3,
+                            UserId = 2,
                             Width = 7m
                         },
                         new
@@ -299,7 +302,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "3",
                             InteractionType = "nextScene",
                             Left = 82m,
-                            UserId = 3,
+                            UserId = 2,
                             Width = 10m
                         },
                         new
@@ -310,7 +313,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "coil",
                             InteractionType = "getItem",
                             Left = 62m,
-                            UserId = 3,
+                            UserId = 2,
                             Width = 12m
                         },
                         new
@@ -321,7 +324,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "levers-comb",
                             InteractionType = "getItem",
                             Left = 17m,
-                            UserId = 3,
+                            UserId = 2,
                             Width = 28m
                         },
                         new
@@ -332,7 +335,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "klic-od-supliku",
                             InteractionType = "getItem",
                             Left = 5m,
-                            UserId = 4,
+                            UserId = 3,
                             Width = 14m
                         },
                         new
@@ -344,7 +347,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "getItem",
                             Left = 75m,
                             RequiredItem = "wire",
-                            UserId = 4,
+                            UserId = 3,
                             Width = 18m
                         },
                         new
@@ -355,7 +358,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "mug",
                             InteractionType = "getItem",
                             Left = 57m,
-                            UserId = 4,
+                            UserId = 3,
                             Width = 7m
                         },
                         new
@@ -367,7 +370,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "nextScene",
                             Left = 62m,
                             RequiredItem = "klic-od-supliku",
-                            UserId = 4,
+                            UserId = 3,
                             Width = 7m
                         },
                         new
@@ -423,7 +426,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "finalScene",
                             Left = 72m,
                             RequiredItem = "card",
-                            UserId = 5,
+                            UserId = 4,
                             Width = 6m
                         },
                         new
@@ -434,7 +437,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "9",
                             InteractionType = "nextScene",
                             Left = 20m,
-                            UserId = 5,
+                            UserId = 4,
                             Width = 15m
                         },
                         new
@@ -446,7 +449,7 @@ namespace DAP.Server.Migrations
                             InteractionType = "useItem",
                             Left = 2m,
                             RequiredItem = "mug",
-                            UserId = 5,
+                            UserId = 4,
                             Width = 15m
                         });
                 });
