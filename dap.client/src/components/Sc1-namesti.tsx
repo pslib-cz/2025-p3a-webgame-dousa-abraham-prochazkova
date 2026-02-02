@@ -1,15 +1,14 @@
-import type { Scene, ScProps, Zone } from "../assets/types/types";
+import type { Scene, ScProps } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
 import Inventar from "../components/Inventar";
 import { GameContext, type ItemId } from "../GameContext";
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDialogue } from "../dialogApi";
 
 const Sc1Namesti = ({ sceneId }: ScProps) => {
   const game = useContext(GameContext);
-  const [postup, setPostup] = useState(false);
   const [dialog, setDialog] = useState("prazdny text");
 
   if (!game) {
@@ -23,10 +22,6 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
     console.log("Klik na hotspot:", id);
     addItem(id);
   };
-  const klikRemove = (id: ItemId) => {
-    console.log("Odebrani itemu:", id);
-    removeItem(id);
-  };
   const klikCheck = (idCheck: ItemId, idGive: ItemId) => {
     if (hasItem(idCheck)) {
       addItem(idGive);
@@ -34,7 +29,6 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
   };
   const vstupRadnice = () => {
     if (hasItem("klic-od-radnice")) {
-      setPostup(true);
       setScena("3");
       removeItem("klic-od-radnice");
       u("/3");
@@ -78,7 +72,7 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
       try {
         const res = await fetch("/api/scene/" + sceneId + "/zones");
         if (!res.ok) throw new Error("Chyba při načítání scény");
-        const data: Zone = await res.json();
+        await res.json();
       } catch (err) {
         console.error(err);
       }

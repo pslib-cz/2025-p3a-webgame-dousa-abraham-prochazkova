@@ -1,8 +1,7 @@
 import type { Scene, Zone } from "../assets/types/types";
-import { GameContext, type ItemId } from "../GameContext";
+import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchDialogue } from "../dialogApi";
+import { useNavigate } from "react-router-dom";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 
 const OverlayScene = ({ sceneId }: { sceneId: string }) => {
@@ -11,13 +10,10 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
 
     const [scene, setScene] = useState<Scene | null>(null);
     const [zone, setZone] = useState<Zone[] | null>(null);
-    const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, isDone, setDone, clearItems } = game;
-
-    const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+    const { setDone } = game;
 
     const [phoneInput, setPhoneInput] = useState("");
     const correctCode = "7872";
@@ -30,7 +26,6 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
 
     const checkPhoneCode = () => {
         if (phoneInput === correctCode) {
-            setIsPhoneClicked(false);
             setDone("phone-correct");
             navigate("/5");
         } else {
@@ -143,18 +138,17 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 )}
 
                 {zone &&
-                    zone.map((zone) => {
+                    zone.map((z) => {
                         return (
                             <div
-                                key={zone.zoneId}
+                                key={z.zoneId}
                                 className="debug-tlacitko" // nebo Styles.hotspot
-                                onClick={() => handleZoneClick(zone)}
                                 style={{
                                     position: "absolute",
-                                    left: `${zone.left}%`,
-                                    bottom: `${zone.bottom}%`,
-                                    width: `${zone.width}%`,
-                                    height: `${zone.height}%`,
+                                    left: `${z.left}%`,
+                                    bottom: `${z.bottom}%`,
+                                    width: `${z.width}%`,
+                                    height: `${z.height}%`,
                                     cursor: "pointer",
                                 }}
                             />
