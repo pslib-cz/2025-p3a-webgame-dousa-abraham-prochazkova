@@ -8,8 +8,8 @@ namespace DAP.Server.Models
     {
         [Key]
         public int ItemId { get; set; }
-        public string ItemName { get; set; }
-        public string ImageURL { get; set; }
+        public string ItemName { get; set; } = string.Empty;
+        public string ImageURL { get; set; } = string.Empty;
 
         [ForeignKey(nameof(UserScene))]
         public int UserId { get; set; }

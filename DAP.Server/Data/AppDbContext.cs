@@ -13,14 +13,13 @@ namespace DAP.Server.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<UserScene> Scene { get; set; }
         public DbSet<Dialogue> Dialogues { get; set; }
-        public DbSet<Minigame> Minigames { get; set; }
-        public DbSet <Zones> Zones { get; set; }
+        public DbSet<Zones> Zones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-        
+
 
             Item medenyDrat = new()
             {
