@@ -18,6 +18,11 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     if (!game) throw new Error("Neni game context");
     const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec } = game;
 
+
+    const buttonBack = () => {
+        navigate("/3");
+    };
+
     // 1. Načtení dat scény z API
     useEffect(() => {
         // Pokud je sceneId undefined nebo prázdné, vůbec nic nedělej
@@ -80,15 +85,22 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
 
             case "nextScene":
-                // Pokud interactionName obsahuje ID cílové scény (např. "3")
-                //setScene(zone.interactionName);
-                navigate(`/${zone.interactionName}`);
+                if (zone.requiredItem) {
+                    removeItem(zone.requiredItem as ItemId);
+                    navigate(`/${zone.interactionName}`);
+                } else if (zone.requiredItem === null) {
+                    navigate(`/${zone.interactionName}`);
+                }
                 break;
 
             case "useItem":
                 // Použije item a třeba někam pustí hráče
                 if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
                 setDone(zone.zoneId.toString()); // Označíme jako hotové
+                break;
+
+            case "phoneClicked":
+                setDialog("Telefon byl kliknut.");
                 break;
 
             case "finalScene":
@@ -149,8 +161,16 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                         );
                     })
                 }
+
+                {(sceneId === "4" || sceneId === "5") && (
+                    <button
+                        className="buttonBack"
+                        onClick={buttonBack}>
+                        Zpět
+                    </button>
+                )}
             </div>
-        </div>
+        </div >
     );
 };
 

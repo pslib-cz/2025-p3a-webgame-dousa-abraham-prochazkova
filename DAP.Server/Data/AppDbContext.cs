@@ -174,7 +174,7 @@ namespace DAP.Server.Data
                 Width = 7,
                 Height = 26,
                 InteractionName = "7",
-                InteractionType = "nextScene",
+                InteractionType = "phoneClicked",
                 RequiredItem = "coil",
                 UserId = 3
             };
@@ -186,7 +186,7 @@ namespace DAP.Server.Data
                 Left = 82,
                 Width = 10,
                 Height = 45,
-                InteractionName = "3",
+                InteractionName = "4",
                 InteractionType = "nextScene",
                 UserId = 3
             };
