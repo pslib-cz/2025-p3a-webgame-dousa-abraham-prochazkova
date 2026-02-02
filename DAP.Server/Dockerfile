@@ -1,38 +1,51 @@
-# 1. Build Stage for Client (Frontend)
-FROM node:20-alpine AS client-build
-WORKDIR /app
+# Stage 1: Build the React client
+FROM node:22-alpine AS client-build
+WORKDIR /app/client
 
-# Install dependencies and build the React-based client
-COPY dap.client/package*.json ./dap.client/
-RUN npm install --prefix dap.client
+# Copy package files
+COPY dap.client/package*.json ./
 
-# Copy the client source code and build it
-COPY dap.client ./dap.client
-RUN npm run build --prefix dap.client
+# Install dependencies
+RUN npm ci
 
-# 2. Build Stage for Server (Backend)
+# Copy client source
+COPY dap.client/ ./
+
+# Build the client
+RUN npm run build
+
+# Stage 2: Build the .NET server
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS server-build
+WORKDIR /app/server
+
+# Copy csproj and restore
+COPY DAP.Server/*.csproj ./
+RUN dotnet restore
+
+# Copy server source
+COPY DAP.Server/ ./
+# Copy built client files to wwwroot
+COPY --from=client-build /app/client/dist ./wwwroot
+
+# Build the server
+RUN dotnet publish -c Release -o /app/publish
+
+# Stage 3: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 
-# Copy server-related project files (C# and dependencies)
-COPY DAP.Server/*.csproj DAP.Server/
-RUN dotnet restore DAP.Server/DAP.Server.csproj
+# Copy published app
+COPY --from=server-build /app/publish .
 
-# Copy the entire backend code and build the ASP.NET WebAPI
-COPY DAP.Server ./
-RUN dotnet publish -c Release -o /app/out
+# Create directory for database
+RUN mkdir -p /app/data
 
-# 3. Final Stage for Combined Environment
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
-WORKDIR /app
+# Set environment variables
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 
-# Copy server application files
-COPY --from=server-build /app/out .
+# Expose port
+EXPOSE 8080
 
-# Copy pre-built client static files
-COPY --from=client-build /app/dap.client/dist ./wwwroot
-
-# Set the entrypoint and expose necessary ports
+# Start the application
 ENTRYPOINT ["dotnet", "DAP.Server.dll"]
-EXPOSE 80
-EXPOSE 443
