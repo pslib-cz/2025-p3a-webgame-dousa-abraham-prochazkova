@@ -34,7 +34,6 @@ type GameContextValue = {
 export const GameContext = createContext<GameContextValue | null>(null);
 
 export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [isCoilRequired, setIsCoilRequired] = useState(true);
 
   const [scena, setScena] = useState<ScenaId>(() => {
     try {

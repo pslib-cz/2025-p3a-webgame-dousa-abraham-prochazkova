@@ -1,8 +1,7 @@
 import type { Scene, Zone } from "../assets/types/types";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchDialogue } from "../dialogApi";
+import { useNavigate } from "react-router-dom";
 import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
 
 const OverlayScene = ({ sceneId }: { sceneId: string }) => {
@@ -11,13 +10,10 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
 
     const [scene, setScene] = useState<Scene | null>(null);
     const [zone, setZone] = useState<Zone[] | null>(null);
-    const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, isDone, setDone, clearItems } = game;
-
-    const [isPhoneClicked, setIsPhoneClicked] = useState(false);
+    const { addItem, hasItem, removeItem, setDone, clearItems } = game;
 
     const [phoneInput, setPhoneInput] = useState("");
     const correctCode = "7872";
@@ -30,7 +26,6 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
 
     const checkPhoneCode = () => {
         if (phoneInput === correctCode) {
-            setIsPhoneClicked(false);
             setDone("phone-correct");
             navigate("/5");
         } else {
@@ -43,7 +38,47 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const buttonBack = () => {
         navigate("/3");
     }
-    
+
+
+    const handleZoneClick = (zone: Zone) => {
+        console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
+
+        // Kontrola, zda hráč má potřebný item
+        if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
+            return;
+        }
+
+        switch (zone.interactionType) {
+            case "getItem":
+                addItem(zone.interactionName as ItemId);
+                setDone(zone.zoneId.toString()); // Označíme jako sebrané
+                break;
+
+            case "nextScene":
+                if (zone.requiredItem) {
+                    removeItem(zone.requiredItem as ItemId);
+                    navigate(`/${zone.interactionName}`);
+                } else if (zone.requiredItem === null) {
+                    navigate(`/${zone.interactionName}`);
+                }
+                break;
+
+            case "useItem":
+                // Použije item a třeba někam pustí hráče
+                if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
+                setDone(zone.zoneId.toString()); // Označíme jako hotové
+                break;
+
+            case "phoneClicked":
+                break;
+
+            case "finalScene":
+                clearItems();
+                navigate("/");
+                break;
+        }
+    };
+
 
     useEffect(() => {
         const sceneNumber = Number(sceneId);
@@ -95,51 +130,51 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 {/* Pozad� z DB */}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
-        
+
 
                 {sceneId === "7" && (
-                <div className={Styles["overlay-blur"]}>
-                    <div className={Styles["overlay"]}>
+                    <div className={Styles["overlay-blur"]}>
+                        <div className={Styles["overlay"]}>
 
-                    <div
-                        className={Styles["phone-display"]}
-                        style={{ color: error ? "red" : "black" }}
-                    >
-                        {phoneInput || "----"}
-                    </div>
+                            <div
+                                className={Styles["phone-display"]}
+                                style={{ color: error ? "red" : "black" }}
+                            >
+                                {phoneInput || "----"}
+                            </div>
 
-                    <div className={Styles["phone-buttons"]}>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-                        <button
-                            key={n}
-                            onClick={() => handlePhoneButton(n.toString())}
-                            className={Styles["phone-btn"]}
-                        >
-                            {n}
-                        </button>
-                        ))}
-                        <button
-                        onClick={checkPhoneCode}
-                        className={Styles["phone-btn-enter"]}
-                        >
-                        OK
-                        </button>
-                        <button
-                        onClick={() => setPhoneInput("")}
-                        className={Styles["phone-btn-clear"]}
-                        >
-                        C
-                        </button>
-                    </div>
+                            <div className={Styles["phone-buttons"]}>
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                                    <button
+                                        key={n}
+                                        onClick={() => handlePhoneButton(n.toString())}
+                                        className={Styles["phone-btn"]}
+                                    >
+                                        {n}
+                                    </button>
+                                ))}
+                                <button
+                                    onClick={checkPhoneCode}
+                                    className={Styles["phone-btn-enter"]}
+                                >
+                                    OK
+                                </button>
+                                <button
+                                    onClick={() => setPhoneInput("")}
+                                    className={Styles["phone-btn-clear"]}
+                                >
+                                    C
+                                </button>
+                            </div>
 
-                    <button
-                        className={Styles["overlay-close-button"]}
-                        onClick={buttonBack}
-                    >
-                        ×
-                    </button>
+                            <button
+                                className={Styles["overlay-close-button"]}
+                                onClick={buttonBack}
+                            >
+                                ×
+                            </button>
+                        </div>
                     </div>
-                </div>
                 )}
 
                 {zone &&

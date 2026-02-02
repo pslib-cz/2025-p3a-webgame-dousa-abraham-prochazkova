@@ -1,3 +1,4 @@
+/*
 import type { Scene, ScProps, Zone } from "../assets/types/types";
 import postava from "/img/character.png";
 import Styles from "../assets/styles/Sc1-namesti.module.css";
@@ -40,7 +41,7 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
       u("/3");
     }
   };
-  const u = useNavigate(); /*
+  const u = useNavigate(); 
   useEffect(() => {
     if (postup) return;
     if (hasItem("wire") && hasItem("klic-od-radnice")) {
@@ -48,7 +49,7 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
       setScena("sc2");
       u("/sc2");
     }
-  }, [hasItem, postup, setScena]);*/
+  }, [hasItem, postup, setScena]);
 
   useEffect(() => {
     fetchDialogue(1)
@@ -148,4 +149,4 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
   );
 };
 
-export default Sc1Namesti;
+export default Sc1Namesti;*/
