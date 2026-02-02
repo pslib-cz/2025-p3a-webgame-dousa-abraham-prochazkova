@@ -160,8 +160,8 @@ namespace DAP.Server.Data
                 Left = 36,
                 Width = 7,
                 Height = 18,
-                InteractionName = "dvereRadnice",
-                InteractionType = "useItem",
+                InteractionName = "3",
+                InteractionType = "nextScene",
                 RequiredItem = "klic-od-radnice",
                 UserId = 2
             };

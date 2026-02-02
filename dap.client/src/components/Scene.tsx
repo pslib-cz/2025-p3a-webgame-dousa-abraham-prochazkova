@@ -16,7 +16,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, isDone, setDone, clearItems } = game;
+    const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec } = game;
 
     // 1. Načtení dat scény z API
     useEffect(() => {
@@ -62,7 +62,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
         loadData();
     }, [sceneId]); // Důležité: Sledujeme změnu sceneId
-
+    console.log(zone?.map(z => z.interactionName));
     // 2. Univerzální handler pro klikání na zóny
     const handleZoneClick = (zone: Zone) => {
         console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
@@ -76,7 +76,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
         switch (zone.interactionType) {
             case "getItem":
                 addItem(zone.interactionName as ItemId);
-                setDone(zone.interactionName); // Označíme jako sebrané
+                setDone(zone.zoneId.toString()); // Označíme jako sebrané
                 break;
 
             case "nextScene":
@@ -88,7 +88,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
             case "useItem":
                 // Použije item a třeba někam pustí hráče
                 if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
-                setDone(zone.interactionName);
+                setDone(zone.zoneId.toString()); // Označíme jako hotové
                 break;
 
             case "finalScene":
@@ -97,6 +97,9 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
         }
     };
+
+
+
     if (loading || !scene) return <p>Načítám...</p>;
     return (
         <div className="scena">
@@ -111,9 +114,24 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 {/* Postava - v CSS můžeš měnit class podle ID scény */}
                 <img src={postava} className={`postava-sc${sceneId}`} />
+
+                <div
+                    className="debug-tlacitko"
+                    onClick={() => konec()}
+                    style={{
+                        left: "95%",
+                        bottom: "92%",
+                        width: "5%",
+                        height: "auto",
+                        aspectRatio: 1 / 1,
+                    }}
+                />
                 {/* DYNAMICKÉ GENEROVÁNÍ ZÓN */}
                 {zone &&
                     zone.map((zone) => {
+                        if (isDone(zone.zoneId.toString())) {
+                            return null; // Pokud je zóna hotová, nevykreslujeme ji
+                        }
                         return (
                             <div
                                 key={zone.zoneId}
