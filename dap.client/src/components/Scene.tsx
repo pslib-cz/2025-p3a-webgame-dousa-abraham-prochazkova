@@ -1,6 +1,7 @@
 import type { Scene, Zone } from "../assets/types/types";
 import postava from "/img/character.png";
 import Inventar from "../components/Inventar";
+import Notifications from "../components/Notification";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +12,18 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const navigate = useNavigate();
 
     const [scene, setScene] = useState<Scene | null>(null);
-    const [zone, setZone] = useState<Zone[] | null>(null);
     const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec } = game;
+    const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec, message } = game;
 
 
     const buttonBack = () => {
         navigate("/3");
     };
 
-    // 1. Načtení dat scény z API
     useEffect(() => {
-        // Pokud je sceneId undefined nebo prázdné, vůbec nic nedělej
         if (!sceneId || sceneId === "undefined") return;
 
         const loadData = async () => {
@@ -34,7 +32,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 const res = await fetch(`/api/scene/${sceneId}`);
 
                 if (!res.ok) {
-                    // Pokud server vrátí 400/404, vyhodíme chybu
                     throw new Error(`Scéna ${sceneId} nenalezena`);
                 }
 
@@ -45,43 +42,26 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
             } finally {
                 setLoading(false);
             }
-
-
-            try {
-                setLoading(true);
-                const res = await fetch(`/api/scene/${sceneId}/zones`);
-
-                if (!res.ok) {
-                    // Pokud server vrátí 400/404, vyhodíme chybu
-                    throw new Error(`Scéna ${sceneId} nenalezena`);
-                }
-
-                const zoneData: Zone[] = await res.json();
-                setZone(zoneData);
-            } catch (err) {
-                console.error("Chyba při načítání:", err);
-            } finally {
-                setLoading(false);
-            }
         };
 
         loadData();
-    }, [sceneId]); // Důležité: Sledujeme změnu sceneId
-    console.log(zone?.map(z => z.interactionName));
-    // 2. Univerzální handler pro klikání na zóny
+    }, [sceneId]);
+    console.log(scene?.zones?.map(z => z.interactionName));
+
+
     const handleZoneClick = (zone: Zone) => {
         console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
-
-        // Kontrola, zda hráč má potřebný item
-        if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
-            setDialog(`Potřebuješ: ${zone.requiredItem}`);
-            return;
-        }
-
+        /*
+                if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
+                    setDialog(`Potřebuješ: ${zone.requiredItem}`);
+                    return;
+                }
+        */
         switch (zone.interactionType) {
             case "getItem":
                 addItem(zone.interactionName as ItemId);
-                setDone(zone.zoneId.toString()); // Označíme jako sebrané
+                game.notification(`Získal jsi: ${zone.interactionName}`);
+                setDone(zone.zoneId.toString());
                 break;
 
             case "nextScene":
@@ -94,15 +74,33 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
 
             case "useItem":
-                // Použije item a třeba někam pustí hráče
                 if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
-                setDone(zone.zoneId.toString()); // Označíme jako hotové
+                setDone(zone.zoneId.toString());
                 break;
 
             case "phoneClicked":
-                setDialog("Telefon byl kliknut.");
-                break;
+                let jeOpraveno = isDone("phone-coil");
 
+                if (!jeOpraveno) {
+                    if (hasItem("coil")) {
+                        removeItem("coil");
+                        setDone("phone-coil");
+                        jeOpraveno = true
+                    } else {
+                        setDialog("Telefon je rozbitý, chybí mu cívka.");
+                        return;
+                    }
+                } else {
+                    if (!isDone("phone-correct")) {
+                        navigate(`/${zone.interactionName}`);
+                        setDialog("Telefon je opravený, ale číslo ještě nebylo vytočeno.");
+                    } else if (isDone("phone-correct")) {
+                        navigate("/5");
+                        setDialog("Volání proběhlo úspěšně.");
+                    }
+                }
+
+                break;
             case "finalScene":
                 clearItems();
                 navigate("/");
@@ -116,8 +114,10 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     return (
         <div className="scena">
             <div className="grafika">
+                {message && <Notifications />}
                 {/* Pozadí z DB */}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
+
                 <div className="inventar">
                     <Inventar />
                 </div>
@@ -139,8 +139,8 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     }}
                 />
                 {/* DYNAMICKÉ GENEROVÁNÍ ZÓN */}
-                {zone &&
-                    zone.map((zone) => {
+                {scene.zones &&
+                    scene.zones.map((zone) => {
                         if (isDone(zone.zoneId.toString())) {
                             return null; // Pokud je zóna hotová, nevykreslujeme ji
                         }
@@ -150,12 +150,10 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                                 className="debug-tlacitko" // nebo Styles.hotspot
                                 onClick={() => handleZoneClick(zone)}
                                 style={{
-                                    position: "absolute",
                                     left: `${zone.left}%`,
                                     bottom: `${zone.bottom}%`,
                                     width: `${zone.width}%`,
                                     height: `${zone.height}%`,
-                                    cursor: "pointer",
                                 }}
                             />
                         );

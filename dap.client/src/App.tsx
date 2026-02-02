@@ -1,6 +1,7 @@
 import ScenaProvider, { GameContext } from "./GameContext";
 import "./App.css";
 import Intro from "./components/Intro";
+import Notifications from "./components/Notification";
 import { useContext, useEffect } from "react";
 import {
   BrowserRouter,
@@ -42,12 +43,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <ScenaProvider>
-        <Routes>
-          {/* Definujeme cestu pro ID scény */}
-          <Route path="/:sceneId" element={<SceneSwitch />} />
-          {/* Základní cesta přesměruje na intro */}
-          <Route path="/" element={<Navigate to="/1" />} />
-        </Routes>
+          <Routes>
+            <Route path="/:sceneId" element={<SceneSwitch />} />
+            <Route path="/" element={<Navigate to="/1" />} />
+          </Routes>
       </ScenaProvider>
     </BrowserRouter>
   );

@@ -29,6 +29,9 @@ type GameContextValue = {
   isDone: (id: string) => boolean;
   setDone: (id: string) => void;
   konec: () => void;
+  message: string | null;
+  setMessage: (n: string | null) => void;
+  notification: (text: string) => void;
 };
 
 export const GameContext = createContext<GameContextValue | null>(null);
@@ -68,6 +71,13 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
   const setDone = (id: string) => {
     setHistory((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
+
+  const [message, setMessage] = useState<string | null>(null);
+
+  const notification = (text: string) => {
+    setMessage(text);
+    setTimeout(() => setMessage(null), 200000);
+  }
 
   const u = useNavigate();
 
@@ -116,6 +126,9 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
         isDone,
         setDone,
         konec,
+        message,
+        setMessage,
+        notification,
       }}
     >
       {children}
