@@ -16,21 +16,26 @@ const certificateName = "dap.client";
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-if (!fs.existsSync(baseFolder)) {
-  fs.mkdirSync(baseFolder, { recursive: true });
-}
+// Only create certificates if we're running the dev server (not during build)
+const isDev = process.argv.includes('dev') || process.argv.includes('serve');
 
-if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-  if (0 !== child_process.spawnSync('dotnet', [
-    'dev-certs',
-    'https',
-    '--export-path',
-    certFilePath,
-    '--format',
-    'Pem',
-    '--no-password',
-  ], { stdio: 'inherit', }).status) {
-    throw new Error("Could not create certificate.");
+if (isDev) {
+  if (!fs.existsSync(baseFolder)) {
+    fs.mkdirSync(baseFolder, { recursive: true });
+  }
+
+  if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
+    if (0 !== child_process.spawnSync('dotnet', [
+      'dev-certs',
+      'https',
+      '--export-path',
+      certFilePath,
+      '--format',
+      'Pem',
+      '--no-password',
+    ], { stdio: 'inherit', }).status) {
+      throw new Error("Could not create certificate.");
+    }
   }
 }
 
@@ -57,9 +62,9 @@ export default defineConfig({
       }
     },
     port: parseInt(env.DEV_SERVER_PORT || '5274'),
-    https: {
+    https: isDev && fs.existsSync(keyFilePath) && fs.existsSync(certFilePath) ? {
       key: fs.readFileSync(keyFilePath),
       cert: fs.readFileSync(certFilePath),
-    }
+    } : undefined
   }
 })
