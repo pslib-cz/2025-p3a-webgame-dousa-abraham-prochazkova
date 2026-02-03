@@ -46,7 +46,7 @@
 
 .phone-display {
   position: absolute;
-  bottom: 75%;
+  bottom: 80%;
   left: 54%;
   transform: translateX(-50%);
   font-size: 2rem;
@@ -57,13 +57,13 @@
 
 .phone-buttons {
   position: absolute;
-  bottom: 24%;
-  left: 54%;
+  bottom: 23%;
+  left: 55%;
   transform: translateX(-50%);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  height: 48%;
+  height: 50%;
   width: 22%;
   margin: 0;
   padding: 0;
@@ -72,7 +72,7 @@
 .phone-btn,
 .phone-btn-enter,
 .phone-btn-clear {
-  height: 35%;
+  height: 80%;
   font-size: 1.5rem;
   border-radius: 6px;
   border: none;

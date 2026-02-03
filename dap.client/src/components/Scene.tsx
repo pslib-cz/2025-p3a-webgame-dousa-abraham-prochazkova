@@ -53,6 +53,9 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
         */
         switch (zone.interactionType) {
             case "getItem":
+                if(zone.requiredItem && hasItem(zone.requiredItem as ItemId) && !isDone(zone.zoneId.toString())) {
+                    removeItem(zone.requiredItem)
+                }
                 addItem(zone.interactionName as ItemId);
                 game.notification(`Získal jsi: ${zone.interactionName}`);
                 setDone(zone.zoneId.toString());
@@ -107,7 +110,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
             case "finalScene":
                 clearItems();
-                navigate("/");
+                navigate("/6");
                 game.notification("Hra byla ukončena a stav vymazán.");
                 break;
         }
