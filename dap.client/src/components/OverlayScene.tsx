@@ -36,6 +36,17 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
         }
     };
 
+    const [minigameActive, setMinigameActive] = useState(false);
+
+    const [leverState, setLeverState] = useState<boolean[]>([
+        false,
+        false,
+        false,
+        false
+      ]);
+      
+      const correctCombination = [true, false, true, true];      
+
 
     const handleZoneClick = (zone: Zone) => {
         console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
@@ -73,8 +84,36 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 clearItems();
                 navigate("/");
                 break;
+
+                case "prepniPaku": {
+                    const index = Number(zone.interactionName);
+                    // nebo: zone.zoneId - 12
+                  
+                    setLeverState(prev => {
+                      const updated = [...prev];
+                      updated[index] = !updated[index];
+                  
+                      const solved = updated.every(
+                        (val, i) => val === correctCombination[i]
+                      );
+                  
+                      if (solved) {
+                        setMinigameActive(false);
+                        // setDone("trezor-odemcen");
+                      }
+                  
+                      return updated;
+                    });
+                  
+                    break;
+                  }
         }
     };
+    const [dialog, setDialog] = useState("prazdny text");
+
+    if (!game) {
+        throw new Error("Neni game");
+    }
 
 
     useEffect(() => {
@@ -168,6 +207,18 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                         </div>
                     </div>
                 )}
+
+                {sceneId === "9" &&
+                leverState.map((state, i) => (
+                    <img
+                        
+                        alt="paka"
+                        className={state ? Styles["paka-down"] : Styles["paka-up"]}
+                        style={{ left: `${30 + i * 15}%` }}
+                    />
+                ))
+                }
+
                 <button
                     className={Styles["overlay-close-button"]}
                     onClick={() => buttonBack()}
