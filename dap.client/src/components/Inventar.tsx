@@ -18,8 +18,11 @@ const Inventar = () => {
   }
 
   const { items } = game;
-
   const predmety = items;
+
+  const maxSlots = 6;
+  const slots = Array.from({ length: maxSlots }, (_, i) => items[i] || null);
+
 
   function getItemImage(id: ItemId): string | null {
     switch (id) {
@@ -48,12 +51,12 @@ const Inventar = () => {
   return (
     <>
       <div className="inventory-bar">
-        {predmety.map((itemId, index) => {
+        {slots.map((itemId, index) => {
           const src = itemId ? getItemImage(itemId) : null;
           return (
             <div className="inventory-slot" key={index}>
               {src && (
-                <img src={src} alt={itemId ?? ""} className="inventory-item" />
+                <img src={src} alt={itemId} className="inventory-item" />
               )}
             </div>
           );
