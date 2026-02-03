@@ -1,7 +1,7 @@
 import type { Scene, Zone, Item } from "../assets/types/types";
 import Styles from "../assets/styles/Scene.module.css";
-import Inventar from "../components/Inventar";
-import Notifications from "../components/Notification";
+import Inventar from "./Inventar";
+import Notifications from "./Notification";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +42,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
         loadData();
     }, [sceneId]);
+
 
     const handleZoneClick = (zone: Zone) => {
 

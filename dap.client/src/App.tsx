@@ -9,7 +9,7 @@ import {
   Navigate,
   useParams,
 } from "react-router-dom";
-import UniversalScene from "./components/Scene";
+import UniversalScene from "./components/UniversalScene";
 import OverlayScene from "./components/OverlayScene"
 
 function SceneSwitch() {

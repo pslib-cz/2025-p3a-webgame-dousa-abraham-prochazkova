@@ -5,9 +5,9 @@ namespace DAP.Server.Models
     public class UserScene
     {
         [Key]
-        public int UserId { get; set; } //idSceny
+        public int UserId { get; set; }
         public string Scene { get; set; } = null!;
         public string? SceneImage { get; set; }
-        public ICollection<Zones> Zones { get; set; } = new List<Zones>();
+        public virtual ICollection<Zones> Zones { get; set; } = new List<Zones>();
     }
 }

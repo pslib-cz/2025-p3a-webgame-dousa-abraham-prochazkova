@@ -19,31 +19,43 @@ namespace DAP.Server.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetCurrentScene(int userId)
         {
-            var scene = await _db.Scene
-                .Include(s => s.Zones)
-                    .ThenInclude(z => z.RequiredItem)
-                .Include(s => s.Zones)
-                    .ThenInclude(z => z.GetItem)
-                .FirstOrDefaultAsync(s => s.UserId == userId);
+            var sceneData = await _db.Scene
+                .Where(s => s.UserId == userId)
+                .Select(s => new
+                {
+                    userId = s.UserId,
+                    scene = s.Scene,
+                    sceneImage = s.SceneImage,
+                    zones = s.Zones.Select(z => new
+                    {
+                        zoneId = z.ZoneId,
+                        bottom = z.Bottom,
+                        left = z.Left,
+                        width = z.Width,
+                        height = z.Height,
+                        interactionName = z.InteractionName,
+                        interactionType = z.InteractionType,
+                        requiredItemId = z.RequiredItemId,
+                        requiredItem = z.RequiredItem != null ? new
+                        {
+                            itemId = z.RequiredItem.ItemId,
+                            itemName = z.RequiredItem.ItemName,
+                            imageURL = z.RequiredItem.ImageURL
+                        } : null,
+                        getItemId = z.GetItemId,
+                        getItem = z.GetItem != null ? new
+                        {
+                            itemId = z.GetItem.ItemId,
+                            itemName = z.GetItem.ItemName,
+                            imageURL = z.GetItem.ImageURL
+                        } : null
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
-            if (scene == null) return NotFound();
+            if (sceneData == null) return NotFound();
 
-            return Ok(scene);
-        }
-
-        [HttpGet("{userId}/zones")]
-        public async Task<IActionResult> GetZonesByScene(int userId)
-        {
-            var zones = await _db.Zones
-                .Include(z => z.RequiredItem)
-                .Include(z => z.GetItem)
-                .Where(z => z.UserId == userId)
-                .ToListAsync();
-
-            if (zones == null || !zones.Any())
-                return NotFound($"Uživatel/Scéna s ID {userId} nemá žádné zóny.");
-
-            return Ok(zones);
+            return Ok(sceneData);
         }
     }
 }
