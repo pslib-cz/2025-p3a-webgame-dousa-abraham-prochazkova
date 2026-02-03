@@ -1,11 +1,12 @@
 .notification-container {
     position: absolute;
     top: 0.5%;
-    left: 5%;
+    left: 10%;
     z-index: 100;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(60, 60, 60, 0.85));
-    color: white;
+    background: linear-gradient(to bottom, rgba(81, 54, 25, 1), rgba(81, 54, 25, 0.7));
+    color: #D3CCB9;
     padding: 10px 20px;
+    border: 2px solid #301500;
     border-radius: 5px;
     pointer-events: none;
 
