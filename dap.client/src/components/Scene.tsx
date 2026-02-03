@@ -1,5 +1,5 @@
 import type { Scene, Zone } from "../assets/types/types";
-import postava from "/img/character.png";
+import Styles from "../assets/styles/Scene.module.css";
 import Inventar from "../components/Inventar";
 import Notifications from "../components/Notification";
 import { GameContext, type ItemId } from "../GameContext";
@@ -16,12 +16,8 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec, message } = game;
+    const { addItem, hasItem, removeItem, isDone, setDone, clearItems, konec, message, buttonBack } = game;
 
-
-    const buttonBack = () => {
-        navigate("/3");
-    };
 
     useEffect(() => {
         if (!sceneId || sceneId === "undefined") return;
@@ -46,8 +42,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
         loadData();
     }, [sceneId]);
-    console.log(scene?.zones?.map(z => z.interactionName));
-
 
     const handleZoneClick = (zone: Zone) => {
         console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
@@ -65,38 +59,48 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
 
             case "nextScene":
-                if (zone.requiredItem) {
-                    removeItem(zone.requiredItem as ItemId);
+                if (isDone(zone.zoneId.toString())) {
                     navigate(`/${zone.interactionName}`);
+                    return;
+                } else if (zone.requiredItem && hasItem(zone.requiredItem as ItemId) && !isDone(zone.zoneId.toString())) {
+                    removeItem(zone.requiredItem as ItemId);
+                    setDone(zone.zoneId.toString());
+                    navigate(`/${zone.interactionName}`);
+                    game.notification(`Použil jsi: ${zone.requiredItem}`);
+                } else if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
+                    game.notification(`Potřebuješ: ${zone.requiredItem}`);
                 } else if (zone.requiredItem === null) {
                     navigate(`/${zone.interactionName}`);
+                    game.notification(`Přešel jsi do scény: ${zone.interactionName}`);
                 }
                 break;
 
             case "useItem":
                 if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
                 setDone(zone.zoneId.toString());
+                game.notification(`Použil jsi: ${zone.requiredItem}`);
                 break;
 
             case "phoneClicked":
-                let jeOpraveno = isDone("phone-coil");
+                let fixed = isDone("phone-coil");
 
-                if (!jeOpraveno) {
+                if (!fixed) {
                     if (hasItem("coil")) {
                         removeItem("coil");
                         setDone("phone-coil");
-                        jeOpraveno = true
+                        fixed = true;
+                        game.notification("Použil jsi cívku k opravě telefonu.");
                     } else {
-                        setDialog("Telefon je rozbitý, chybí mu cívka.");
+                        game.notification("Telefon je rozbitý. Potřebuješ něco k opravě.");
                         return;
                     }
                 } else {
                     if (!isDone("phone-correct")) {
                         navigate(`/${zone.interactionName}`);
-                        setDialog("Telefon je opravený, ale číslo ještě nebylo vytočeno.");
+                        game.notification("Je potřeba zadat správný kód.");
                     } else if (isDone("phone-correct")) {
                         navigate("/5");
-                        setDialog("Volání proběhlo úspěšně.");
+                        game.notification("Přešel jsi do scény 5.");
                     }
                 }
 
@@ -104,6 +108,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
             case "finalScene":
                 clearItems();
                 navigate("/");
+                game.notification("Hra byla ukončena a stav vymazán.");
                 break;
         }
     };
@@ -115,17 +120,13 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
         <div className="scena">
             <div className="grafika">
                 {message && <Notifications />}
-                {/* Pozadí z DB */}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
-                <div className="inventar">
+                <div className={Styles["inventar"]}>
                     <Inventar />
                 </div>
 
-                <div className="dialogText">"{dialog}"</div>
-
-                {/* Postava - v CSS můžeš měnit class podle ID scény */}
-                <img src={postava} className={`postava-sc${sceneId}`} />
+                <div className={Styles["dialogText"]}>"{dialog}"</div>
 
                 <div
                     className="debug-tlacitko"
@@ -138,16 +139,15 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                         aspectRatio: 1 / 1,
                     }}
                 />
-                {/* DYNAMICKÉ GENEROVÁNÍ ZÓN */}
                 {scene.zones &&
                     scene.zones.map((zone) => {
-                        if (isDone(zone.zoneId.toString())) {
-                            return null; // Pokud je zóna hotová, nevykreslujeme ji
+                        if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene") {
+                            return null;
                         }
                         return (
                             <div
                                 key={zone.zoneId}
-                                className="debug-tlacitko" // nebo Styles.hotspot
+                                className="debug-tlacitko"
                                 onClick={() => handleZoneClick(zone)}
                                 style={{
                                     left: `${zone.left}%`,
@@ -162,7 +162,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 {(sceneId === "4" || sceneId === "5") && (
                     <button
-                        className="buttonBack"
+                        className={Styles.buttonBack}
                         onClick={buttonBack}>
                         Zpět
                     </button>

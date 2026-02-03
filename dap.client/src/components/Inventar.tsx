@@ -44,7 +44,6 @@ const Inventar = () => {
     }
   }
 
-  console.log("Seznam itemu " + predmety);
 
   return (
     <>

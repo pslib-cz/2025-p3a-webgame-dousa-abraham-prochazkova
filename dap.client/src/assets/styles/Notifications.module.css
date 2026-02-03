@@ -8,17 +8,38 @@
     padding: 10px 20px;
     border-radius: 5px;
     pointer-events: none;
-    animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
+    /* DŮLEŽITÉ: Základní stav je schovaný (posunutý o 200% své výšky nahoru) */
+    transform: translateY(-200%);
+    opacity: 0;
+
+    /* Animace běží 3 sekundy a zůstane ve stavu 100% (forwards) */
+    animation: slide-in-out-top 2s ease-in-out forwards;
 }
 
-@keyframes slide-in-top {
+@keyframes slide-in-out-top {
+
+    /* Začátek: prvek je nahoře mimo */
     0% {
-        transform: translateY(-1000px);
+        transform: translateY(-200%);
         opacity: 0;
     }
 
-    100% {
+    /* Příjezd: během první půlvteřiny sletí na top: 0.5% */
+    15% {
         transform: translateY(0);
         opacity: 1;
+    }
+
+    /* Setrvání: drží na místě */
+    85% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Odjezd: vyletí zpět nahoru */
+    100% {
+        transform: translateY(-200%);
+        opacity: 0;
     }
 }

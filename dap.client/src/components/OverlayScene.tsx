@@ -2,7 +2,8 @@ import type { Scene, Zone } from "../assets/types/types";
 import { GameContext, type ItemId } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Styles from "../assets/styles/Sc2-vstupni-hala.module.css";
+import Styles from "../assets/styles/OverlayScene.module.css";
+import Notifications from "./Notification";
 
 const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
@@ -13,7 +14,7 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, setDone, clearItems } = game;
+    const { addItem, hasItem, removeItem, setDone, clearItems, message, buttonBack } = game;
 
     const [phoneInput, setPhoneInput] = useState("");
     const correctCode = "7872";
@@ -34,10 +35,6 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
             setTimeout(() => setError(false), 1000);
         }
     };
-
-    const buttonBack = () => {
-        navigate("/3");
-    }
 
 
     const handleZoneClick = (zone: Zone) => {
@@ -127,7 +124,7 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     return (
         <div className="scena">
             <div className="grafika">
-                {/* Pozad� z DB */}
+                {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
 
@@ -167,16 +164,16 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                                 </button>
                             </div>
 
-                            <button
-                                className={Styles["overlay-close-button"]}
-                                onClick={buttonBack}
-                            >
-                                ×
-                            </button>
+
                         </div>
                     </div>
                 )}
-
+                <button
+                    className={Styles["overlay-close-button"]}
+                    onClick={() => buttonBack()}
+                >
+                    ×
+                </button>
                 {zone &&
                     zone.map((zone) => {
                         return (

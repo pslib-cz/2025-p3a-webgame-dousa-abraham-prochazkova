@@ -32,6 +32,7 @@ type GameContextValue = {
   message: string | null;
   setMessage: (n: string | null) => void;
   notification: (text: string) => void;
+  buttonBack: () => void;
 };
 
 export const GameContext = createContext<GameContextValue | null>(null);
@@ -74,18 +75,24 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const [message, setMessage] = useState<string | null>(null);
 
-  const notification = (text: string) => {
-    setMessage(text);
-    setTimeout(() => setMessage(null), 200000);
+
+  const buttonBack = () => {
+    navigate(-1);
   }
 
-  const u = useNavigate();
+
+  const notification = (text: string) => {
+    setMessage(text);
+    setTimeout(() => setMessage(null), 2000);
+  }
+
+  const navigate = useNavigate();
 
   const konec = () => {
     setHistory([]);
     setScena("1");
     clearItems();
-    u("/");
+    navigate("/");
     console.log("Hra byla ukoncena a stav vymazan.");
   };
 
@@ -129,6 +136,7 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
         message,
         setMessage,
         notification,
+        buttonBack,
       }}
     >
       {children}

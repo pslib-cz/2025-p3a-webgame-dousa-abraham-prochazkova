@@ -114,3 +114,19 @@
   grid-column: 3;
   border: none;
 }
+
+
+
+.paka-up {
+  position: absolute;
+  top: 30%;
+  height: 25%;
+
+}
+
+.paka-down {
+  position: absolute;
+  top: 50%;
+  height: 25%;
+
+}

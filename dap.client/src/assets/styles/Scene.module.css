@@ -1,0 +1,37 @@
+.inventar {
+    position: absolute;
+    width: 20%;
+    right: 30%;
+    top: 0%;
+    z-index: 2;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.dialogText {
+    position: absolute;
+    left: 50%;
+    top: 22%;
+    background-color: black;
+    color: lightgray;
+}
+
+.buttonBack {
+    position: absolute;
+    bottom: 3%;
+    left: 3%;
+    z-index: 10;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.buttonBack:hover {
+    transform: scale(1.1);
+}
