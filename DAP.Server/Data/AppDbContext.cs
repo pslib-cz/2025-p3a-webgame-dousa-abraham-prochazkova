@@ -19,56 +19,67 @@ namespace DAP.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
+            modelBuilder.Entity<Zones>(entity =>
+            {
+                entity.HasOne(z => z.RequiredItem)
+                      .WithMany()
+                      .HasForeignKey(z => z.RequiredItemId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
             Item medenyDrat = new()
             {
                 ItemId = 1,
                 ItemName = "Měďený drát",
-                ImageURL = "/images/wire.png",
-                UserId = 1
+                ImageURL = "/images/wire.png"
             };
             Item klicRadnice = new()
             {
                 ItemId = 2,
                 ItemName = "Klíč od radnice",
-                ImageURL = "/images/key1.png",
-                UserId = 1
+                ImageURL = "/images/key1.png"
             };
             Item pojistka = new()
             {
                 ItemId = 3,
                 ItemName = "Pojistka",
-                ImageURL = "/images/coil.png",
-                UserId = 2
+                ImageURL = "/images/coil.png"
             };
             Item klicSuplik = new()
             {
                 ItemId = 4,
                 ItemName = "Klíč od šuplíku",
-                ImageURL = "/images/key2.png",
-                UserId = 3
+                ImageURL = "/images/key2.png"
             };
             Item karta = new()
             {
                 ItemId = 5,
                 ItemName = "Karta",
-                ImageURL = "/images/card.png",
-                UserId = 3
+                ImageURL = "/images/card.png"
             };
             Item hrnekVoda = new()
             {
                 ItemId = 6,
                 ItemName = "Hrnek s vodou",
-                ImageURL = "/images/mug.png",
-                UserId = 3
+                ImageURL = "/images/mug.png"
             };
             Item kombinacePaky = new()
             {
                 ItemId = 7,
                 ItemName = "Lístek s kombinací pák",
-                ImageURL = "/images/levers-comb.png",
-                UserId = 2
+                ImageURL = "/images/levers-comb.png"
+            };
+            Item leverUp = new()
+            {
+                ItemId = 8,
+                ItemName = "Páka nahoře",
+                ImageURL = "/images/up.png"
+            };
+            Item leverDown = new()
+            {
+                ItemId = 9,
+                ItemName = "Páka dole",
+                ImageURL = "/images/down.png"
             };
 
             UserScene menu = new()
@@ -148,7 +159,7 @@ namespace DAP.Server.Data
                 Height = 6,
                 InteractionName = "klic-od-radnice",
                 InteractionType = "getItem",
-                RequiredItem = "wire",
+                RequiredItemId = 1,
                 UserId = 2
             };
 
@@ -161,7 +172,7 @@ namespace DAP.Server.Data
                 Height = 18,
                 InteractionName = "3",
                 InteractionType = "nextScene",
-                RequiredItem = "klic-od-radnice",
+                RequiredItemId = 2,
                 UserId = 2
             };
 
@@ -174,7 +185,7 @@ namespace DAP.Server.Data
                 Height = 26,
                 InteractionName = "7",
                 InteractionType = "phoneClicked",
-                RequiredItem = "coil",
+                RequiredItemId = 3,
                 UserId = 3
             };
 
@@ -235,7 +246,7 @@ namespace DAP.Server.Data
                 Height = 36,
                 InteractionName = "card",
                 InteractionType = "getItem",
-                RequiredItem = "wire",
+                RequiredItemId = 1,
                 UserId = 4
             };
 
@@ -260,7 +271,7 @@ namespace DAP.Server.Data
                 Height = 15,
                 InteractionName = "8",
                 InteractionType = "nextScene",
-                RequiredItem = "klic-od-supliku",
+                RequiredItemId = 4,
                 UserId = 4
             };
             //Levers scene 9
@@ -321,7 +332,7 @@ namespace DAP.Server.Data
                 Height = 13,
                 InteractionName = "vaultDoors",
                 InteractionType = "finalScene",
-                RequiredItem = "card",
+                RequiredItemId = 5,
                 UserId = 5
             };
 
@@ -346,9 +357,11 @@ namespace DAP.Server.Data
                 Height = 38,
                 InteractionName = "generator",
                 InteractionType = "useItem",
-                RequiredItem = "mug",
+                RequiredItemId = 6,
                 UserId = 5
             };
+
+
 
             modelBuilder.Entity<Zones>().HasData(
                 zone1,
@@ -378,7 +391,9 @@ namespace DAP.Server.Data
                 klicSuplik,
                 karta,
                 hrnekVoda,
-                kombinacePaky
+                kombinacePaky,
+                leverUp,
+                leverDown
             );
 
             modelBuilder.Entity<UserScene>().HasData(

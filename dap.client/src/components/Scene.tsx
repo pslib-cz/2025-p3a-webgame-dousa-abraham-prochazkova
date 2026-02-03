@@ -53,12 +53,28 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
         */
         switch (zone.interactionType) {
             case "getItem":
-                if(zone.requiredItem && hasItem(zone.requiredItem as ItemId) && !isDone(zone.zoneId.toString())) {
-                    removeItem(zone.requiredItem)
+                if (!zone.requiredItem) {
+                    addItem(zone.interactionName as ItemId);
+                    game.notification(`Získal jsi: ${zone.interactionName}`);
+                    setDone(zone.zoneId.toString());
+                    return;
+                } else if (zone.requiredItem && hasItem(zone.requiredItem as ItemId)) {
+                    if (zone.requiredItem === "wire") {
+
+                        addItem(zone.interactionName as ItemId);
+                        game.notification(`Získal ${zone.interactionName}`);
+                        setDone(zone.zoneId.toString());
+                    } else {
+                        removeItem(zone.requiredItem as ItemId);
+                        addItem(zone.interactionName as ItemId);
+                        game.notification(`Použil jsi: ${zone.requiredItem} a získal ${zone.interactionName}`);
+                        setDone(zone.zoneId.toString());
+                    }
+                    return
+                } else if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
+                    game.notification(`Potřebuješ: ${zone.requiredItem}`);
+                    return;
                 }
-                addItem(zone.interactionName as ItemId);
-                game.notification(`Získal jsi: ${zone.interactionName}`);
-                setDone(zone.zoneId.toString());
                 break;
 
             case "nextScene":

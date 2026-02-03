@@ -45,15 +45,7 @@ namespace DAP.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserSceneUserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("ItemId");
-
-                    b.HasIndex("UserSceneUserId");
 
                     b.ToTable("Items");
 
@@ -62,50 +54,55 @@ namespace DAP.Server.Migrations
                         {
                             ItemId = 1,
                             ImageURL = "/images/wire.png",
-                            ItemName = "Měďený drát",
-                            UserId = 1
+                            ItemName = "Měďený drát"
                         },
                         new
                         {
                             ItemId = 2,
                             ImageURL = "/images/key1.png",
-                            ItemName = "Klíč od radnice",
-                            UserId = 1
+                            ItemName = "Klíč od radnice"
                         },
                         new
                         {
                             ItemId = 3,
                             ImageURL = "/images/coil.png",
-                            ItemName = "Pojistka",
-                            UserId = 2
+                            ItemName = "Pojistka"
                         },
                         new
                         {
                             ItemId = 4,
                             ImageURL = "/images/key2.png",
-                            ItemName = "Klíč od šuplíku",
-                            UserId = 3
+                            ItemName = "Klíč od šuplíku"
                         },
                         new
                         {
                             ItemId = 5,
                             ImageURL = "/images/card.png",
-                            ItemName = "Karta",
-                            UserId = 3
+                            ItemName = "Karta"
                         },
                         new
                         {
                             ItemId = 6,
                             ImageURL = "/images/mug.png",
-                            ItemName = "Hrnek s vodou",
-                            UserId = 3
+                            ItemName = "Hrnek s vodou"
                         },
                         new
                         {
                             ItemId = 7,
                             ImageURL = "/images/levers-comb.png",
-                            ItemName = "Lístek s kombinací pák",
-                            UserId = 2
+                            ItemName = "Lístek s kombinací pák"
+                        },
+                        new
+                        {
+                            ItemId = 8,
+                            ImageURL = "/images/up.png",
+                            ItemName = "Páka nahoře"
+                        },
+                        new
+                        {
+                            ItemId = 9,
+                            ImageURL = "/images/down.png",
+                            ItemName = "Páka dole"
                         });
                 });
 
@@ -206,8 +203,8 @@ namespace DAP.Server.Migrations
                     b.Property<decimal>("Left")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RequiredItem")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("RequiredItemId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -219,6 +216,8 @@ namespace DAP.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("ZoneId");
+
+                    b.HasIndex("RequiredItemId");
 
                     b.HasIndex("UserSceneUserId");
 
@@ -244,7 +243,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "klic-od-radnice",
                             InteractionType = "getItem",
                             Left = 35m,
-                            RequiredItem = "wire",
+                            RequiredItemId = 1,
                             UserId = 2,
                             Width = 12m
                         },
@@ -256,7 +255,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "3",
                             InteractionType = "nextScene",
                             Left = 36m,
-                            RequiredItem = "klic-od-radnice",
+                            RequiredItemId = 2,
                             UserId = 2,
                             Width = 7m
                         },
@@ -268,7 +267,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "7",
                             InteractionType = "phoneClicked",
                             Left = 2m,
-                            RequiredItem = "coil",
+                            RequiredItemId = 3,
                             UserId = 3,
                             Width = 7m
                         },
@@ -324,7 +323,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "card",
                             InteractionType = "getItem",
                             Left = 75m,
-                            RequiredItem = "wire",
+                            RequiredItemId = 1,
                             UserId = 4,
                             Width = 18m
                         },
@@ -347,7 +346,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "8",
                             InteractionType = "nextScene",
                             Left = 62m,
-                            RequiredItem = "klic-od-supliku",
+                            RequiredItemId = 4,
                             UserId = 4,
                             Width = 7m
                         },
@@ -403,7 +402,7 @@ namespace DAP.Server.Migrations
                             InteractionName = "vaultDoors",
                             InteractionType = "finalScene",
                             Left = 72m,
-                            RequiredItem = "card",
+                            RequiredItemId = 5,
                             UserId = 5,
                             Width = 6m
                         },
@@ -426,30 +425,28 @@ namespace DAP.Server.Migrations
                             InteractionName = "generator",
                             InteractionType = "useItem",
                             Left = 2m,
-                            RequiredItem = "mug",
+                            RequiredItemId = 6,
                             UserId = 5,
                             Width = 15m
                         });
                 });
 
-            modelBuilder.Entity("DAP.Server.Models.Item", b =>
-                {
-                    b.HasOne("DAP.Server.Models.UserScene", null)
-                        .WithMany("Item")
-                        .HasForeignKey("UserSceneUserId");
-                });
-
             modelBuilder.Entity("DAP.Server.Models.Zones", b =>
                 {
+                    b.HasOne("DAP.Server.Models.Item", "RequiredItem")
+                        .WithMany()
+                        .HasForeignKey("RequiredItemId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DAP.Server.Models.UserScene", null)
                         .WithMany("Zones")
                         .HasForeignKey("UserSceneUserId");
+
+                    b.Navigation("RequiredItem");
                 });
 
             modelBuilder.Entity("DAP.Server.Models.UserScene", b =>
                 {
-                    b.Navigation("Item");
-
                     b.Navigation("Zones");
                 });
 #pragma warning restore 612, 618

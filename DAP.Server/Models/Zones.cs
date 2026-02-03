@@ -13,7 +13,8 @@ namespace DAP.Server.Models
         public decimal Height { get; set; }
         public string InteractionName {  get; set; } = string.Empty;
         public string InteractionType { get; set; } = string.Empty;
-        public string? RequiredItem { get; set; }
+        public int? RequiredItemId { get; set; }
+        public virtual Item? RequiredItem {  get; set; }
 
         [ForeignKey(nameof(UserScene))]
         public int UserId { get; set; }

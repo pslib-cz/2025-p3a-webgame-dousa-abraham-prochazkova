@@ -2,7 +2,6 @@
 using DAP.Server.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DAP.Server.Controllers
 {
@@ -21,30 +20,27 @@ namespace DAP.Server.Controllers
         public async Task<IActionResult> GetCurrentScene(int userId)
         {
             var scene = await _db.Scene
+                .Include(s => s.Zones)
+                .ThenInclude(z => z.RequiredItem)
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
             if (scene == null) return NotFound();
 
-            scene.Zones = await _db.Zones
-                .Where(z => z.UserId == userId)
-                .ToListAsync();
-
             return Ok(scene);
         }
-
 
         [HttpGet("{userId}/zones")]
         public async Task<IActionResult> GetZonesByScene(int userId)
         {
             var zones = await _db.Zones
+                .Include(z => z.RequiredItem)
                 .Where(z => z.UserId == userId)
                 .ToListAsync();
 
-            if (zones == null || zones.Count == 0)
-                return NotFound($"Scéna s ID {userId} nemá žádné zóny nebo neexistuje.");
+            if (zones == null || !zones.Any())
+                return NotFound($"Uživatel/Scéna s ID {userId} nemá žádné zóny.");
 
             return Ok(zones);
         }
     }
-
 }

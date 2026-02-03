@@ -150,3 +150,6 @@ const Sc1Namesti = ({ sceneId }: ScProps) => {
 };
 
 export default Sc1Namesti;*/
+
+
+
