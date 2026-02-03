@@ -122,12 +122,12 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
+                <Inventar />
                 <div className={Styles["inventar"]}>
-                    <Inventar />
                 </div>
 
                 <div className={Styles["dialogText"]}>"{dialog}"</div>
-
+                {/* DEBUG */}
                 <div
                     className="debug-tlacitko"
                     onClick={() => konec()}

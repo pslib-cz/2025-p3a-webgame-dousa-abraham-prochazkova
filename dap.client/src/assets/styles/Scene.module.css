@@ -1,11 +1,15 @@
 .inventar {
     position: absolute;
-    width: 20%;
-    right: 30%;
-    top: 0%;
-    z-index: 2;
     left: 50%;
-    transform: translate(-50%, 0);
+    /* Vycentrování horizontálně */
+    transform: translateX(-50%);
+    top: 2%;
+    /* Mezera od horního okraje v % */
+    width: 40vw;
+    /* Šířka inventáře v % z herní plochy */
+    max-width: 800px;
+    /* Maximální velikost, aby to na 4K monitoru nebylo obří */
+    z-index: 10;
 }
 
 .dialogText {
