@@ -147,6 +147,7 @@ namespace DAP.Server.Data
                 Height = 22,
                 InteractionName = "wire",
                 InteractionType = "getItem",
+                GetItemId = 1,
                 UserId = 2
             };
 
@@ -160,6 +161,7 @@ namespace DAP.Server.Data
                 InteractionName = "klic-od-radnice",
                 InteractionType = "getItem",
                 RequiredItemId = 1,
+                GetItemId = 2,
                 UserId = 2
             };
 
@@ -210,6 +212,7 @@ namespace DAP.Server.Data
                 Height = 34,
                 InteractionName = "coil",
                 InteractionType = "getItem",
+                GetItemId = 3,
                 UserId = 3
             };
 
@@ -222,6 +225,7 @@ namespace DAP.Server.Data
                 Height = 16,
                 InteractionName = "levers-comb",
                 InteractionType = "getItem",
+                GetItemId = 7,
                 UserId = 3
             };
 
@@ -234,6 +238,7 @@ namespace DAP.Server.Data
                 Height = 27,
                 InteractionName = "klic-od-supliku",
                 InteractionType = "getItem",
+                GetItemId = 4,
                 UserId = 4
             };
 
@@ -247,6 +252,7 @@ namespace DAP.Server.Data
                 InteractionName = "card",
                 InteractionType = "getItem",
                 RequiredItemId = 1,
+                GetItemId = 5,
                 UserId = 4
             };
 
@@ -259,6 +265,7 @@ namespace DAP.Server.Data
                 Height = 15,
                 InteractionName = "mug",
                 InteractionType = "getItem",
+                GetItemId = 6,
                 UserId = 4
             };
 

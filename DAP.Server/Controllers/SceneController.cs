@@ -21,7 +21,9 @@ namespace DAP.Server.Controllers
         {
             var scene = await _db.Scene
                 .Include(s => s.Zones)
-                .ThenInclude(z => z.RequiredItem)
+                    .ThenInclude(z => z.RequiredItem)
+                .Include(s => s.Zones)
+                    .ThenInclude(z => z.GetItem)
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
             if (scene == null) return NotFound();
@@ -34,6 +36,7 @@ namespace DAP.Server.Controllers
         {
             var zones = await _db.Zones
                 .Include(z => z.RequiredItem)
+                .Include(z => z.GetItem)
                 .Where(z => z.UserId == userId)
                 .ToListAsync();
 

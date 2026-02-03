@@ -1,8 +1,8 @@
-import type { Scene, Zone } from "../assets/types/types";
+import type { Scene, Zone, Item } from "../assets/types/types";
 import Styles from "../assets/styles/Scene.module.css";
 import Inventar from "../components/Inventar";
 import Notifications from "../components/Notification";
-import { GameContext, type ItemId } from "../GameContext";
+import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 /*import { fetchDialogue } from "../dialogApi";*/
@@ -44,34 +44,29 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     }, [sceneId]);
 
     const handleZoneClick = (zone: Zone) => {
-        console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
-        /*
-                if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
-                    setDialog(`Potřebuješ: ${zone.requiredItem}`);
-                    return;
-                }
-        */
+
+
         switch (zone.interactionType) {
             case "getItem":
-                if (!zone.requiredItem) {
-                    addItem(zone.interactionName as ItemId);
-                    game.notification(`Získal jsi: ${zone.interactionName}`);
+                if (!zone.requiredItemId) {
+                    addItem(zone.getItemId as any);
+                    game.notification(`Získal jsi: ${zone.getItem?.itemName}`);
                     setDone(zone.zoneId.toString());
                     return;
-                } else if (zone.requiredItem && hasItem(zone.requiredItem as ItemId)) {
-                    if (zone.requiredItem === "wire") {
+                } else if (zone.requiredItemId && hasItem(zone.requiredItemId)) {
+                    if (zone.requiredItemId === 1) {
 
-                        addItem(zone.interactionName as ItemId);
-                        game.notification(`Získal ${zone.interactionName}`);
+                        addItem(zone.getItemId as any);
+                        game.notification(`Získal ${zone.getItem?.itemName}`);
                         setDone(zone.zoneId.toString());
                     } else {
-                        removeItem(zone.requiredItem as ItemId);
-                        addItem(zone.interactionName as ItemId);
-                        game.notification(`Použil jsi: ${zone.requiredItem} a získal ${zone.interactionName}`);
+                        removeItem(zone.requiredItemId);
+                        addItem(zone.getItemId as any);
+                        game.notification(`Použil jsi: ${zone.requiredItem?.itemName} a získal ${zone.getItem?.itemName}`);
                         setDone(zone.zoneId.toString());
                     }
                     return
-                } else if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
+                } else if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
                     game.notification(`Potřebuješ: ${zone.requiredItem}`);
                     return;
                 }
@@ -81,31 +76,31 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 if (isDone(zone.zoneId.toString())) {
                     navigate(`/${zone.interactionName}`);
                     return;
-                } else if (zone.requiredItem && hasItem(zone.requiredItem as ItemId) && !isDone(zone.zoneId.toString())) {
-                    removeItem(zone.requiredItem as ItemId);
+                } else if (zone.requiredItemId && hasItem(zone.requiredItemId) && !isDone(zone.zoneId.toString())) {
+                    removeItem(zone.requiredItemId);
                     setDone(zone.zoneId.toString());
                     navigate(`/${zone.interactionName}`);
-                    game.notification(`Použil jsi: ${zone.requiredItem}`);
-                } else if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
-                    game.notification(`Potřebuješ: ${zone.requiredItem}`);
-                } else if (zone.requiredItem === null) {
+                    game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
+                } else if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
+                    game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
+                } else if (zone.requiredItemId === null) {
                     navigate(`/${zone.interactionName}`);
                     game.notification(`Přešel jsi do scény: ${zone.interactionName}`);
                 }
                 break;
 
             case "useItem":
-                if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
+                if (zone.requiredItemId) removeItem(zone.requiredItemId);
                 setDone(zone.zoneId.toString());
-                game.notification(`Použil jsi: ${zone.requiredItem}`);
+                game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
                 break;
 
             case "phoneClicked":
                 let fixed = isDone("phone-coil");
 
                 if (!fixed) {
-                    if (hasItem("coil")) {
-                        removeItem("coil");
+                    if (hasItem(3)) {
+                        removeItem(3);
                         setDone("phone-coil");
                         fixed = true;
                         game.notification("Použil jsi cívku k opravě telefonu.");

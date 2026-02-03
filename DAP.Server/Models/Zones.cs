@@ -15,6 +15,8 @@ namespace DAP.Server.Models
         public string InteractionType { get; set; } = string.Empty;
         public int? RequiredItemId { get; set; }
         public virtual Item? RequiredItem {  get; set; }
+        public int? GetItemId {  get; set; }
+        public virtual Item? GetItem { get; set; }
 
         [ForeignKey(nameof(UserScene))]
         public int UserId { get; set; }

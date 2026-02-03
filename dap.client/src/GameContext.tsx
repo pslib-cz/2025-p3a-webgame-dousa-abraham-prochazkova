@@ -6,17 +6,9 @@ import {
   type PropsWithChildren,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import type { ItemId } from "./assets/types/types";
 
 type ScenaId = string;
-export type ItemId =
-  | "wire"
-  | "klic-od-radnice"
-  | "klic-od-supliku"
-  | "coil"
-  | "card"
-  | "mug"
-  | "levers-comb"
-  | "kod";
 type GameContextValue = {
   scena: ScenaId;
   setScena: (scena: ScenaId) => void;
@@ -73,17 +65,17 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
     setHistory((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
-  const [message, setMessage] = useState<string | null>(null);
-
+  const isDone = (id: string) => history.includes(id);
 
   const buttonBack = () => {
     navigate(-1);
   }
 
+  const [message, setMessage] = useState<string | null>(null);
 
   const notification = (text: string) => {
     setMessage(text);
-    setTimeout(() => setMessage(null), 2000);
+    setTimeout(() => setMessage(null), 2500);
   }
 
   const navigate = useNavigate();
@@ -98,9 +90,7 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const addItem = (item: ItemId) => {
     setItems((prev) => (prev.includes(item) ? prev : [...prev, item]));
-    setDone(item);
   };
-  const isDone = (id: string) => history.includes(id);
 
   const removeItem = (item: ItemId) => {
     setItems((asf) => {

@@ -1,28 +1,24 @@
-type Dialogue = {
+interface Dialogue {
   dialogueId: number;
   dialogueText: string;
 };
 
-type Item = {
-  ItendID: string;
-  ItemName: string;
-  ImageURL: string;
+type ItemId = number;
+
+interface Item {
+  itemId: ItemId;
+  itemName: string;
+  imageURL: string;
 };
 
-type Minigame = {
-  MinigameID: number;
-  MinigameName: string;
-  MinigameDesc: string;
-};
-
-type Scene = {
+interface Scene {
   userId: number;
   scene: string;
   sceneImage: string;
   zones: Zone[];
 };
 
-type Zone = {
+interface Zone {
   zoneId: number;
   bottom: number;
   left: number;
@@ -31,8 +27,11 @@ type Zone = {
   userId: number;
   interactionName: string;
   interactionType: string;
-  requiredItem?: string;
+  requiredItemId?: ItemId;
+  requiredItem?: Item;
+  getItemId?: ItemId;
+  getItem?: Item;
 }
 
 type ScProps = { sceneId: string };
-export type { Dialogue, Item, Minigame, Scene, ScProps, Zone };
+export type { Dialogue, Item, ItemId, Scene, ScProps, Zone };
