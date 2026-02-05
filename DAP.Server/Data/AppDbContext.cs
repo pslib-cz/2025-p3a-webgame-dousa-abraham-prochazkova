@@ -25,6 +25,21 @@ namespace DAP.Server.Data
                       .WithMany()
                       .HasForeignKey(z => z.RequiredItemId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(z => z.GetItem)
+                        .WithMany()
+                        .HasForeignKey(z => z.GetItemId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(z => z.UserScene)
+                        .WithMany(s => s.Zones)
+                        .HasForeignKey(z => z.UserId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(z => z.TargetScene)
+                        .WithMany()
+                        .HasForeignKey(z => z.TargetSceneId)
+                        .OnDelete(DeleteBehavior.Restrict);
             });
 
             Item medenyDrat = new()
@@ -172,10 +187,11 @@ namespace DAP.Server.Data
                 Left = 36,
                 Width = 7,
                 Height = 18,
-                InteractionName = "3",
+                InteractionName = "Přechod do recepce",
                 InteractionType = "nextScene",
                 RequiredItemId = 2,
-                UserId = 2
+                UserId = 2,
+                TargetSceneId = 3
             };
 
             Zones zone4 = new()
@@ -198,9 +214,10 @@ namespace DAP.Server.Data
                 Left = 82,
                 Width = 10,
                 Height = 45,
-                InteractionName = "4",
+                InteractionName = "Přechod do kanceláře",
                 InteractionType = "nextScene",
-                UserId = 3
+                UserId = 3,
+                TargetSceneId = 4
             };
 
             Zones zone6 = new()
@@ -276,10 +293,11 @@ namespace DAP.Server.Data
                 Left = 62,
                 Width = 7,
                 Height = 15,
-                InteractionName = "8",
+                InteractionName = "Zobrazení šuplíku s kódem",
                 InteractionType = "nextScene",
                 RequiredItemId = 4,
-                UserId = 4
+                UserId = 4,
+                TargetSceneId = 8
             };
             //Levers scene 9
             Zones zone12 = new()
@@ -350,9 +368,10 @@ namespace DAP.Server.Data
                 Left = 20,
                 Width = 15,
                 Height = 15,
-                InteractionName = "9",
+                InteractionName = "Zobrazení pák",
                 InteractionType = "nextScene",
-                UserId = 5
+                UserId = 5,
+                TargetSceneId = 9
             };
 
             Zones zone18 = new()

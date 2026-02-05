@@ -75,7 +75,6 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const notification = (text: string) => {
     setMessage(text);
-    setTimeout(() => setMessage(null), 2500);
   }
 
   const navigate = useNavigate();

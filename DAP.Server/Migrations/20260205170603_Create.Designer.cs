@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260203173940_Zones-GetItem")]
-    partial class ZonesGetItem
+    [Migration("20260205170603_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,7 +112,6 @@ namespace DAP.Server.Migrations
             modelBuilder.Entity("DAP.Server.Models.UserScene", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Scene")
@@ -212,10 +211,10 @@ namespace DAP.Server.Migrations
                     b.Property<int?>("RequiredItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("TargetSceneId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserSceneUserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Width")
@@ -227,7 +226,9 @@ namespace DAP.Server.Migrations
 
                     b.HasIndex("RequiredItemId");
 
-                    b.HasIndex("UserSceneUserId");
+                    b.HasIndex("TargetSceneId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Zones");
 
@@ -262,10 +263,11 @@ namespace DAP.Server.Migrations
                             ZoneId = 3,
                             Bottom = 33m,
                             Height = 18m,
-                            InteractionName = "3",
+                            InteractionName = "Přechod do recepce",
                             InteractionType = "nextScene",
                             Left = 36m,
                             RequiredItemId = 2,
+                            TargetSceneId = 3,
                             UserId = 2,
                             Width = 7m
                         },
@@ -286,9 +288,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 5,
                             Bottom = 40m,
                             Height = 45m,
-                            InteractionName = "4",
+                            InteractionName = "Přechod do kanceláře",
                             InteractionType = "nextScene",
                             Left = 82m,
+                            TargetSceneId = 4,
                             UserId = 3,
                             Width = 10m
                         },
@@ -358,10 +361,11 @@ namespace DAP.Server.Migrations
                             ZoneId = 11,
                             Bottom = 20m,
                             Height = 15m,
-                            InteractionName = "8",
+                            InteractionName = "Zobrazení šuplíku s kódem",
                             InteractionType = "nextScene",
                             Left = 62m,
                             RequiredItemId = 4,
+                            TargetSceneId = 8,
                             UserId = 4,
                             Width = 7m
                         },
@@ -426,9 +430,10 @@ namespace DAP.Server.Migrations
                             ZoneId = 17,
                             Bottom = 52m,
                             Height = 15m,
-                            InteractionName = "9",
+                            InteractionName = "Zobrazení pák",
                             InteractionType = "nextScene",
                             Left = 20m,
+                            TargetSceneId = 9,
                             UserId = 5,
                             Width = 15m
                         },
@@ -450,20 +455,32 @@ namespace DAP.Server.Migrations
                 {
                     b.HasOne("DAP.Server.Models.Item", "GetItem")
                         .WithMany()
-                        .HasForeignKey("GetItemId");
+                        .HasForeignKey("GetItemId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DAP.Server.Models.Item", "RequiredItem")
                         .WithMany()
                         .HasForeignKey("RequiredItemId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("DAP.Server.Models.UserScene", null)
+                    b.HasOne("DAP.Server.Models.UserScene", "TargetScene")
+                        .WithMany()
+                        .HasForeignKey("TargetSceneId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DAP.Server.Models.UserScene", "UserScene")
                         .WithMany("Zones")
-                        .HasForeignKey("UserSceneUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("GetItem");
 
                     b.Navigation("RequiredItem");
+
+                    b.Navigation("TargetScene");
+
+                    b.Navigation("UserScene");
                 });
 
             modelBuilder.Entity("DAP.Server.Models.UserScene", b =>

@@ -6,12 +6,12 @@ interface Dialogue {
 type ItemId = number;
 
 interface Item {
-  itemId: ItemId;
+  itemId: number;
   itemName: string;
   imageURL: string;
 };
 
-interface Scene {
+interface UserScene {
   userId: number;
   scene: string;
   sceneImage: string;
@@ -24,14 +24,16 @@ interface Zone {
   left: number;
   width: number;
   height: number;
-  userId: number;
   interactionName: string;
   interactionType: string;
-  requiredItemId?: ItemId;
+  requiredItemId?: number;
   requiredItem?: Item;
-  getItemId?: ItemId;
+  getItemId?: number;
   getItem?: Item;
+  userId: number;
+  targetSceneId?: number;
+  targetScene?: UserScene;
 }
 
 type ScProps = { sceneId: string };
-export type { Dialogue, Item, ItemId, Scene, ScProps, Zone };
+export type { Dialogue, Item, ItemId, UserScene, ScProps, Zone };

@@ -46,7 +46,5 @@ body {
 
 .debug-tlacitko {
   position: absolute;
-  background-color: rgba(255, 0, 0, 0.6);
-  /* debug */
   cursor: pointer;
 }

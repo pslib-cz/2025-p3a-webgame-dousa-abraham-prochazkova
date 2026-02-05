@@ -1,4 +1,4 @@
-import type { Scene, Zone, Item } from "../assets/types/types";
+import type { UserScene, Zone } from "../assets/types/types";
 import Styles from "../assets/styles/Scene.module.css";
 import Inventar from "./Inventar";
 import Notifications from "./Notification";
@@ -11,7 +11,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
     const navigate = useNavigate();
 
-    const [scene, setScene] = useState<Scene | null>(null);
+    const [scene, setScene] = useState<UserScene | null>(null);
     const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     throw new Error(`Scéna ${sceneId} nenalezena`);
                 }
 
-                const data: Scene = await res.json();
+                const data: UserScene = await res.json();
                 setScene(data);
             } catch (err) {
                 console.error("Chyba při načítání:", err);
@@ -56,7 +56,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     return;
                 } else if (zone.requiredItemId && hasItem(zone.requiredItemId)) {
                     if (zone.requiredItemId === 1) {
-
                         addItem(zone.getItemId as any);
                         game.notification(`Získal ${zone.getItem?.itemName}`);
                         setDone(zone.zoneId.toString());
@@ -68,25 +67,26 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     }
                     return
                 } else if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
-                    game.notification(`Potřebuješ: ${zone.requiredItem}`);
+                    game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
                     return;
                 }
                 break;
 
             case "nextScene":
                 if (isDone(zone.zoneId.toString())) {
-                    navigate(`/${zone.interactionName}`);
+                    navigate(`/${zone.targetSceneId}`);
+                    game.notification(`Přešel jsi do scény: ${zone.targetScene?.scene}`);
                     return;
                 } else if (zone.requiredItemId && hasItem(zone.requiredItemId) && !isDone(zone.zoneId.toString())) {
                     removeItem(zone.requiredItemId);
                     setDone(zone.zoneId.toString());
-                    navigate(`/${zone.interactionName}`);
-                    game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
+                    navigate(`/${zone.targetSceneId}`);
+                    game.notification(`Použil jsi: ${zone.requiredItem?.itemName}` + ` a přešel jsi do scény: ${zone.targetScene?.scene}`);
                 } else if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
                     game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
                 } else if (zone.requiredItemId === null) {
-                    navigate(`/${zone.interactionName}`);
-                    game.notification(`Přešel jsi do scény: ${zone.interactionName}`);
+                    navigate(`/${zone.targetSceneId}`);
+                    game.notification(`Přešel jsi do scény: ${zone.targetScene?.scene}`);
                 }
                 break;
 
@@ -127,7 +127,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
         }
     };
-
 
 
     if (loading || !scene) return <p>Načítám...</p>;

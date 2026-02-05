@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DAP.Server.Models
 {
@@ -17,10 +18,13 @@ namespace DAP.Server.Models
         public virtual Item? RequiredItem { get; set; }
         public int? GetItemId { get; set; }
         public virtual Item? GetItem { get; set; }
-
         public int UserId { get; set; }
+        [JsonIgnore]
         [ForeignKey(nameof(UserId))]
         public virtual UserScene? UserScene { get; set; }
+        public int? TargetSceneId { get; set; }
+        [ForeignKey(nameof(TargetSceneId))]
+        public virtual UserScene? TargetScene { get; set; }
 
     }
 }

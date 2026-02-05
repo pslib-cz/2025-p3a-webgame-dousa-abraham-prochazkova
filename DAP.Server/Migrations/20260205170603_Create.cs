@@ -7,7 +7,7 @@
 namespace DAP.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class New : Migration
+    public partial class Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,8 +43,7 @@ namespace DAP.Server.Migrations
                 name: "Scene",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     Scene = table.Column<string>(type: "TEXT", nullable: false),
                     SceneImage = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -66,12 +65,19 @@ namespace DAP.Server.Migrations
                     InteractionName = table.Column<string>(type: "TEXT", nullable: false),
                     InteractionType = table.Column<string>(type: "TEXT", nullable: false),
                     RequiredItemId = table.Column<int>(type: "INTEGER", nullable: true),
+                    GetItemId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserSceneUserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TargetSceneId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Zones", x => x.ZoneId);
+                    table.ForeignKey(
+                        name: "FK_Zones_Items_GetItemId",
+                        column: x => x.GetItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Zones_Items_RequiredItemId",
                         column: x => x.RequiredItemId,
@@ -79,10 +85,17 @@ namespace DAP.Server.Migrations
                         principalColumn: "ItemId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Zones_Scene_UserSceneUserId",
-                        column: x => x.UserSceneUserId,
+                        name: "FK_Zones_Scene_TargetSceneId",
+                        column: x => x.TargetSceneId,
                         principalTable: "Scene",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Zones_Scene_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Scene",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -119,28 +132,33 @@ namespace DAP.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Zones",
-                columns: new[] { "ZoneId", "Bottom", "Height", "InteractionName", "InteractionType", "Left", "RequiredItemId", "UserId", "UserSceneUserId", "Width" },
+                columns: new[] { "ZoneId", "Bottom", "GetItemId", "Height", "InteractionName", "InteractionType", "Left", "RequiredItemId", "TargetSceneId", "UserId", "Width" },
                 values: new object[,]
                 {
-                    { 1, 0m, 22m, "wire", "getItem", 6m, null, 2, null, 8m },
-                    { 5, 40m, 45m, "4", "nextScene", 82m, null, 3, null, 10m },
-                    { 6, 40m, 34m, "coil", "getItem", 62m, null, 3, null, 12m },
-                    { 7, 43m, 16m, "levers-comb", "getItem", 17m, null, 3, null, 28m },
-                    { 8, 38m, 27m, "klic-od-supliku", "getItem", 5m, null, 4, null, 14m },
-                    { 10, 45m, 15m, "mug", "getItem", 57m, null, 4, null, 7m },
-                    { 12, 27m, 40m, "leverSwitch", "prepniPaku", 30m, null, 9, null, 5m },
-                    { 13, 27m, 40m, "leverSwitch", "prepniPaku", 45m, null, 9, null, 5m },
-                    { 14, 27m, 40m, "leverSwitch", "prepniPaku", 60m, null, 9, null, 5m },
-                    { 15, 27m, 40m, "leverSwitch", "prepniPaku", 75m, null, 9, null, 5m },
-                    { 17, 52m, 15m, "9", "nextScene", 20m, null, 5, null, 15m },
-                    { 2, 0m, 6m, "klic-od-radnice", "getItem", 35m, 1, 2, null, 12m },
-                    { 3, 33m, 18m, "3", "nextScene", 36m, 2, 2, null, 7m },
-                    { 4, 52m, 26m, "7", "phoneClicked", 2m, 3, 3, null, 7m },
-                    { 9, 30m, 36m, "card", "getItem", 75m, 1, 4, null, 18m },
-                    { 11, 20m, 15m, "8", "nextScene", 62m, 4, 4, null, 7m },
-                    { 16, 39m, 13m, "vaultDoors", "finalScene", 72m, 5, 5, null, 6m },
-                    { 18, 12m, 38m, "generator", "useItem", 2m, 6, 5, null, 15m }
+                    { 1, 0m, 1, 22m, "wire", "getItem", 6m, null, null, 2, 8m },
+                    { 2, 0m, 2, 6m, "klic-od-radnice", "getItem", 35m, 1, null, 2, 12m },
+                    { 3, 33m, null, 18m, "Přechod do recepce", "nextScene", 36m, 2, 3, 2, 7m },
+                    { 4, 52m, null, 26m, "7", "phoneClicked", 2m, 3, null, 3, 7m },
+                    { 5, 40m, null, 45m, "Přechod do kanceláře", "nextScene", 82m, null, 4, 3, 10m },
+                    { 6, 40m, 3, 34m, "coil", "getItem", 62m, null, null, 3, 12m },
+                    { 7, 43m, 7, 16m, "levers-comb", "getItem", 17m, null, null, 3, 28m },
+                    { 8, 38m, 4, 27m, "klic-od-supliku", "getItem", 5m, null, null, 4, 14m },
+                    { 9, 30m, 5, 36m, "card", "getItem", 75m, 1, null, 4, 18m },
+                    { 10, 45m, 6, 15m, "mug", "getItem", 57m, null, null, 4, 7m },
+                    { 11, 20m, null, 15m, "Zobrazení šuplíku s kódem", "nextScene", 62m, 4, 8, 4, 7m },
+                    { 12, 27m, null, 40m, "leverSwitch", "prepniPaku", 30m, null, null, 9, 5m },
+                    { 13, 27m, null, 40m, "leverSwitch", "prepniPaku", 45m, null, null, 9, 5m },
+                    { 14, 27m, null, 40m, "leverSwitch", "prepniPaku", 60m, null, null, 9, 5m },
+                    { 15, 27m, null, 40m, "leverSwitch", "prepniPaku", 75m, null, null, 9, 5m },
+                    { 16, 39m, null, 13m, "vaultDoors", "finalScene", 72m, 5, null, 5, 6m },
+                    { 17, 52m, null, 15m, "Zobrazení pák", "nextScene", 20m, null, 9, 5, 15m },
+                    { 18, 12m, null, 38m, "generator", "useItem", 2m, 6, null, 5, 15m }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Zones_GetItemId",
+                table: "Zones",
+                column: "GetItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zones_RequiredItemId",
@@ -148,9 +166,14 @@ namespace DAP.Server.Migrations
                 column: "RequiredItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Zones_UserSceneUserId",
+                name: "IX_Zones_TargetSceneId",
                 table: "Zones",
-                column: "UserSceneUserId");
+                column: "TargetSceneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Zones_UserId",
+                table: "Zones",
+                column: "UserId");
         }
 
         /// <inheritdoc />
