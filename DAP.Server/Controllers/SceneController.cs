@@ -34,19 +34,15 @@ namespace DAP.Server.Controllers
 
             return Ok(scene);
         }
-        [HttpGet("scene/{sceneId}/items")]
-        public async Task<IActionResult> GetItemsByScene(int sceneId)
+        [HttpGet("scene/{userId}/zones")]
+        public async Task<IActionResult> GetZonesByScene(int userId)
         {
-            var items = await _db.Items
-                .Where(i => i.SceneId == sceneId)
+            var zones = await _db.Zones
+                .Include(z => z.Item)
+                .Where(z => z.UserId == userId)
                 .ToListAsync();
 
-            if (items == null || !items.Any())
-            {
-                return Ok(new List<Item>());
-            }
-
-            return Ok(items);
+            return Ok(zones);
         }
     }
 }

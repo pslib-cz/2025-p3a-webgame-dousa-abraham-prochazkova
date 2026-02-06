@@ -25,6 +25,12 @@ namespace DAP.Server.Models
         public int? TargetSceneId { get; set; }
         [ForeignKey(nameof(TargetSceneId))]
         public virtual UserScene? TargetScene { get; set; }
+        public int? ItemId { get; set; }
+        [ForeignKey("ItemId")]
+        public Item? Item { get; set; }
+        public int? ItemDownId { get; set; }
+        [ForeignKey("ItemDownId")]
+        public Item? ItemDown { get; set; }
 
     }
 }

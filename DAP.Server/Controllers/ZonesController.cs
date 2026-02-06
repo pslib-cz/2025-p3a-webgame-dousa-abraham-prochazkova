@@ -21,7 +21,8 @@ namespace DAP.Server.Controllers
 		public async Task<IActionResult> GetCurrentZone(int zoneId)
 		{
 			var zone = await _db.Zones
-				.FirstOrDefaultAsync(z => z.ZoneId == zoneId);
+                .Include(z => z.Item)
+                .FirstOrDefaultAsync(z => z.ZoneId == zoneId);
 
 			if (zone == null)
 			{

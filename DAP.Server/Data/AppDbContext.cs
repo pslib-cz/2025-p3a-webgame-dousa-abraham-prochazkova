@@ -40,6 +40,14 @@ namespace DAP.Server.Data
                         .WithMany()
                         .HasForeignKey(z => z.TargetSceneId)
                         .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(z => z.Item)
+                        .WithMany(i => i.Zones)
+                        .HasForeignKey(z => z.ItemId)
+                        .OnDelete(DeleteBehavior.SetNull);
+                entity.HasOne(z => z.ItemDown)
+                        .WithMany()
+                        .HasForeignKey(z => z.ItemDownId)
+                        .OnDelete(DeleteBehavior.Restrict);
             });
 
             Item medenyDrat = new()
@@ -88,15 +96,13 @@ namespace DAP.Server.Data
             {
                 ItemId = 8,
                 ItemName = "Páka nahoře",
-                ImageURL = "/images/up.png",
-                SceneId = 9
+                ImageURL = "/images/up.png"
             };
             Item leverDown = new()
             {
                 ItemId = 9,
                 ItemName = "Páka dole",
-                ImageURL = "/images/down.png",
-                SceneId = 9
+                ImageURL = "/images/down.png"
             };
 
             UserScene menu = new()
@@ -302,52 +308,56 @@ namespace DAP.Server.Data
                 TargetSceneId = 8
             };
             //Levers scene 9
-            Zones zone12 = new()
-            {
-                ZoneId = 12,
-                Bottom = 27,
-                Left = 30,
-                Width = 5,
-                Height = 40,
-                InteractionName = "leverSwitch",
-                InteractionType = "prepniPaku",
-                UserId = 9
+            Zones zone12 = new() 
+            { 
+                ZoneId = 12, 
+                Bottom = 27, 
+                Left = 30, 
+                Width = 5, 
+                Height = 40, 
+                InteractionName = "leverSwitch", 
+                InteractionType = "prepniPaku", 
+                UserId = 9, 
+                ItemId = 8,
+                ItemDownId = 9
             };
-
-            Zones zone13 = new()
-            {
-                ZoneId = 13,
-                Bottom = 27,
-                Left = 45,
-                Width = 5,
-                Height = 40,
-                InteractionName = "leverSwitch",
-                InteractionType = "prepniPaku",
-                UserId = 9
+            Zones zone13 = new() { 
+                ZoneId = 13, 
+                Bottom = 27, 
+                Left = 45, 
+                Width = 5, 
+                Height = 40, 
+                InteractionName = "leverSwitch", 
+                InteractionType = "prepniPaku", 
+                UserId = 9, 
+                ItemId = 8,
+                ItemDownId = 9
             };
-
-            Zones zone14 = new()
-            {
-                ZoneId = 14,
-                Bottom = 27,
-                Left = 60,
-                Width = 5,
-                Height = 40,
-                InteractionName = "leverSwitch",
-                InteractionType = "prepniPaku",
-                UserId = 9
+            Zones zone14 = new() 
+            { 
+                ZoneId = 14, 
+                Bottom = 27, 
+                Left = 60, 
+                Width = 5, 
+                Height = 40, 
+                InteractionName = "leverSwitch", 
+                InteractionType = "prepniPaku", 
+                UserId = 9, 
+                ItemId = 8,
+                ItemDownId = 9
             };
-
-            Zones zone15 = new()
-            {
-                ZoneId = 15,
-                Bottom = 27,
-                Left = 75,
-                Width = 5,
-                Height = 40,
-                InteractionName = "leverSwitch",
-                InteractionType = "prepniPaku",
-                UserId = 9
+            Zones zone15 = new() 
+            { 
+                ZoneId = 15, 
+                Bottom = 27, 
+                Left = 75, 
+                Width = 5, 
+                Height = 40, 
+                InteractionName = "leverSwitch", 
+                InteractionType = "prepniPaku", 
+                UserId = 9, 
+                ItemId = 8,
+                ItemDownId = 9
             };
 
             Zones zone16 = new()
