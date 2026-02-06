@@ -222,32 +222,26 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                         </div>
                     </div>
                 )}
-
-                {sceneId === "9" && zone && zone.length > 0 && (
-                    zone.map((z, i) => {
-                        if (z.interactionType === "prepniPaku") {
-                            return (
-                                <img
-                                    key={z.zoneId}
-                                    src={leverState[i] ? z.itemDown?.imageURL : z.item?.imageURL}
-                                    alt="paka"
-                                    className={leverState[i] ? Styles["paka-down"] : Styles["paka-up"]}
-                                    style={{ 
-                                        position: "absolute",
-                                        left: `${z.left}%`, 
-                                        bottom: `${z.bottom}%`,
-                                        width: `${z.width}%`,
-                                        height: `${z.height}%`,
-                                        cursor: "pointer",
-                                        zIndex: 100
-                                    }}
-                                    onClick={() => handleLeverClick(i)}
-                                />
-                            );
-                        }
-                        return null;
-                    })
-                )}
+                {sceneId === "9" && zone &&
+                    zone.map((z, i) => (
+                        <img
+                            key={z.zoneId}
+                            src={leverState[i] ? z.itemDown?.imageURL : z.item?.imageURL}
+                            alt="paka"
+                            className={leverState[i] ? Styles["paka-down"] : Styles["paka-up"]}
+                            style={{
+                                position: "absolute",
+                                left: `${z.left}%`,
+                                bottom: `${z.bottom}%`,
+                                width: `${z.width}%`,
+                                height: `${z.height}%`,
+                                cursor: "pointer",
+                                zIndex: 10
+                            }}
+                            onClick={() => handleLeverClick(i)}
+                        />
+                    ))
+                }
 
                 <button
                     className={Styles["overlay-close-button"]}

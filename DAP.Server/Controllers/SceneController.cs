@@ -39,6 +39,7 @@ namespace DAP.Server.Controllers
         {
             var zones = await _db.Zones
                 .Include(z => z.Item)
+                .Include(z => z.ItemDown)
                 .Where(z => z.UserId == userId)
                 .ToListAsync();
 

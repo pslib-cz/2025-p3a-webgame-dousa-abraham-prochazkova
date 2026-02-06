@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260206192838_Levers")]
-    partial class Levers
+    [Migration("20260206214803_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,9 +47,6 @@ namespace DAP.Server.Migrations
                     b.Property<string>("ItemName")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("SceneId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserSceneUserId")
                         .HasColumnType("INTEGER");
@@ -107,15 +104,13 @@ namespace DAP.Server.Migrations
                         {
                             ItemId = 8,
                             ImageURL = "/images/up.png",
-                            ItemName = "Páka nahoře",
-                            SceneId = 9
+                            ItemName = "Páka nahoře"
                         },
                         new
                         {
                             ItemId = 9,
                             ImageURL = "/images/down.png",
-                            ItemName = "Páka dole",
-                            SceneId = 9
+                            ItemName = "Páka dole"
                         });
                 });
 
@@ -215,6 +210,12 @@ namespace DAP.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ItemDownId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("Left")
                         .HasColumnType("TEXT");
 
@@ -233,6 +234,10 @@ namespace DAP.Server.Migrations
                     b.HasKey("ZoneId");
 
                     b.HasIndex("GetItemId");
+
+                    b.HasIndex("ItemDownId");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("RequiredItemId");
 
@@ -386,6 +391,8 @@ namespace DAP.Server.Migrations
                             Height = 40m,
                             InteractionName = "leverSwitch",
                             InteractionType = "prepniPaku",
+                            ItemDownId = 9,
+                            ItemId = 8,
                             Left = 30m,
                             UserId = 9,
                             Width = 5m
@@ -397,6 +404,8 @@ namespace DAP.Server.Migrations
                             Height = 40m,
                             InteractionName = "leverSwitch",
                             InteractionType = "prepniPaku",
+                            ItemDownId = 9,
+                            ItemId = 8,
                             Left = 45m,
                             UserId = 9,
                             Width = 5m
@@ -408,6 +417,8 @@ namespace DAP.Server.Migrations
                             Height = 40m,
                             InteractionName = "leverSwitch",
                             InteractionType = "prepniPaku",
+                            ItemDownId = 9,
+                            ItemId = 8,
                             Left = 60m,
                             UserId = 9,
                             Width = 5m
@@ -419,6 +430,8 @@ namespace DAP.Server.Migrations
                             Height = 40m,
                             InteractionName = "leverSwitch",
                             InteractionType = "prepniPaku",
+                            ItemDownId = 9,
+                            ItemId = 8,
                             Left = 75m,
                             UserId = 9,
                             Width = 5m
@@ -475,6 +488,16 @@ namespace DAP.Server.Migrations
                         .HasForeignKey("GetItemId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("DAP.Server.Models.Item", "ItemDown")
+                        .WithMany()
+                        .HasForeignKey("ItemDownId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DAP.Server.Models.Item", "Item")
+                        .WithMany("Zones")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("DAP.Server.Models.Item", "RequiredItem")
                         .WithMany()
                         .HasForeignKey("RequiredItemId")
@@ -493,11 +516,20 @@ namespace DAP.Server.Migrations
 
                     b.Navigation("GetItem");
 
+                    b.Navigation("Item");
+
+                    b.Navigation("ItemDown");
+
                     b.Navigation("RequiredItem");
 
                     b.Navigation("TargetScene");
 
                     b.Navigation("UserScene");
+                });
+
+            modelBuilder.Entity("DAP.Server.Models.Item", b =>
+                {
+                    b.Navigation("Zones");
                 });
 
             modelBuilder.Entity("DAP.Server.Models.UserScene", b =>

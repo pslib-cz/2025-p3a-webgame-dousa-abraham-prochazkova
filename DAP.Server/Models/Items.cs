@@ -10,6 +10,7 @@ namespace DAP.Server.Models
         public int ItemId { get; set; }
         public string ItemName { get; set; } = string.Empty;
         public string ImageURL { get; set; } = string.Empty;
+        [System.Text.Json.Serialization.JsonIgnore]
         public ICollection<Zones> Zones { get; set; } = new List<Zones>();
 
     }

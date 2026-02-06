@@ -17,17 +17,18 @@ namespace DAP.Server.Controllers
 			_db = db;
 		}
 
-		[HttpGet("scene/{sceneId}/zones")]
-		public async Task<IActionResult> GetZones(int sceneId)
-		{
-			var zones = await _db.Zones
-				.Include(z => z.Item)
-				.Include(z => z.ItemDown)
-				.Where(z => z.UserId == sceneId)
-				.ToListAsync();
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetZonesByScene(int userId)
+        {
+            var zones = await _db.Zones
+                .Include(z => z.Item)
+                .Include(z => z.ItemDown)
+                .Where(z => z.UserId == userId)
+                .OrderBy(z => z.ZoneId)
+                .ToListAsync();
 
-			return Ok(zones);
-		}
+            return Ok(zones);
+        }
     }
 
 }
