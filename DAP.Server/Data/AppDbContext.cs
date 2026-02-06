@@ -88,13 +88,15 @@ namespace DAP.Server.Data
             {
                 ItemId = 8,
                 ItemName = "Páka nahoře",
-                ImageURL = "/images/up.png"
+                ImageURL = "/images/up.png",
+                SceneId = 9
             };
             Item leverDown = new()
             {
                 ItemId = 9,
                 ItemName = "Páka dole",
-                ImageURL = "/images/down.png"
+                ImageURL = "/images/down.png",
+                SceneId = 9
             };
 
             UserScene menu = new()

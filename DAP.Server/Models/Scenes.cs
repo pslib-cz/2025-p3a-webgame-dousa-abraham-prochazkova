@@ -10,6 +10,7 @@ namespace DAP.Server.Models
         public int UserId { get; set; }
         public string Scene { get; set; } = null!;
         public string? SceneImage { get; set; }
-        public virtual ICollection<Zones> Zones { get; set; } = new List<Zones>();
+        public ICollection<Zones> Zones { get; set; } = new List<Zones>();
+        public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }

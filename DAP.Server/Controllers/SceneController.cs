@@ -1,4 +1,5 @@
 ﻿using DAP.Server.Data;
+using DAP.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ namespace DAP.Server.Controllers
         public async Task<IActionResult> GetCurrentScene(int userId)
         {
             var scene = await _db.Scene
+                .Include(s => s.Items)
                 .Include(s => s.Zones)
                     .ThenInclude(z => z.RequiredItem)
                 .Include(s => s.Zones)
@@ -31,6 +33,20 @@ namespace DAP.Server.Controllers
             if (scene == null) return NotFound();
 
             return Ok(scene);
+        }
+        [HttpGet("scene/{sceneId}/items")]
+        public async Task<IActionResult> GetItemsByScene(int sceneId)
+        {
+            var items = await _db.Items
+                .Where(i => i.SceneId == sceneId)
+                .ToListAsync();
+
+            if (items == null || !items.Any())
+            {
+                return Ok(new List<Item>());
+            }
+
+            return Ok(items);
         }
     }
 }
