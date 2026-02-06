@@ -33,12 +33,8 @@ interface Zone {
   userId: number;
   targetSceneId?: number;
   targetScene?: UserScene;
-  item?: {
-        imageURL: string;
-    };
-    itemDown?: {
-        imageURL: string;
-    };
+  item?: Item;
+  itemDown?: Item;
 }
 
 type ScProps = { sceneId: string };

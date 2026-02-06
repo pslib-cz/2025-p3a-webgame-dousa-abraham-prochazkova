@@ -117,16 +117,14 @@
 
 
 
-.paka-up {
+.lever-up {
   position: absolute;
   top: 30%;
-  height: 25%;
-
+  height: 30%;
 }
 
-.paka-down {
+.lever-down {
   position: absolute;
   top: 50%;
-  height: 25%;
-
+  height: 30%;
 }

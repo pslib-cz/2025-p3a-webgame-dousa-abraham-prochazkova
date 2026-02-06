@@ -10,8 +10,8 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const navigate = useNavigate();
 
     const [scene, setScene] = useState<Scene | null>(null);
-    const [zone, setZone] = useState<Zone[] | null>(null);
     const [loading, setLoading] = useState(true);
+    const [zones, setZones] = useState<Zone[]>([]);
 
     if (!game) throw new Error("Neni game context");
     const { addItem, hasItem, removeItem, setDone, clearItems, message, buttonBack } = game;
@@ -36,238 +36,119 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
         }
     };
 
-    const [minigameActive, setMinigameActive] = useState(false);
-
-    const [leverState, setLeverState] = useState<boolean[]>([
-        false,
-        false,
-        false,
-        false
-      ]);
-      
-    const [correctCombination, setCorrectCombination] = useState<boolean[]>([true, false, true, true]);
+    const [leverState, setLeverState] = useState<boolean[]>([false, false, false, false]);
+    const [correctCombination] = useState<boolean[]>([true, false, true, true]);
 
     const handleLeverClick = (index: number) => {
         setLeverState(prev => {
             const updated = [...prev];
             updated[index] = !updated[index];
-
             const solved = updated.every((val, i) => val === correctCombination[i]);
             if (solved) {
-                setMinigameActive(false);
                 setDone("combination-okay");
             }
-
             return updated;
         });
-    };    
-
+    };
 
     const handleZoneClick = (zone: Zone) => {
-        console.log(`Interakce s: ${zone.interactionName} (${zone.interactionType})`);
-
-        // Kontrola, zda hráč má potřebný item
-        if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) {
-            return;
-        }
+        if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) return;
 
         switch (zone.interactionType) {
             case "getItem":
                 addItem(zone.interactionName as ItemId);
-                setDone(zone.zoneId.toString()); // Označíme jako sebrané
+                setDone(zone.zoneId.toString());
                 break;
-
             case "nextScene":
-                if (zone.requiredItem) {
-                    removeItem(zone.requiredItem as ItemId);
-                    navigate(`/${zone.interactionName}`);
-                } else if (zone.requiredItem === null) {
-                    navigate(`/${zone.interactionName}`);
-                }
+                navigate(`/${zone.interactionName}`);
                 break;
-
-            case "useItem":
-                // Použije item a třeba někam pustí hráče
-                if (zone.requiredItem) removeItem(zone.requiredItem as ItemId);
-                setDone(zone.zoneId.toString()); // Označíme jako hotové
+            case "prepniPaku":
+                handleLeverClick(Number(zone.interactionName));
                 break;
-
-            case "phoneClicked":
-                break;
-
-            case "finalScene":
-                clearItems();
-                navigate("/");
-                break;
-
-                case "prepniPaku": {
-                    const index = Number(zone.interactionName);
-                    // nebo: zone.zoneId - 12
-                  
-                    setLeverState(prev => {
-                      const updated = [...prev];
-                      updated[index] = !updated[index];
-                  
-                      const solved = updated.every(
-                        (val, i) => val === correctCombination[i]
-                      );
-                  
-                      if (solved) {
-                        setMinigameActive(false);
-                        // setDone("trezor-odemcen");
-                      }
-                  
-                      return updated;
-                    });
-                  
-                    break;
-                  }
         }
     };
-    const [dialog, setDialog] = useState("prazdny text");
-
-    if (!game) {
-        throw new Error("Neni game");
-    }
-
 
     useEffect(() => {
-        const sceneNumber = Number(sceneId);
-
-        if (!sceneId || isNaN(sceneNumber) || sceneNumber < 6) return;
-
         const loadData = async () => {
+            setLoading(true);
             try {
-                setLoading(true);
-                const res = await fetch(`/api/scene/${sceneId}`);
+                const resScene = await fetch(`/api/scene/${sceneId}`);
+                if (resScene.ok) setScene(await resScene.json());
 
-                if (!res.ok) {
-                    throw new Error(`Sc�na ${sceneId} nenalezena`);
-                }
-
-                const data: Scene = await res.json();
-                setScene(data);
+                const resZones = await fetch(`/api/zones/${sceneId}`);
+                if (resZones.ok) setZones(await resZones.json());
             } catch (err) {
-                console.error("Chyba p�i na��t�n�:", err);
+                console.error(err);
             } finally {
                 setLoading(false);
             }
-
-
-            try {
-                setLoading(true);
-                const res = await fetch(`/api/scene/${sceneId}/zones`);
-
-                if (!res.ok) {
-                    throw new Error(`Sc�na ${sceneId} nenalezena`);
-                }
-
-                const zoneData: Zone[] = await res.json();
-                setZone(zoneData);
-            } catch (err) {
-                console.error("Chyba p�i na��t�n�:", err);
-            } finally { 
-                setLoading(false);
-            }
         };
-
         loadData();
     }, [sceneId]);
 
-    if (loading || !scene) return <p>Na��t�m...</p>;
+    if (loading || !scene) return <p>Načítám...</p>;
+
     return (
         <div className="scena">
             <div className="grafika">
                 {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
-
+                <button className={Styles["overlay-close-button"]} onClick={() => buttonBack()}>
+                    ×
+                </button>
 
                 {sceneId === "7" && (
                     <div className={Styles["overlay-blur"]}>
                         <div className={Styles["overlay"]}>
-
-                            <div
-                                className={Styles["phone-display"]}
-                                style={{ color: error ? "red" : "black" }}
-                            >
+                            <div className={Styles["phone-display"]} style={{ color: error ? "red" : "black" }}>
                                 {phoneInput || "----"}
                             </div>
-
                             <div className={Styles["phone-buttons"]}>
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-                                    <button
-                                        key={n}
-                                        onClick={() => handlePhoneButton(n.toString())}
-                                        className={Styles["phone-btn"]}
-                                    >
+                                    <button key={n} onClick={() => handlePhoneButton(n.toString())} className={Styles["phone-btn"]}>
                                         {n}
                                     </button>
                                 ))}
-                                <button
-                                    onClick={checkPhoneCode}
-                                    className={Styles["phone-btn-enter"]}
-                                >
-                                    OK
-                                </button>
-                                <button
-                                    onClick={() => setPhoneInput("")}
-                                    className={Styles["phone-btn-clear"]}
-                                >
-                                    C
-                                </button>
+                                <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>OK</button>
+                                <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>C</button>
                             </div>
-
-
                         </div>
                     </div>
                 )}
-                {sceneId === "9" && zone &&
-                    zone.map((z, i) => (
+
+                {zones && zones.map((z, i) => (
+                    z.itemDown ? (
                         <img
                             key={z.zoneId}
-                            src={leverState[i] ? z.itemDown?.imageURL : z.item?.imageURL}
-                            alt="paka"
-                            className={leverState[i] ? Styles["paka-down"] : Styles["paka-up"]}
+                            src={leverState[i] ? z.itemDown.imageURL : z.item?.imageURL}
+                            className={leverState[i] ? Styles["lever-down"] : Styles["lever-up"]}
+                            style={{
+                                position: 'absolute',
+                                left: `${z.left}%`,
+                                width: `${z.width}%`,
+                                zIndex: 100,
+                                cursor: 'pointer',
+                                objectFit: 'contain'
+                            }}
+                            onClick={() => handleLeverClick(i)}
+                            alt="lever"
+                        />
+                    ) : (
+                        <div
+                            key={z.zoneId}
+                            onClick={() => handleZoneClick(z)}
                             style={{
                                 position: "absolute",
                                 left: `${z.left}%`,
                                 bottom: `${z.bottom}%`,
                                 width: `${z.width}%`,
                                 height: `${z.height}%`,
-                                cursor: "pointer",
-                                zIndex: 10
+                                cursor: "pointer"
                             }}
-                            onClick={() => handleLeverClick(i)}
                         />
-                    ))
-                }
-
-                <button
-                    className={Styles["overlay-close-button"]}
-                    onClick={() => buttonBack()}
-                >
-                    ×
-                </button>
-                {zone &&
-                    zone.map((zone) => {
-                        return (
-                            <div
-                                key={zone.zoneId}
-                                className="debug-tlacitko" // nebo Styles.hotspot
-                                onClick={() => handleZoneClick(zone)}
-                                style={{
-                                    position: "absolute",
-                                    left: `${zone.left}%`,
-                                    bottom: `${zone.bottom}%`,
-                                    width: `${zone.width}%`,
-                                    height: `${zone.height}%`,
-                                    cursor: "pointer",
-                                }}
-                            />
-                        );
-                    })
-                }
+                    )
+                ))}
             </div>
         </div>
     );
