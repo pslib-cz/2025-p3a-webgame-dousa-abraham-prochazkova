@@ -17,19 +17,16 @@ namespace DAP.Server.Controllers
 			_db = db;
 		}
 
-		[HttpGet("{zoneId}")]
-		public async Task<IActionResult> GetCurrentZone(int zoneId)
+		[HttpGet("scene/{sceneId}/zones")]
+		public async Task<IActionResult> GetZones(int sceneId)
 		{
-			var zone = await _db.Zones
-                .Include(z => z.Item)
-                .FirstOrDefaultAsync(z => z.ZoneId == zoneId);
+			var zones = await _db.Zones
+				.Include(z => z.Item)
+				.Include(z => z.ItemDown)
+				.Where(z => z.UserId == sceneId)
+				.ToListAsync();
 
-			if (zone == null)
-			{
-				return NotFound(new { message = $"Zóna s ID {zoneId} nebyla nalezena." });
-			}
-
-			return Ok(zone);
+			return Ok(zones);
 		}
     }
 

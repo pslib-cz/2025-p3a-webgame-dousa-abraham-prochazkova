@@ -45,7 +45,22 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
         false
       ]);
       
-      const correctCombination = [true, false, true, true];      
+    const [correctCombination, setCorrectCombination] = useState<boolean[]>([true, false, true, true]);
+
+    const handleLeverClick = (index: number) => {
+        setLeverState(prev => {
+            const updated = [...prev];
+            updated[index] = !updated[index];
+
+            const solved = updated.every((val, i) => val === correctCombination[i]);
+            if (solved) {
+                setMinigameActive(false);
+                setDone("combination-okay");
+            }
+
+            return updated;
+        });
+    };    
 
 
     const handleZoneClick = (zone: Zone) => {
@@ -151,7 +166,7 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                 setZone(zoneData);
             } catch (err) {
                 console.error("Chyba p�i na��t�n�:", err);
-            } finally {
+            } finally { 
                 setLoading(false);
             }
         };
@@ -208,16 +223,31 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                     </div>
                 )}
 
-                {sceneId === "9" &&
-                leverState.map((state, i) => (
-                    <img
-                        
-                        alt="paka"
-                        className={state ? Styles["paka-down"] : Styles["paka-up"]}
-                        style={{ left: `${30 + i * 15}%` }}
-                    />
-                ))
-                }
+                {sceneId === "9" && zone && zone.length > 0 && (
+                    zone.map((z, i) => {
+                        if (z.interactionType === "prepniPaku") {
+                            return (
+                                <img
+                                    key={z.zoneId}
+                                    src={leverState[i] ? z.itemDown?.imageURL : z.item?.imageURL}
+                                    alt="paka"
+                                    className={leverState[i] ? Styles["paka-down"] : Styles["paka-up"]}
+                                    style={{ 
+                                        position: "absolute",
+                                        left: `${z.left}%`, 
+                                        bottom: `${z.bottom}%`,
+                                        width: `${z.width}%`,
+                                        height: `${z.height}%`,
+                                        cursor: "pointer",
+                                        zIndex: 100
+                                    }}
+                                    onClick={() => handleLeverClick(i)}
+                                />
+                            );
+                        }
+                        return null;
+                    })
+                )}
 
                 <button
                     className={Styles["overlay-close-button"]}
