@@ -185,7 +185,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 {scene.zones &&
                     scene.zones.map((zone) => {
 
-                        if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene") {
+                        if (isDone(zone.zoneId.toString()) && (zone.interactionType !== "nextScene" || zone.zoneId === 9)) {
                             return null;
                         }
                         return (
