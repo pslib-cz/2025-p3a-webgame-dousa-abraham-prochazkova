@@ -1,5 +1,5 @@
 import type { UserScene, Zone } from "../assets/types/types";
-import Styles from "../assets/styles/Scene.module.css";
+import Styles from "../assets/styles/UniversalScene.module.css";
 import Inventar from "./Inventar";
 import Notifications from "./Notification";
 import { GameContext } from "../GameContext";
@@ -10,6 +10,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
     const navigate = useNavigate();
 
+    const [removeWire, setRemoveWire] = useState(false);
     const [scene, setScene] = useState<UserScene | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +20,11 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
     useEffect(() => {
         if (!sceneId || sceneId === "undefined") return;
+
+        if (sceneId === "4" && isDone("9")) {
+            navigate("/10");
+            return;
+        }
 
         const loadData = async () => {
             try {
@@ -53,7 +59,8 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     setDone(zone.zoneId.toString());
                     return;
                 } else if (zone.requiredItemId && hasItem(zone.requiredItemId)) {
-                    if (zone.requiredItemId === 1) {
+                    if (zone.requiredItemId === 1 && !removeWire) {
+                        setRemoveWire(true);
                         addItem(zone.getItemId as any);
                         game.notification(`Získal ${zone.getItem?.itemName}`);
                         setDone(zone.zoneId.toString());
@@ -71,34 +78,38 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
 
             case "nextScene":
+                if (zone.zoneId === 9) {
+                    addItem(zone.getItemId as any);
+                    setDone(zone.zoneId.toString());
+                    game.notification(`Získal jsi: ${zone.getItem?.itemName}`);
+                    navigate(`/${zone.targetSceneId}`);
+                    return;
+                }
                 if (isDone(zone.zoneId.toString())) {
                     navigate(`/${zone.targetSceneId}`);
-                    game.notification(`Přešel jsi do scény: ${zone.targetScene?.scene}`);
                     return;
                 } else if (zone.requiredItemId && hasItem(zone.requiredItemId) && !isDone(zone.zoneId.toString())) {
                     removeItem(zone.requiredItemId);
                     setDone(zone.zoneId.toString());
                     navigate(`/${zone.targetSceneId}`);
-                    game.notification(`Použil jsi: ${zone.requiredItem?.itemName}` + ` a přešel jsi do scény: ${zone.targetScene?.scene}`);
                 } else if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
                     game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
                 } else if (zone.requiredItemId === null) {
                     navigate(`/${zone.targetSceneId}`);
-                    game.notification(`Přešel jsi do scény: ${zone.targetScene?.scene}`);
                 }
                 break;
 
             case "useItem":
-    if (zone.requiredItemId) {
-        if (hasItem(zone.requiredItemId)) {
-            removeItem(zone.requiredItemId);
-            setDone(zone.zoneId.toString());
-            game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
-        } else {
-            game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
-        }
-    }
-    break;
+                if (zone.requiredItemId) {
+                    if (hasItem(zone.requiredItemId)) {
+                        removeItem(zone.requiredItemId);
+                        setDone(zone.zoneId.toString());
+                        game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
+                    } else {
+                        game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
+                    }
+                }
+                break;
 
             case "phoneClicked":
                 let fixed = isDone("phone-coil");

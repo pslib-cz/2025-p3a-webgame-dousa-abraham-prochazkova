@@ -12,7 +12,6 @@ namespace DAP.Server.Data
             : base(options) { }
         public DbSet<Item> Items { get; set; }
         public DbSet<UserScene> Scene { get; set; }
-        public DbSet<Dialogue> Dialogues { get; set; }
         public DbSet<Zones> Zones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -159,6 +158,12 @@ namespace DAP.Server.Data
                 Scene = "LeversOverlay",
                 SceneImage = "/images/levers-bg.png"
             };
+            UserScene kancelar2 = new()
+            {
+                UserId = 10,
+                Scene = "Kancelář bez karty",
+                SceneImage = "/images/sc3-office-cardless.png"
+            };
 
             //Zones
             Zones zone1 = new()
@@ -275,9 +280,10 @@ namespace DAP.Server.Data
                 Width = 18,
                 Height = 36,
                 InteractionName = "card",
-                InteractionType = "getItem",
+                InteractionType = "nextScene",
                 RequiredItemId = 1,
                 GetItemId = 5,
+                TargetSceneId = 10,
                 UserId = 4
             };
 
@@ -308,54 +314,55 @@ namespace DAP.Server.Data
                 TargetSceneId = 8
             };
             //Levers scene 9
-            Zones zone12 = new() 
-            { 
-                ZoneId = 12, 
-                Bottom = 27, 
-                Left = 30, 
-                Width = 5, 
-                Height = 40, 
-                InteractionName = "leverSwitch", 
-                InteractionType = "prepniPaku", 
-                UserId = 9, 
+            Zones zone12 = new()
+            {
+                ZoneId = 12,
+                Bottom = 27,
+                Left = 30,
+                Width = 5,
+                Height = 40,
+                InteractionName = "leverSwitch",
+                InteractionType = "prepniPaku",
+                UserId = 9,
                 ItemId = 8,
                 ItemDownId = 9
             };
-            Zones zone13 = new() { 
-                ZoneId = 13, 
-                Bottom = 27, 
-                Left = 45, 
-                Width = 5, 
-                Height = 40, 
-                InteractionName = "leverSwitch", 
-                InteractionType = "prepniPaku", 
-                UserId = 9, 
+            Zones zone13 = new()
+            {
+                ZoneId = 13,
+                Bottom = 27,
+                Left = 45,
+                Width = 5,
+                Height = 40,
+                InteractionName = "leverSwitch",
+                InteractionType = "prepniPaku",
+                UserId = 9,
                 ItemId = 8,
                 ItemDownId = 9
             };
-            Zones zone14 = new() 
-            { 
-                ZoneId = 14, 
-                Bottom = 27, 
-                Left = 60, 
-                Width = 5, 
-                Height = 40, 
-                InteractionName = "leverSwitch", 
-                InteractionType = "prepniPaku", 
-                UserId = 9, 
+            Zones zone14 = new()
+            {
+                ZoneId = 14,
+                Bottom = 27,
+                Left = 60,
+                Width = 5,
+                Height = 40,
+                InteractionName = "leverSwitch",
+                InteractionType = "prepniPaku",
+                UserId = 9,
                 ItemId = 8,
                 ItemDownId = 9
             };
-            Zones zone15 = new() 
-            { 
-                ZoneId = 15, 
-                Bottom = 27, 
-                Left = 75, 
-                Width = 5, 
-                Height = 40, 
-                InteractionName = "leverSwitch", 
-                InteractionType = "prepniPaku", 
-                UserId = 9, 
+            Zones zone15 = new()
+            {
+                ZoneId = 15,
+                Bottom = 27,
+                Left = 75,
+                Width = 5,
+                Height = 40,
+                InteractionName = "leverSwitch",
+                InteractionType = "prepniPaku",
+                UserId = 9,
                 ItemId = 8,
                 ItemDownId = 9
             };
@@ -401,27 +408,6 @@ namespace DAP.Server.Data
 
 
 
-            modelBuilder.Entity<Zones>().HasData(
-                zone1,
-                zone2,
-                zone3,
-                zone4,
-                zone5,
-                zone6,
-                zone7,
-                zone8,
-                zone9,
-                zone10,
-                zone11,
-                zone12,
-                zone13,
-                zone14,
-                zone15,
-                zone16,
-                zone17,
-                zone18
-            );
-
             modelBuilder.Entity<Item>().HasData(
                 medenyDrat,
                 klicRadnice,
@@ -443,7 +429,29 @@ namespace DAP.Server.Data
                 konec,
                 phone,
                 drawer,
-                levers
+                levers,
+                kancelar2
+            );
+
+            modelBuilder.Entity<Zones>().HasData(
+                zone1,
+                zone2,
+                zone3,
+                zone4,
+                zone5,
+                zone6,
+                zone7,
+                zone8,
+                zone9,
+                zone10,
+                zone11,
+                zone12,
+                zone13,
+                zone14,
+                zone15,
+                zone16,
+                zone17,
+                zone18
             );
         }
     }

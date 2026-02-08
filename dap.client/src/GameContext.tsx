@@ -75,10 +75,10 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
     const waterOk = history.includes("18");
 
     if (leversOk && cardOk && waterOk) {
-        const timer = setTimeout(() => {
-            navigate("/6");
-        }, 100);
-        return () => clearTimeout(timer);
+      const timer = setTimeout(() => {
+        navigate("/6");
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [levers, history, navigate]);
 
@@ -103,7 +103,7 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
   const hasItem = (item: ItemId) => items.includes(item);
   const clearItems = () => setItems([]);
   const notification = (text: string) => setMessage(text);
-  const buttonBack = () => navigate(-1);
+  const buttonBack = () => navigate("/3");
 
   const konec = () => {
     setHistory([]);

@@ -1,4 +1,5 @@
 import ScenaProvider, { GameContext } from "./GameContext";
+import VerticalWarning from "./components/VerticalWarning";
 import "./App.css";
 import Intro from "./components/Intro";
 import { useContext, useEffect } from "react";
@@ -16,25 +17,30 @@ function SceneSwitch() {
   const { sceneId } = useParams<{ sceneId: string }>();
   const game = useContext(GameContext);
 
-  const sceneNumber = Number(sceneId);
+  const isOnlyNumbers = sceneId && /^\d+$/.test(sceneId);
+
+  if (!isOnlyNumbers) {
+    return <Navigate to="/1" replace />;
+  }
+
+  const currentId = sceneId || "1";
+  const sceneNumber = Number(currentId);
 
   useEffect(() => {
-    if (sceneId && game && sceneId !== game.scena) {
-      game.setScena(sceneId as any);
+    if (currentId && game && currentId !== game.scena) {
+      game.setScena(currentId);
     }
-  }, [sceneId, game]);
+  }, [currentId, game]);
 
   // Pokud je v URL "intro" nebo "1", můžeme zobrazit Intro
-  if (sceneId === "1") {
+  if (currentId === "1") {
     return <Intro sceneId="1" />;
   }
 
   if (!isNaN(sceneNumber) && sceneNumber > 6) {
-    return <OverlayScene sceneId={sceneId!} />;
+    return <OverlayScene sceneId={currentId} />;
   }
-  // Vše ostatní vyřeší UniversalScene
-  // Pokud v URL nic není, defaultně skočíme na scénu "1" (nebo "2")
-  return <UniversalScene sceneId={sceneId || "1"} />;
+  return <UniversalScene sceneId={currentId} />;
 
 }
 
@@ -42,9 +48,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <ScenaProvider>
+        <VerticalWarning />
         <Routes>
+          <Route path="/" element={<Navigate to="/1" replace />} />
           <Route path="/:sceneId" element={<SceneSwitch />} />
-          <Route path="/" element={<Navigate to="/1" />} />
+          <Route path="*" element={<Navigate to="/1" replace />} />
         </Routes>
       </ScenaProvider>
     </BrowserRouter>

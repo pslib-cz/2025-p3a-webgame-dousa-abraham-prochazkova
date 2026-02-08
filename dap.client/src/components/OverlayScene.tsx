@@ -1,6 +1,6 @@
-import { type FC, useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import type { Scene, Zone } from "../assets/types/types";
+import type { UserScene, Zone } from "../assets/types/types";
 import { GameContext } from "../GameContext";
 import Styles from "../assets/styles/OverlayScene.module.css";
 import Notifications from "./Notification";
@@ -9,17 +9,17 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
     const navigate = useNavigate();
 
-    const [scene, setScene] = useState<Scene | null>(null);
+    const [scene, setScene] = useState<UserScene | null>(null);
     const [loading, setLoading] = useState(true);
     const [zones, setZones] = useState<Zone[]>([]);
-    
+
     const [phoneInput, setPhoneInput] = useState("");
     const correctCode = "7872";
     const [error, setError] = useState(false);
 
     if (!game) throw new Error("Neni game context");
-    const { 
-        hasItem, removeItem, setDone, history, levers, setLevers, message, buttonBack, notification 
+    const {
+        hasItem, removeItem, setDone, history, levers, setLevers, message, buttonBack, notification
     } = game;
 
     const correctCombination = [true, false, true, true];
@@ -98,9 +98,9 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
 
     return (
         <div className="scena">
-            <div className="grafika">
+            <div className={Styles["overlay-container"]}>
                 {message && <Notifications />}
-                <img src={scene.sceneImage} className="bg" alt={scene.scene} />
+                <img src={scene.sceneImage} className={Styles["overlay-img"]} alt={scene.scene} />
                 <button className={Styles["overlay-close-button"]} onClick={() => buttonBack()}>×</button>
 
                 {sceneId === "7" && (
