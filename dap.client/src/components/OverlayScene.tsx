@@ -1,7 +1,7 @@
-import type { Scene, Zone } from "../assets/types/types";
-import { GameContext, type ItemId } from "../GameContext";
-import { useContext, useEffect, useState } from "react";
+import { type FC, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import type { Scene, Zone } from "../assets/types/types";
+import { GameContext } from "../GameContext";
 import Styles from "../assets/styles/OverlayScene.module.css";
 import Notifications from "./Notification";
 
@@ -12,13 +12,17 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     const [scene, setScene] = useState<Scene | null>(null);
     const [loading, setLoading] = useState(true);
     const [zones, setZones] = useState<Zone[]>([]);
-
-    if (!game) throw new Error("Neni game context");
-    const { addItem, hasItem, removeItem, setDone, clearItems, message, buttonBack } = game;
-
+    
     const [phoneInput, setPhoneInput] = useState("");
     const correctCode = "7872";
     const [error, setError] = useState(false);
+
+    if (!game) throw new Error("Neni game context");
+    const { 
+        hasItem, removeItem, setDone, history, levers, setLevers, message, buttonBack, notification 
+    } = game;
+
+    const correctCombination = [true, false, true, true];
 
     const handlePhoneButton = (num: string) => {
         if (phoneInput.length >= 4) return;
@@ -36,74 +40,42 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
         }
     };
 
-    const [leverState, setLeverState] = useState<boolean[]>([false, false, false, false]);
-    const [correctCombination] = useState<boolean[]>([true, false, true, true]);
-
     const handleLeverClick = (index: number) => {
-        setLeverState(prev => {
-            const updated = [...prev];
-            updated[index] = !updated[index];
-            const solved = updated.every((val, i) => val === correctCombination[i]);
-            if (solved) {
-                setDone("combination-okay");
-            }
-            return updated;
-        });
+        const updated = [...levers];
+        updated[index] = !updated[index];
+        setLevers(updated);
+
+        const isCorrectNow = updated.every((val, i) => val === correctCombination[i]);
+        if (isCorrectNow && !history.includes("combination-okay")) {
+            setDone("combination-okay");
+            notification("Páky jsou správně!");
+        }
     };
 
     const handleZoneClick = (zone: Zone) => {
-    const hasRequired = !zone.requiredItemId || hasItem(zone.requiredItemId as any);
+        const hasRequired = !zone.requiredItemId || hasItem(zone.requiredItemId as any);
 
-    if (zone.interactionType === "prepniPaku") {
-        handleLeverClick(zone.zoneId);
-        return;
-    }
-
-    if (zone.requiredItemId) {
-        if (!hasRequired) {
-            game.notification(`Chybí ti: ${zone.requiredItem?.itemName}`);
+        if (zone.interactionType === "prepniPaku") {
+            handleLeverClick(zone.zoneId - 12);
             return;
         }
-        if (!game.isDone(zone.zoneId.toString())) {
-            setDone(zone.zoneId.toString());
-            removeItem(zone.requiredItemId as any);
-            game.notification(`Aktivováno: ${zone.requiredItem?.itemName}`);
-        }
-    }
 
-    const leadsToEnding = zone.interactionName === "6" || zone.targetSceneId === 6 || zone.interactionName === "vaultDoors";
-
-    if (leadsToEnding) {
-        const levers = game.isDone("combination-okay");
-        const card = game.isDone("16");
-        const water = game.isDone("18");
-
-        if (levers && card && water) {
-            navigate("/6");
-        } else {
-            let msg = "Systém vyžaduje: ";
-            if (!card) msg += "kartu, ";
-            if (!water) msg += "energii generátoru, ";
-            if (!levers) msg += "správné nastavení pák, ";
-            game.notification(msg.slice(0, -2));
-        }
-        return;
-    }
-
-    switch (zone.interactionType) {
-        case "getItem":
-            if (hasRequired) {
-                addItem(zone.getItemId as any);
-                setDone(zone.zoneId.toString());
-                game.notification(`Získal jsi: ${zone.getItem?.itemName}`);
+        if (zone.requiredItemId) {
+            if (!hasRequired) {
+                notification(`Chybí ti: ${zone.requiredItem?.itemName}`);
+                return;
             }
-            break;
+            if (!history.includes(zone.zoneId.toString())) {
+                setDone(zone.zoneId.toString());
+                removeItem(zone.requiredItemId as any);
+                notification(`Aktivováno: ${zone.requiredItem?.itemName}`);
+            }
+        }
 
-        case "nextScene":
+        if (zone.interactionType === "nextScene") {
             navigate(`/${zone.interactionName || zone.targetSceneId}`);
-            break;
-    }
-};
+        }
+    };
 
     useEffect(() => {
         const loadData = async () => {
@@ -111,7 +83,6 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
             try {
                 const resScene = await fetch(`/api/scene/${sceneId}`);
                 if (resScene.ok) setScene(await resScene.json());
-
                 const resZones = await fetch(`/api/zones/${sceneId}`);
                 if (resZones.ok) setZones(await resZones.json());
             } catch (err) {
@@ -130,10 +101,7 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
             <div className="grafika">
                 {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
-
-                <button className={Styles["overlay-close-button"]} onClick={() => buttonBack()}>
-                    ×
-                </button>
+                <button className={Styles["overlay-close-button"]} onClick={() => buttonBack()}>×</button>
 
                 {sceneId === "7" && (
                     <div className={Styles["overlay-blur"]}>
@@ -143,9 +111,7 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                             </div>
                             <div className={Styles["phone-buttons"]}>
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-                                    <button key={n} onClick={() => handlePhoneButton(n.toString())} className={Styles["phone-btn"]}>
-                                        {n}
-                                    </button>
+                                    <button key={n} onClick={() => handlePhoneButton(n.toString())} className={Styles["phone-btn"]}>{n}</button>
                                 ))}
                                 <button onClick={checkPhoneCode} className={Styles["phone-btn-enter"]}>OK</button>
                                 <button onClick={() => setPhoneInput("")} className={Styles["phone-btn-clear"]}>C</button>
@@ -154,21 +120,20 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
                     </div>
                 )}
 
-                {zones && zones.map((z, i) => (
+                {zones && zones.map((z) => (
                     z.itemDown ? (
                         <img
                             key={z.zoneId}
-                            src={leverState[i] ? z.itemDown.imageURL : z.item?.imageURL}
-                            className={leverState[i] ? Styles["lever-down"] : Styles["lever-up"]}
+                            src={levers[z.zoneId - 12] ? z.itemDown.imageURL : z.item?.imageURL}
+                            className={levers[z.zoneId - 12] ? Styles["lever-down"] : Styles["lever-up"]}
                             style={{
                                 position: 'absolute',
                                 left: `${z.left}%`,
+                                bottom: `${z.bottom}%`,
                                 width: `${z.width}%`,
-                                zIndex: 100,
-                                cursor: 'pointer',
-                                objectFit: 'contain'
+                                cursor: 'pointer'
                             }}
-                            onClick={() => handleLeverClick(i)}
+                            onClick={() => handleLeverClick(z.zoneId - 12)}
                             alt="lever"
                         />
                     ) : (
