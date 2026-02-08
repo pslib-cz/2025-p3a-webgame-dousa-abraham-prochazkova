@@ -26,6 +26,19 @@
   align-items: center;
 }
 
+@media (max-width: 1000px) {
+  .inventory-slot {
+    width: 60px;
+  }
+
+}
+
+@media (max-width: 850px) {
+  .inventory-slot {
+    width: 50px;
+  }
+}
+
 .inventory-item {
   max-width: 100%;
   max-height: 100%;

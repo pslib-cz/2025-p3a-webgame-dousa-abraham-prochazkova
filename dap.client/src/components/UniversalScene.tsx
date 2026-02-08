@@ -161,7 +161,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     };
 
 
-    // ... zbytek kódu zůstává stejný
 
     if (loading || !scene) return <p>Načítám...</p>;
 
@@ -171,24 +170,10 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
-                {/* INVENTÁŘ: Zobrazí se všude kromě scény 6 */}
                 {sceneId !== "6" && <Inventar />}
 
                 <div className={Styles["inventar"]}></div>
 
-                <div
-                    className="debug-tlacitko"
-                    onClick={() => konec()}
-                    style={{
-                        position: "absolute",
-                        left: "95%",
-                        bottom: "92%",
-                        width: "5%",
-                        height: "auto",
-                        aspectRatio: 1 / 1,
-                        cursor: "pointer"
-                    }}
-                />
 
                 {sceneId === "6" && (
                     <div className={Styles["final-screen-container"]}>

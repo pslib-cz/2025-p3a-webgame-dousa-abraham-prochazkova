@@ -9,13 +9,18 @@
     border: 2px solid #301500;
     border-radius: 5px;
     pointer-events: none;
-
-    /* DŮLEŽITÉ: Základní stav je schovaný (posunutý o 200% své výšky nahoru) */
     transform: translateY(-200%);
     opacity: 0;
-
-    /* Animace běží 3 sekundy a zůstane ve stavu 100% (forwards) */
     animation: slide-in-out-top 2s ease-in-out forwards;
+}
+
+@media (max-width: 1000px) {
+    .notification-container {
+        left: 3%;
+        max-width: 250px;
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
 }
 
 @keyframes slide-in-out-top {
