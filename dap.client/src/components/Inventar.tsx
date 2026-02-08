@@ -1,4 +1,4 @@
-import "../assets/styles/Inventar.css";
+import Style from "../assets/styles/Inventar.module.css";
 import { GameContext } from "../GameContext";
 import type { Item } from "../assets/types/types";
 import { useContext, useEffect, useState } from "react";
@@ -42,15 +42,15 @@ const Inventar = () => {
 
   return (
     <>
-      <div className="inventory-bar">
+      <div className={Style["inventory-bar"]}>
         {slots.map((item, index) => (
-          <div className="inventory-slot" key={index}>
+          <div className={Style["inventory-slot"]} key={index}>
             {item && (
               <img
                 src={item.imageURL}
                 alt={item.itemName}
                 title={item.itemName}
-                className="inventory-item"
+                className={Style["inventory-item"]}
               />
             )}
           </div>
