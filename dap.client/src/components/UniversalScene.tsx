@@ -5,14 +5,12 @@ import Notifications from "./Notification";
 import { GameContext } from "../GameContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-/*import { fetchDialogue } from "../dialogApi";*/
 
 const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
     const navigate = useNavigate();
 
     const [scene, setScene] = useState<UserScene | null>(null);
-    const [dialog, setDialog] = useState("");
     const [loading, setLoading] = useState(true);
 
     if (!game) throw new Error("Neni game context");
@@ -91,10 +89,16 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 break;
 
             case "useItem":
-                if (zone.requiredItemId) removeItem(zone.requiredItemId);
-                setDone(zone.zoneId.toString());
-                game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
-                break;
+    if (zone.requiredItemId) {
+        if (hasItem(zone.requiredItemId)) {
+            removeItem(zone.requiredItemId);
+            setDone(zone.zoneId.toString());
+            game.notification(`Použil jsi: ${zone.requiredItem?.itemName}`);
+        } else {
+            game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
+        }
+    }
+    break;
 
             case "phoneClicked":
                 let fixed = isDone("phone-coil");
@@ -121,9 +125,13 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 break;
             case "finalScene":
-                clearItems();
-                navigate("/6");
-                game.notification("Hra byla ukončena a stav vymazán.");
+                if (zone.requiredItemId && !hasItem(zone.requiredItemId)) {
+                    game.notification(`Potřebuješ: ${zone.requiredItem?.itemName}`);
+                } else {
+                    clearItems();
+                    navigate("/6");
+                    game.notification("Hra byla ukončena a stav vymazán.");
+                }
                 break;
         }
     };
@@ -139,9 +147,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 <Inventar />
                 <div className={Styles["inventar"]}>
                 </div>
-
-                <div className={Styles["dialogText"]}>"{dialog}"</div>
-                {/* DEBUG */}
                 <div
                     className="debug-tlacitko"
                     onClick={() => konec()}

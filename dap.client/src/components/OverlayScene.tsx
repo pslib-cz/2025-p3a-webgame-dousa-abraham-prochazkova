@@ -52,21 +52,58 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     };
 
     const handleZoneClick = (zone: Zone) => {
-        if (zone.requiredItem && !hasItem(zone.requiredItem as ItemId)) return;
+    const hasRequired = !zone.requiredItemId || hasItem(zone.requiredItemId as any);
 
-        switch (zone.interactionType) {
-            case "getItem":
-                addItem(zone.interactionName as ItemId);
-                setDone(zone.zoneId.toString());
-                break;
-            case "nextScene":
-                navigate(`/${zone.interactionName}`);
-                break;
-            case "prepniPaku":
-                handleLeverClick(Number(zone.interactionName));
-                break;
+    if (zone.interactionType === "prepniPaku") {
+        handleLeverClick(zone.zoneId);
+        return;
+    }
+
+    if (zone.requiredItemId) {
+        if (!hasRequired) {
+            game.notification(`Chybí ti: ${zone.requiredItem?.itemName}`);
+            return;
         }
-    };
+        if (!game.isDone(zone.zoneId.toString())) {
+            setDone(zone.zoneId.toString());
+            removeItem(zone.requiredItemId as any);
+            game.notification(`Aktivováno: ${zone.requiredItem?.itemName}`);
+        }
+    }
+
+    const leadsToEnding = zone.interactionName === "6" || zone.targetSceneId === 6 || zone.interactionName === "vaultDoors";
+
+    if (leadsToEnding) {
+        const levers = game.isDone("combination-okay");
+        const card = game.isDone("16");
+        const water = game.isDone("18");
+
+        if (levers && card && water) {
+            navigate("/6");
+        } else {
+            let msg = "Systém vyžaduje: ";
+            if (!card) msg += "kartu, ";
+            if (!water) msg += "energii generátoru, ";
+            if (!levers) msg += "správné nastavení pák, ";
+            game.notification(msg.slice(0, -2));
+        }
+        return;
+    }
+
+    switch (zone.interactionType) {
+        case "getItem":
+            if (hasRequired) {
+                addItem(zone.getItemId as any);
+                setDone(zone.zoneId.toString());
+                game.notification(`Získal jsi: ${zone.getItem?.itemName}`);
+            }
+            break;
+
+        case "nextScene":
+            navigate(`/${zone.interactionName || zone.targetSceneId}`);
+            break;
+    }
+};
 
     useEffect(() => {
         const loadData = async () => {
