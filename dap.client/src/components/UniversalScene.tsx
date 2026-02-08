@@ -190,7 +190,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     })
                 }
 
-                {(sceneId === "4" || sceneId === "5") && (
+                {(sceneId === "4" || sceneId === "5" || sceneId === "10") && (
                     <button
                         className={Styles.buttonBack}
                         onClick={buttonBack}>

@@ -10,29 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260208145315_FinalScene")]
-    partial class FinalScene
+    [Migration("20260208171339_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
-
-            modelBuilder.Entity("DAP.Server.Models.Dialogue", b =>
-                {
-                    b.Property<int>("DialogueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("DialogueText")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("DialogueId");
-
-                    b.ToTable("Dialogues");
-                });
 
             modelBuilder.Entity("DAP.Server.Models.Item", b =>
                 {
@@ -184,6 +169,12 @@ namespace DAP.Server.Migrations
                             UserId = 9,
                             Scene = "LeversOverlay",
                             SceneImage = "/images/levers-bg.png"
+                        },
+                        new
+                        {
+                            UserId = 10,
+                            Scene = "Kancelář bez karty",
+                            SceneImage = "/images/sc3-office-cardless.png"
                         });
                 });
 
@@ -353,9 +344,10 @@ namespace DAP.Server.Migrations
                             GetItemId = 5,
                             Height = 36m,
                             InteractionName = "card",
-                            InteractionType = "getItem",
+                            InteractionType = "nextScene",
                             Left = 75m,
                             RequiredItemId = 1,
+                            TargetSceneId = 10,
                             UserId = 4,
                             Width = 18m
                         },

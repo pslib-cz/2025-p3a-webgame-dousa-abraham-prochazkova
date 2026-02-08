@@ -103,7 +103,12 @@ export const ScenaProvider: FC<PropsWithChildren> = ({ children }) => {
   const hasItem = (item: ItemId) => items.includes(item);
   const clearItems = () => setItems([]);
   const notification = (text: string) => setMessage(text);
-  const buttonBack = () => navigate("/3");
+  const buttonBack = () => {
+    if (scena === "4" || scena === "5" || scena === "10") {
+      navigate("/3");
+    }
+    else { navigate(-1); }
+  };
 
   const konec = () => {
     setHistory([]);

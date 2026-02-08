@@ -37,7 +37,7 @@ function SceneSwitch() {
     return <Intro sceneId="1" />;
   }
 
-  if (!isNaN(sceneNumber) && sceneNumber > 6) {
+  if (!isNaN(sceneNumber) && sceneNumber > 6 && sceneNumber < 10) {
     return <OverlayScene sceneId={currentId} />;
   }
   return <UniversalScene sceneId={currentId} />;

@@ -7,24 +7,11 @@
 namespace DAP.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Dialogues",
-                columns: table => new
-                {
-                    DialogueId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DialogueText = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dialogues", x => x.DialogueId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Scene",
                 columns: table => new
@@ -147,7 +134,8 @@ namespace DAP.Server.Migrations
                     { 6, "Konec", "/images/sc5-end.png" },
                     { 7, "PhoneOverlay", "/images/phone-overlay.png" },
                     { 8, "DrawerOverlay", "/images/kod.png" },
-                    { 9, "LeversOverlay", "/images/levers-bg.png" }
+                    { 9, "LeversOverlay", "/images/levers-bg.png" },
+                    { 10, "Kancelář bez karty", "/images/sc3-office-cardless.png" }
                 });
 
             migrationBuilder.InsertData(
@@ -163,14 +151,14 @@ namespace DAP.Server.Migrations
                     { 6, 40m, 3, 34m, "coil", "getItem", null, null, 62m, null, null, 3, 12m },
                     { 7, 43m, 7, 16m, "levers-comb", "getItem", null, null, 17m, null, null, 3, 28m },
                     { 8, 38m, 4, 27m, "klic-od-supliku", "getItem", null, null, 5m, null, null, 4, 14m },
-                    { 9, 30m, 5, 36m, "card", "getItem", null, null, 75m, 1, null, 4, 18m },
+                    { 9, 30m, 5, 36m, "card", "nextScene", null, null, 75m, 1, 10, 4, 18m },
                     { 10, 45m, 6, 15m, "mug", "getItem", null, null, 57m, null, null, 4, 7m },
                     { 11, 20m, null, 15m, "Zobrazení šuplíku s kódem", "nextScene", null, null, 62m, 4, 8, 4, 7m },
                     { 12, 27m, null, 40m, "leverSwitch", "prepniPaku", 9, 8, 30m, null, null, 9, 5m },
                     { 13, 27m, null, 40m, "leverSwitch", "prepniPaku", 9, 8, 45m, null, null, 9, 5m },
                     { 14, 27m, null, 40m, "leverSwitch", "prepniPaku", 9, 8, 60m, null, null, 9, 5m },
                     { 15, 27m, null, 40m, "leverSwitch", "prepniPaku", 9, 8, 75m, null, null, 9, 5m },
-                    { 16, 39m, null, 13m, "vaultDoors", "finalScene", null, null, 72m, 5, null, 5, 6m },
+                    { 16, 39m, null, 13m, "vaultDoors", "useItem", null, null, 72m, 5, null, 5, 6m },
                     { 17, 52m, null, 15m, "Zobrazení pák", "nextScene", null, null, 20m, null, 9, 5, 15m },
                     { 18, 12m, null, 38m, "generator", "useItem", null, null, 2m, 6, null, 5, 15m }
                 });
@@ -214,9 +202,6 @@ namespace DAP.Server.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Dialogues");
-
             migrationBuilder.DropTable(
                 name: "Zones");
 
