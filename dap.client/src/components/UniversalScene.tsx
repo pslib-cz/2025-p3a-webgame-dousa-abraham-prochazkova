@@ -28,7 +28,9 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
         const loadData = async () => {
             try {
-                setLoading(true);
+                if (sceneId !== "10") {
+                    setLoading(true);
+                }
                 const res = await fetch(`/api/scene/${sceneId}`);
 
                 if (!res.ok) {
@@ -36,6 +38,17 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 }
 
                 const data: UserScene = await res.json();
+
+                if (sceneId === "10") {
+                    const res4 = await fetch(`/api/scene/4`);
+                    if (res4.ok) {
+                        const data4: UserScene = await res4.json();
+                        data.zones = data4.zones;
+                    } else {
+                        throw new Error(`Scéna ${sceneId} nenalezena`);
+                    }
+                }
+
                 setScene(data);
             } catch (err) {
                 console.error("Chyba při načítání:", err);
@@ -45,7 +58,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
         };
 
         loadData();
-    }, [sceneId]);
+    }, [sceneId, isDone]);
 
 
     const handleZoneClick = (zone: Zone) => {
@@ -171,6 +184,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 />
                 {scene.zones &&
                     scene.zones.map((zone) => {
+
                         if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene") {
                             return null;
                         }
