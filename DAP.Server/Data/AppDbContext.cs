@@ -368,7 +368,7 @@ namespace DAP.Server.Data
                 Width = 6,
                 Height = 13,
                 InteractionName = "vaultDoors",
-                InteractionType = "finalScene",
+                InteractionType = "useItem",
                 RequiredItemId = 5,
                 UserId = 5
             };
