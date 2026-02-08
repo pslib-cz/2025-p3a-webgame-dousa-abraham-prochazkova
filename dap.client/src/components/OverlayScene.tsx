@@ -78,15 +78,23 @@ const OverlayScene = ({ sceneId }: { sceneId: string }) => {
     };
 
     useEffect(() => {
+        const id = parseInt(sceneId);
+
+        if (isNaN(id) || id < 7 || id > 9) {
+            setLoading(false);
+            return;
+        }
+
         const loadData = async () => {
             setLoading(true);
             try {
                 const resScene = await fetch(`/api/scene/${sceneId}`);
                 if (resScene.ok) setScene(await resScene.json());
+                
                 const resZones = await fetch(`/api/zones/${sceneId}`);
                 if (resZones.ok) setZones(await resZones.json());
             } catch (err) {
-                console.error(err);
+                console.error("Chyba při načítání overlay dat:", err);
             } finally {
                 setLoading(false);
             }

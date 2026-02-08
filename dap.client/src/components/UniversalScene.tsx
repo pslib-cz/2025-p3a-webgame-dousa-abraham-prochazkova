@@ -161,30 +161,53 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     };
 
 
+    // ... zbytek kódu zůstává stejný
+
     if (loading || !scene) return <p>Načítám...</p>;
+
     return (
         <div className="scena">
             <div className="grafika">
                 {message && <Notifications />}
                 <img src={scene.sceneImage} className="bg" alt={scene.scene} />
 
-                <Inventar />
-                <div className={Styles["inventar"]}>
-                </div>
+                {/* INVENTÁŘ: Zobrazí se všude kromě scény 6 */}
+                {sceneId !== "6" && <Inventar />}
+
+                <div className={Styles["inventar"]}></div>
+
                 <div
                     className="debug-tlacitko"
                     onClick={() => konec()}
                     style={{
+                        position: "absolute",
                         left: "95%",
                         bottom: "92%",
                         width: "5%",
                         height: "auto",
                         aspectRatio: 1 / 1,
+                        cursor: "pointer"
                     }}
                 />
+
+                {sceneId === "6" && (
+                    <div className={Styles["final-screen-container"]}>
+                        <div className={Styles["final-card"]}>
+                            <h1 className={Styles["final-title"]}>Jsi legenda, zachránil jsi starostu!</h1>
+                            <button 
+                                className={Styles["final-button"]}
+                                onClick={() => {
+                                    konec();
+                                }}
+                            >
+                                UKONČIT HRU
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 {scene.zones &&
                     scene.zones.map((zone) => {
-
                         if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene") {
                             return null;
                         }
@@ -194,6 +217,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                                 className="debug-tlacitko"
                                 onClick={() => handleZoneClick(zone)}
                                 style={{
+                                    position: "absolute",
                                     left: `${zone.left}%`,
                                     bottom: `${zone.bottom}%`,
                                     width: `${zone.width}%`,
