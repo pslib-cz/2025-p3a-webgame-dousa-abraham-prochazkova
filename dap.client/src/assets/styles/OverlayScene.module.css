@@ -51,7 +51,7 @@
 
 .phone-display {
   position: absolute;
-  bottom: 80%;
+  bottom: 83%;
   left: 54%;
   transform: translateX(-50%);
   font-size: 2rem;
@@ -83,7 +83,7 @@
 .phone-btn,
 .phone-btn-enter,
 .phone-btn-clear {
-  height: 80%;
+  height: 86%;
   font-size: 1.5rem;
   border-radius: 6px;
   border: none;
@@ -101,7 +101,7 @@
 
 .phone-btn-enter,
 .phone-btn-clear {
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 700;
   padding: 0px;
   cursor: pointer;
@@ -113,7 +113,7 @@
 
 @media (max-width: 850px) {
   .phone-display {
-    font-size: 1.4rem;
+    font-size: 1rem;
     letter-spacing: 0.4rem;
   }
 
