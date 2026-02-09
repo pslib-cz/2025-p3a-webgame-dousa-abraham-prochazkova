@@ -10,7 +10,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
     const game = useContext(GameContext);
     const navigate = useNavigate();
 
-    const [removeWire, setRemoveWire] = useState(false);
     const [scene, setScene] = useState<UserScene | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,15 +27,16 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
         const loadData = async () => {
             try {
-                if (sceneId !== "10") {
+                if (!scene) {
                     setLoading(true);
                 }
+
                 const res = await fetch(`/api/scene/${sceneId}`);
 
                 if (!res.ok) {
+                    navigate("/1");
                     throw new Error(`Scéna ${sceneId} nenalezena`);
                 }
-
                 const data: UserScene = await res.json();
 
                 if (sceneId === "10") {
@@ -44,8 +44,6 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     if (res4.ok) {
                         const data4: UserScene = await res4.json();
                         data.zones = data4.zones;
-                    } else {
-                        throw new Error(`Scéna ${sceneId} nenalezena`);
                     }
                 }
 
@@ -56,13 +54,12 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                 setLoading(false);
             }
         };
-
         loadData();
-    }, [sceneId, isDone]);
-
+    }, [sceneId]);
 
     const handleZoneClick = (zone: Zone) => {
 
+        if (loading) return;
 
         switch (zone.interactionType) {
             case "getItem":
@@ -72,8 +69,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
                     setDone(zone.zoneId.toString());
                     return;
                 } else if (zone.requiredItemId && hasItem(zone.requiredItemId)) {
-                    if (zone.requiredItemId === 1 && !removeWire) {
-                        setRemoveWire(true);
+                    if (zone.requiredItemId === 1) {
                         addItem(zone.getItemId as any);
                         game.notification(`Získal ${zone.getItem?.itemName}`);
                         setDone(zone.zoneId.toString());
@@ -92,6 +88,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
             case "nextScene":
                 if (zone.zoneId === 9) {
+                    removeItem(zone.requiredItemId as any);
                     addItem(zone.getItemId as any);
                     setDone(zone.zoneId.toString());
                     game.notification(`Získal jsi: ${zone.getItem?.itemName}`);
@@ -162,7 +159,8 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
 
 
-    if (loading || !scene) return <p>Načítám...</p>;
+    if (!scene && loading) return <div>Načítám svět...</div>;
+    if (!scene) return null;
 
     return (
         <div className="scena">
@@ -172,14 +170,12 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 {sceneId !== "6" && <Inventar />}
 
-                <div className={Styles["inventar"]}></div>
-
 
                 {sceneId === "6" && (
                     <div className={Styles["final-screen-container"]}>
                         <div className={Styles["final-card"]}>
                             <h1 className={Styles["final-title"]}>Jsi legenda, zachránil jsi starostu!</h1>
-                            <button 
+                            <button
                                 className={Styles["final-button"]}
                                 onClick={() => {
                                     konec();
@@ -193,7 +189,7 @@ const UniversalScene = ({ sceneId }: { sceneId: string }) => {
 
                 {scene.zones &&
                     scene.zones.map((zone) => {
-                        if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene") {
+                        if (isDone(zone.zoneId.toString()) && zone.interactionType !== "nextScene" || isDone(zone.zoneId.toString()) && zone.zoneId === 9) {
                             return null;
                         }
                         return (
