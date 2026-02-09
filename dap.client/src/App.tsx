@@ -17,12 +17,6 @@ function SceneSwitch() {
   const { sceneId } = useParams<{ sceneId: string }>();
   const game = useContext(GameContext);
 
-  const isOnlyNumbers = sceneId && /^\d+$/.test(sceneId);
-
-  if (!isOnlyNumbers) {
-    return <Navigate to="/1" replace />;
-  }
-
   const currentId = sceneId || "1";
   const sceneNumber = Number(currentId);
 
@@ -52,7 +46,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/1" replace />} />
           <Route path="/:sceneId" element={<SceneSwitch />} />
-          <Route path="*" element={<Navigate to="/1" replace />} />
         </Routes>
       </ScenaProvider>
     </BrowserRouter>
