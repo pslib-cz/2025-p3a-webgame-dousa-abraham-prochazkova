@@ -108,61 +108,61 @@ namespace DAP.Server.Data
             {
                 UserId = 1,
                 Scene = "Main Menu",
-                SceneImage = "/images/sc0-intro.png"
+                SceneImage = "/images/sc0-intro.avif"
             };
             UserScene namesti = new()
             {
                 UserId = 2,
                 Scene = "Náměstí",
-                SceneImage = "/images/sc1-square.png"
+                SceneImage = "/images/sc1-square.avif"
             };
             UserScene recepce = new()
             {
                 UserId = 3,
                 Scene = "Recepce",
-                SceneImage = "/images/sc2-hall.png"
+                SceneImage = "/images/sc2-hall.avif"
             };
             UserScene kancelar = new()
             {
                 UserId = 4,
                 Scene = "Kancelář",
-                SceneImage = "/images/sc3-office.png"
+                SceneImage = "/images/sc3-office.avif"
             };
             UserScene trezor = new()
             {
                 UserId = 5,
                 Scene = "Trezor",
-                SceneImage = "/images/sc4-vault.png"
+                SceneImage = "/images/sc4-vault.avif"
             };
             UserScene konec = new()
             {
                 UserId = 6,
                 Scene = "Konec",
-                SceneImage = "/images/sc5-end.png"
+                SceneImage = "/images/sc5-end.avif"
             };
             UserScene phone = new()
             {
                 UserId = 7,
                 Scene = "PhoneOverlay",
-                SceneImage = "/images/phone-overlay.png"
+                SceneImage = "/images/phone-overlay.avif"
             };
             UserScene drawer = new()
             {
                 UserId = 8,
                 Scene = "DrawerOverlay",
-                SceneImage = "/images/kod.png"
+                SceneImage = "/images/kod.avif"
             };
             UserScene levers = new()
             {
                 UserId = 9,
                 Scene = "LeversOverlay",
-                SceneImage = "/images/levers-bg.png"
+                SceneImage = "/images/levers-bg.avif"
             };
             UserScene kancelar2 = new()
             {
                 UserId = 10,
                 Scene = "Kancelář bez karty",
-                SceneImage = "/images/sc3-office-cardless.png"
+                SceneImage = "/images/sc3-office-cardless.avif"
             };
 
             //Zones
