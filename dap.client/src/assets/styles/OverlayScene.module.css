@@ -59,6 +59,12 @@
   font-weight: bold;
 }
 
+@media (max-width: 1200px) {
+  .phone-display {
+    font-size: 1.7rem;
+    letter-spacing: 0.7rem;
+  }
+}
 
 .phone-buttons {
   position: absolute;
@@ -104,6 +110,23 @@
   background-color: transparent;
   transition: transform 0.1s;
 }
+
+@media (max-width: 850px) {
+  .phone-display {
+    font-size: 1.4rem;
+    letter-spacing: 0.4rem;
+  }
+
+  .phone-btn {
+    font-size: 0.9rem;
+  }
+
+  .phone-btn-enter,
+  .phone-btn-clear {
+    font-size: 0.75 rem;
+  }
+}
+
 
 .phone-btn:hover,
 .phone-btn-enter:hover,
